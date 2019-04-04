@@ -42,6 +42,12 @@ void main(void)
 	    if(CheckPOWERUP()==TRUE)    
 	    {
 			CLRWDT();	 // 清看门狗//
+
+//			if(gs_sys_run.back_fg&BIT3_FONT_FG_1MS)
+//			{
+//				gs_sys_run.back_fg &= ~BIT3_FONT_FG_1MS;
+//				api_handl_bar_display_1ms();
+//			}
 	        if(gs_sys_run.back_fg&BIT0_FONT_FG_10MS)
 	        {
 	            gs_sys_run.back_fg &= ~BIT0_FONT_FG_10MS;
@@ -58,13 +64,13 @@ void main(void)
 			{
 				api_updated_LCDDisplayItem_per_second();
 			}
-			if(MD_flag == 1)
+			if(MD_flag == 1)					   
 			{
-				MD_flag = 0;
+				MD_flag = 0;										   
 				api_clr_current_MD_data();
 				CLRWDT();   // 清看门狗//
 				api_deal_even_class_recode(ID_CLASS_I_resetMD,START);
-				Full_SEG(0xFF);
+				Full_SEG(0xFF);										  
 				MD_dis_delay = 3;//延迟3秒
 			}
 			// 上电状态下的电源管理处理  //	

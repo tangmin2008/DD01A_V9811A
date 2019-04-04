@@ -436,16 +436,16 @@ void mem_db_check( void )
                 break;	
 
             case 3:               // main aera data error, backup aera data error //
-			get_default_mem_data(u8_No);
-			checkNum0.u16= get_mem_ck_data(adr_dst,lenth, MEM_E2P1);
-			mem_write(adr_csck, &checkNum0.B08[0], 2, MEM_E2P1);
-			CLRWDT();
-            if(u8_No<100)     
-			{
-			mem_to_mem(adr_dst+E2PBAK_SIZE,adr_dst, lenth+2, (MEM_E2P1<<4)+MEM_E2P1); 
-	 		CLRWDT();
-            }
-            break;	             
+				get_default_mem_data(u8_No);
+				checkNum0.u16= get_mem_ck_data(adr_dst,lenth, MEM_E2P1);
+				mem_write(adr_csck, &checkNum0.B08[0], 2, MEM_E2P1);
+				CLRWDT();
+	            if(u8_No<100)     
+				{
+				mem_to_mem(adr_dst+E2PBAK_SIZE,adr_dst, lenth+2, (MEM_E2P1<<4)+MEM_E2P1); 
+		 		CLRWDT();
+	            }
+	            break;	             
 
             default:               
             	   sys_err();
@@ -488,7 +488,7 @@ void mem_db_clr( uint8 type )
         u8_No = mem_table[i].u8_No;
 
          if((u8_No !=No_BLOCK70_EMU_PARAM_E2P) ||(type ==0XA5))
-          {
+         {
              CLRWDT();
             //check main aera data  //
             checkNum0.u16= 0;

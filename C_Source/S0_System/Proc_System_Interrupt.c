@@ -50,33 +50,9 @@ void Interrupt_Timer0 (void) interrupt 1 using 2
         if(gs_uart_iec_app_var[UART_CH0_IR].tx_ready_10ms>0)  gs_uart_iec_app_var[UART_CH0_IR].tx_ready_10ms --;
     }
    
-//    if(gs_uart_iec_app_var[CH_RF].iec_status!=0)  gs_uart_iec_app_var[CH_RF].delay_10ms++; 
-//    if(gs_uart_iec_app_var[CH_RF].tx_delay_flg ==TRUE )
-//    {
-//        if(gs_uart_iec_app_var[CH_RF].tx_ready_10ms>0)  gs_uart_iec_app_var[CH_RF].tx_ready_10ms --;
-//    }
-//	//继电器动作时间递减操作  //
-//	if(gs_relay_manage_var.u8_tmr_opera>0)
-//	{
-//		gs_relay_manage_var.u8_tmr_opera--;
-//		if(gs_relay_manage_var.u8_tmr_opera==0)  CTL_Relay_FREE();		
-//	}
-//	//if(gs_sys_globaL_var.qf_time>0)  gs_sys_globaL_var.qf_time--;
-	//if(gs_sys_globaL_var.qf_time==1) LED_LED_QF_OFF();
-	gs_sys_globaL_var.qf_time++;
-    //if(guc_CommDelayTime>0) guc_CommDelayTime--;//  9260F通讯读写保护
-    
-	//RF发送超时判断处理  //
-//    if((gs_rf_drv_var.status == RF_STATUS_TX)&&(gs_rf_drv_var.tmr_tx_max_wait<(RF_TX_WAIT_MAX_TRM+3)) )  
-//    	{
-//    	gs_rf_drv_var.tmr_tx_max_wait++;
-//    	}
 
-//	//RF发送超时判断处理  //
-//    if(gs_dlt645_07_var.tx_ready_10ms >0 )
-//    	{
-//    	gs_dlt645_07_var.tx_ready_10ms--;
-//    	}
+	gs_sys_globaL_var.qf_time++;
+
 	
 }
 
@@ -95,6 +71,18 @@ void Interrupt_Int1 (void) interrupt 2 using 2
 void Interrupt_Timer1 (void) interrupt 3 using 2
 {
     TCON &= ~BIT7;
+	
+	TL1  = LOBYTE(T1_80MS_CNT);         //10ms
+    TH1  = HIBYTE(T1_80MS_CNT);
+//	P9DO |= BIT2;
+////	UART4_INITLIZE_OFF();
+////	UART4_TX_DIR_OUT();
+////	P21FS = 0;
+	UART4_TX_HIGH();		//出脉冲将近红外灯置低
+////	P2OD &= ~PIN_UART4_TX;
+	TR1 = 0;
+	ET1 = 0;
+
 
 // user coding begin
 
@@ -108,7 +96,11 @@ void Interrupt_Timer2 (void) interrupt 5 using 2
 {
 	T2CON &= ~BIT7;
    //user coding begin
-       
+    TL2  = LOBYTE(T2_01MS_CNT);         //1ms
+    TH2  = HIBYTE(T2_01MS_CNT);
+	api_handl_bar_display_1ms();
+//	 gs_sys_run.back_fg |= BIT3_FONT_FG_1MS;
+	
 }
 
 //=======================================================
@@ -393,11 +385,37 @@ void Interrupt_ExInt3 (void) interrupt 9 using 2
     if (temp_ifg & BIT7)	//  无功
     {// CF2 interrupt
         ExInt3IFG &= ~BIT7;
-	      gs_energy_var.pluse[0]++;    //有功总电能累计 //
-//		    LED_LED_QF_ON();
-//	    gs_sys_globaL_var.qf_time=6;// 50MS无功脉宽
-       // user coding begin 
-      
+	    gs_energy_var.pluse[0]++;    //有功总电能累计 //
+		///////////////////////////////////////////////////
+		//测试模式下近红外输出脉冲		 cxy 2019-04-02
+		if(IsModeTest == TRUE)
+		{
+			UART4_FUNC_DIS();
+			UART4_TX_LOW();
+			UART4_TX_DIR_OUT() ;
+//			//出脉冲将近红外灯置高 
+//			P9DO &= ~BIT2;//置高关闭报警灯
+//			//开启80ms定时器
+			TL1	 = LOBYTE(T1_80MS_CNT);	   //80ms  Timer1
+			TH1	 = HIBYTE(T1_80MS_CNT);
+			Start_Timer1();
+		}
+		else
+		{	//关闭80ms定时器
+			TR1 = 0;
+			ET1 = 0;
+		}
+		//显示三条扛表示脉冲速率coding	//清空三条杠
+		gs_dis_pixel_var.dis_buff[10] &= ~(BIT7+BIT6+BIT5);
+		Write_LCD(&gs_dis_pixel_var.dis_buff[0]);
+		Bar_No = 0;//进度条等于0说明三条扛是被清空的
+		//t_count = 0;
+		TL2  = LOBYTE(T2_01MS_CNT); 
+		TH2	 = HIBYTE(T2_01MS_CNT);
+		TR2 = 1;
+		ET2 = 1;
+		//开启定时器
+      	//////////////////////////////////////////////////
     }
     EXIF &= ~BIT5;
 }
@@ -430,27 +448,11 @@ void Interrupt_ExInt4 (void) interrupt 10 using 2
     if (temp_ifg & BIT3)
     {
         
-//		for(cnt=10;cnt>0;cnt--)
-//		 {
-//		    NOP();
-//	     }
-//		 if((P1ID & BIT2 ) ==0)		//!!!	p1.2
-//	     {
-//			io_trg_var.cover_key2_status = TRUE;
-//		 }
+
 		 ExInt4IFG &= ~BIT3;
         // user coding begin   
     }
-//    if (temp_ifg & BIT4)
-//    {
-//        ExInt4IFG &= ~BIT4;
-//        // user coding begin   
-//    }
-//    if (temp_ifg & BIT5)
-//    {
-//        ExInt4IFG &= ~BIT5;
-//        // user coding begin 
-//    }
+
    
     EXIF &= ~BIT6;
 }

@@ -23,10 +23,12 @@
 ****************************************************************/
 #if (C_Fq == 60)
 #define     T0_10MS_CNT        0x6665     //10ms定时   3M2主频  //
-#define		T1_80MS_CNT		   0x4724     //80ms定时   3M2主频  //
+#define		T1_80MS_CNT		   0x9A53     //80ms定时   3M2主频  //
+#define		T2_01MS_CNT		   0x6665	  //10ms定时
 #else
-#define     T0_10MS_CNT        0X7FFF     //10ms定时 3M2主频  //
-#define		T1_80MS_CNT		   0x555E     //80ms定时   3M2主频  //
+//#define     T0_10MS_CNT        0X7FFF     //10ms定时 3M2主频  //
+//#define		T1_80MS_CNT		   0xCCC     //80ms定时   3M2主频  //
+//#define 	T2_01MS_CNT	 	   0xCCC	  //1ms
 #endif
 /***************************************************************
 *    2     数据结构声明     

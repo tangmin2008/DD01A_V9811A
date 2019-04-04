@@ -563,7 +563,6 @@ void lnk_CAL_EMU_constSum_per_second(void)
 	gs_measure_var_data.gs_really[PHASE_TT].dw_q_val.u32 = cst_adj_const.Kim_Prms2*val1.u32/1.568;
 #endif
 
-
 }
 
 

@@ -129,6 +129,7 @@ extern void Proc_sys_data_init(void);
 #define  BIT0_FONT_FG_10MS   BIT0   // 10ms 中断产生标识 //
 #define  BIT1_BACK_FG_RTC   BIT1   // RTC产生的1S中断标识 //
 #define  BIT2_BACK_DIS_KEY   BIT2   // 显示按键产生的中断标识 //
+#define  BIT3_FONT_FG_1MS   BIT3 
 
 #define BIT3_FONT_FG_readpower    BIT3// 读取后检验完成标识//
 #define BIT4_FONT_FG_EnyBottom    BIT4// // 参数刷新

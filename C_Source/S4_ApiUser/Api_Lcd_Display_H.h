@@ -172,7 +172,7 @@ extern void LED_display(void);
 //*******************************************************************                   								
 //******************************************************************* 
 //********************************************************************
-// 常规数据区
+// 常规数据区					    / E G F	D C B A
 //*******************************************************************                   								
 #define DS_Chr_0     0x5F   // 0: 
 #define DS_Chr_1     0x06   // 1:
@@ -192,7 +192,7 @@ extern void LED_display(void);
 #define DS_Chr_F     0x76   // F: 
 
 //********************************************************************
-// 下排OBIS   前3 位数字 
+// 下排OBIS   前3 位数字 			F G E / A B C D 
 //*******************************************************************                 								
 #define DS_OBIS_Chr_0     0xAF   // 0: 
 #define DS_OBIS_Chr_1     0x06   // 1:
@@ -223,7 +223,9 @@ extern void LED_display(void);
 #define CHAR_DATA_P6	BIT3   
 #define CHAR_DATA_P7 	BIT4   
 #define CHAR_DATA_P8 	BIT5  
-#define CHAR_DATA_P9 	BIT6   
+//#define CHAR_DATA_P9 	BIT6
+#define CHAR_DATA_EOI	BIT6
+#define CHAR_DATA_TEST	BIT7   
 
 
 //dis_var.dis_char_buff[1]  bit7:bit0      //
@@ -239,15 +241,22 @@ extern void LED_display(void);
 
 
 //dis_var.dis_char_buff[2]  bit7:bit0      //
-#define CHAR_DATA_k 	BIT0   
-#define CHAR_DATA_W 	BIT1   
-#define CHAR_DATA_V 	BIT2  
-#define CHAR_DATA_A 	BIT3  
-#define CHAR_DATA_Hz 	BIT4  
-#define CHAR_DATA_PF 	BIT5  
-#define CHAR_DATA_MD 	BIT6  
-#define CHAR_DATA_S9 	BIT7 
-
+//#define CHAR_DATA_k 	BIT0   
+//#define CHAR_DATA_W 	BIT1   
+//#define CHAR_DATA_V 	BIT2  
+//#define CHAR_DATA_A 	BIT3  
+//#define CHAR_DATA_Hz 	BIT4  
+//#define CHAR_DATA_PF 	BIT5  
+//#define CHAR_DATA_MD 	BIT6  
+//#define CHAR_DATA_S9 	BIT7 
+#define CHAR_DATA_V   	BIT0
+#define CHAR_DATA_A		BIT1
+#define CHAR_DATA_Hz	BIT2
+#define CHAR_DATA_MD	BIT3
+#define CHAR_DATA_S9	BIT4
+#define CHAR_DATA_S12	BIT5
+#define CHAR_DATA_S13	BIT6
+#define CHAR_DATA_S14	BIT7
 
 
 /***************************************************************

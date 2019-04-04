@@ -34,9 +34,10 @@ uint8 KEY_READ_FLAG = 0;
 uint8 KEY_READ_DELAY = 0;
 uint8 IsModeTest = FALSE;
 uint8 TestDelay = 0;
-
-
-
+uint8 TestDelaySecond = 0;
+uint8 Bar_No = 0;
+float timdelay = 0;
+uint8 t_count =0;
 /*****************************************************************************
 ** Function name    :Proc_get_clock
 **
@@ -136,6 +137,50 @@ void api_handl_button_pre_10ms(void)
 	}
 }
 
+void api_handl_bar_display_1ms(void)  //0.8ms
+{
+	volatile float p_val;
+	volatile float t_val;
+	float c;
+	float e;
+
+	//获取功率 //0.72kW -> 5S    7.2kW -> 0.5s
+//	pow_val = 72147;
+	p_val = gs_measure_var_data.gs_really[PHASE_TT].dw_p_val.u32;
+	t_val = (float)31680/(float)(p_val);
+	if(p_val > 0)
+	{
+		c= (t_count);
+		e=	(t_val*25);
+		if(c >= e)
+		{	
+			Bar_No++;
+			t_count = 0;
+			switch(Bar_No)
+			{
+				case 1:
+					gs_dis_pixel_var.dis_buff[10] |= BIT7;
+					break;
+				case 2:
+					gs_dis_pixel_var.dis_buff[10] |= BIT7+BIT6;
+					break;
+				case 3:
+					gs_dis_pixel_var.dis_buff[10] |= BIT7+BIT6+BIT5;
+					TR2 = 0;
+					ET2 = 0;
+					break;
+				default:
+	//				gs_dis_pixel_var.dis_buff[10] &= ~(BIT7+BIT6+BIT5);
+					break;
+			}
+			Write_LCD(&gs_dis_pixel_var.dis_buff[0]);
+		}
+		else
+		{
+			t_count++;
+		}
+	}
+}
 
 /*****************************************************************************
 ** Function name    :Proc_handl_tou_10ms
@@ -161,6 +206,8 @@ void Proc_handl_tou_10ms(void)
 	}
 	api_handl_button_pre_10ms();
 	
+//	api_handl_bar_display_10ms();
+//	//48kW -> 0.075S
 }
 
 
@@ -211,24 +258,7 @@ void Proc_handl_tou_1s(void)
 		api_updated_LED_per_second();
 		api_measure_VBAT_pre_min();   
 	}
-	if(Judge_ERR_COVER_key() == FALSE)
-	{
-		if(KEY_READ_DELAY > 0)
-		{
-			KEY_READ_DELAY--;	
-		}else{
-			IsModeTest = TRUE;
-			TestDelay = 600;
-			//液晶显示test模式  code
-		}
-	}else{
-		if(TestDelay > 0)
-		{
-			TestDelay --;
-		}else{
-			IsModeTest = FALSE;
-		}
-	}
+
 	if(MD_dis_delay == 0)//按键需量清零以后3秒全屏
 	{
 	 	// 显示项目每秒改变处理//        
@@ -271,7 +301,29 @@ void Proc_handl_tou_1s(void)
 		#endif	
 			 
     }
-
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	//按键切换模式
+	if(Judge_ERR_COVER_key() == FALSE)
+	{
+		if(KEY_READ_DELAY > 0)
+		{
+			KEY_READ_DELAY--;	
+		}else{
+			IsModeTest = TRUE;
+			TestDelay = 10;	  //min
+			TestDelaySecond = gs_CurDateTime.Second;
+			//液晶显示test模式  code
+		}
+	}else{
+		if(TestDelay > 0)
+		{
+			if(gs_CurDateTime.Second == TestDelaySecond)
+				TestDelay --;
+		}else{
+			IsModeTest = FALSE;
+		}
+	}
+	////////////////////////////////////////////////////////////////////////////////////////////////
      if(gs_CurDateTime.Second == 0x25)
      {
         Handl_RTC_Adj_per_minu();   

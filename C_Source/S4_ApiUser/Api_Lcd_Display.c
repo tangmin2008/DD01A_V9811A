@@ -58,7 +58,7 @@ const INT8U code  NumSegD1_D6[DS_Chr_All_NUM] =
 	DS_Chr_d,DS_Chr_E,DS_Chr_F
 };
 
-const INT8U code  NumSegD7_D9[DS_Chr_All_NUM] = 
+const INT8U code  NumSegD7_D8[DS_Chr_All_NUM] = 
 {	DS_OBIS_Chr_0,DS_OBIS_Chr_1,DS_OBIS_Chr_2,
 	DS_OBIS_Chr_3,DS_OBIS_Chr_4,DS_OBIS_Chr_5,
 	DS_OBIS_Chr_6,DS_OBIS_Chr_7,DS_OBIS_Chr_8,
@@ -222,7 +222,26 @@ void api_updated_LCDDisplayPixel_per_second(void)
  		if(gs_sys_globaL_var.work_mode != SLEEP_MODE)  Link_Get_Dis_RealChar_buff();
  		Link_Get_Dis_Drv_buff();		 
     }
-
+	if(EOI_delay_1s > 0)
+	{
+		gs_dis_pixel_var.dis_char_buff[0] |= CHAR_DATA_EOI;
+		gs_dis_pixel_var.dis_buff[9] |= BIT0;
+		EOI_delay_1s --;
+	}
+	switch(Bar_No)
+	{
+		case 1:
+			gs_dis_pixel_var.dis_buff[10] |= BIT7;
+			break;
+		case 2:
+			gs_dis_pixel_var.dis_buff[10] |= BIT7+BIT6;
+			break;
+		case 3:
+			gs_dis_pixel_var.dis_buff[10] |= BIT7+BIT6+BIT5;
+			break;
+		default:
+			break;
+	}
     Write_LCD(&gs_dis_pixel_var.dis_buff[0]);         //将数据写入液晶驱动
 }
 
@@ -458,8 +477,8 @@ void Link_Get_Dis_OBIS_Num_buff(void)
 	if(gs_relay_manage_var.u8_STA== CMD_RELAY_ON)
 	{
 		gs_dis_pixel_var.dis_obis_buff[0] = 0x36 ;	//o
-		gs_dis_pixel_var.dis_obis_buff[1] = NumSegD7_D9[0x0F]; //F
-		gs_dis_pixel_var.dis_obis_buff[2] = NumSegD7_D9[0x0F];//F
+		gs_dis_pixel_var.dis_obis_buff[1] = NumSegD7_D8[0x0F]; //F
+		gs_dis_pixel_var.dis_obis_buff[2] = NumSegD7_D8[0x0F];//F
 		return;
 	}
 	// 数据获取处理  //
@@ -473,7 +492,7 @@ void Link_Get_Dis_OBIS_Num_buff(void)
 		case CHAR_HZ:
 				mem_read(&u32_tmp.B08[2],gs_LCDDISTAB_var.Addr, 2, u8_mem_type);		//获取当前数据 //
 				Lib_word_bcd2(&buffer.B08[0],u32_tmp.W16[1]);		   //  16进制转10进制// 
-				gs_dis_pixel_var.dis_char_buff[0] |= CHAR_DATA_P9; 
+//				gs_dis_pixel_var.dis_char_buff[0] |= CHAR_DATA_P9; 
 			break;
 			
 		case CHAR_PF:
@@ -494,7 +513,7 @@ void Link_Get_Dis_OBIS_Num_buff(void)
 					else if(lib_len==5)
 					{
 						buffer.u32 =((buffer.u32&0x000FFFFF)<<12);
-						gs_dis_pixel_var.dis_char_buff[0] |= CHAR_DATA_P9; 
+//						gs_dis_pixel_var.dis_char_buff[0] |= CHAR_DATA_P9; 
 					}
 					else if(lib_len==6)
 					{
@@ -521,7 +540,7 @@ void Link_Get_Dis_OBIS_Num_buff(void)
 					else if(lib_len==6)
 					{
 						buffer.u32 =((buffer.u32&0x00FFFFFF)<<8);
-						gs_dis_pixel_var.dis_char_buff[0] |= CHAR_DATA_P9; 
+//						gs_dis_pixel_var.dis_char_buff[0] |= CHAR_DATA_P9; 
 					}
 					else if(lib_len==7)
 					{
@@ -548,13 +567,13 @@ void Link_Get_Dis_OBIS_Num_buff(void)
 		switch(u8_len)
 		{
 			case 2:
-				gs_dis_pixel_var.dis_obis_buff[0] = NumSegD7_D9[(buffer.B08[0]&0xF0)>>4] ;  
-				gs_dis_pixel_var.dis_obis_buff[1] = NumSegD7_D9[(buffer.B08[0]&0x0F)]; 
-				gs_dis_pixel_var.dis_obis_buff[2] = NumSegD7_D9[(buffer.B08[1]&0xF0)>>4] ;  
+				gs_dis_pixel_var.dis_obis_buff[0] = NumSegD7_D8[(buffer.B08[0]&0xF0)>>4] ;  
+				gs_dis_pixel_var.dis_obis_buff[1] = NumSegD7_D8[(buffer.B08[0]&0x0F)]; 
+				gs_dis_pixel_var.dis_obis_buff[2] = NumSegD7_D8[(buffer.B08[1]&0xF0)>>4] ;  
 				break;
 			case 1:
-				gs_dis_pixel_var.dis_obis_buff[1] = NumSegD7_D9[(buffer.B08[1]&0xF0)>>4] ;  
-				gs_dis_pixel_var.dis_obis_buff[2] = NumSegD7_D9[(buffer.B08[1]&0x0F)]; 
+				gs_dis_pixel_var.dis_obis_buff[1] = NumSegD7_D8[(buffer.B08[1]&0xF0)>>4] ;  
+				gs_dis_pixel_var.dis_obis_buff[2] = NumSegD7_D8[(buffer.B08[1]&0x0F)]; 
 				break;
 			default:	  // 长度为0 显示空
 				   break;
@@ -617,8 +636,8 @@ void Link_Get_Dis_Data_Num_buff(void)
 			}
 			//下排显示  2019-01-11
 			//gs_dis_pixel_var.dis_obis_buff[0] = NumSegD7_D9[(buffer.B08[0]&0xF0)>>4] ;  
-			gs_dis_pixel_var.dis_obis_buff[1] = NumSegD7_D9[0]; 
-			gs_dis_pixel_var.dis_obis_buff[2] = NumSegD7_D9[1] ;
+			gs_dis_pixel_var.dis_obis_buff[0] = NumSegD7_D8[0]; 
+			gs_dis_pixel_var.dis_obis_buff[1] = NumSegD7_D8[1] ;
 		}
 		if(dis_num_char == 1)
 		{
@@ -644,8 +663,8 @@ void Link_Get_Dis_Data_Num_buff(void)
 
 			//下排显示  2019-01-11
 			//gs_dis_pixel_var.dis_obis_buff[0] = NumSegD7_D9[(buffer.B08[0]&0xF0)>>4] ;  
-			gs_dis_pixel_var.dis_obis_buff[1] = NumSegD7_D9[0]; 
-			gs_dis_pixel_var.dis_obis_buff[2] = NumSegD7_D9[2] ;
+			gs_dis_pixel_var.dis_obis_buff[0] = NumSegD7_D8[0]; 
+			gs_dis_pixel_var.dis_obis_buff[1] = NumSegD7_D8[2] ;
 		}
 		if(dis_num_char == 2)
 		{
@@ -670,8 +689,8 @@ void Link_Get_Dis_Data_Num_buff(void)
 
 			//下排显示  2019-01-11
 			//gs_dis_pixel_var.dis_obis_buff[0] = NumSegD7_D9[(buffer.B08[0]&0xF0)>>4] ;  
-			gs_dis_pixel_var.dis_obis_buff[1] = NumSegD7_D9[0]; 
-			gs_dis_pixel_var.dis_obis_buff[2] = NumSegD7_D9[4] ;
+			gs_dis_pixel_var.dis_obis_buff[0] = NumSegD7_D8[0]; 
+			gs_dis_pixel_var.dis_obis_buff[1] = NumSegD7_D8[4] ;
 		}
 		if(dis_num_char == 3)
 		{
@@ -695,8 +714,8 @@ void Link_Get_Dis_Data_Num_buff(void)
 
 			//下排显示  2019-01-11
 			//gs_dis_pixel_var.dis_obis_buff[0] = NumSegD7_D9[(buffer.B08[0]&0xF0)>>4] ;  
-			gs_dis_pixel_var.dis_obis_buff[1] = NumSegD7_D9[2]; 
-			gs_dis_pixel_var.dis_obis_buff[2] = NumSegD7_D9[1] ;
+			gs_dis_pixel_var.dis_obis_buff[0] = NumSegD7_D8[2]; 
+			gs_dis_pixel_var.dis_obis_buff[1] = NumSegD7_D8[1] ;
 		}
 		if(dis_num_char == 4)
 		{
@@ -721,8 +740,8 @@ void Link_Get_Dis_Data_Num_buff(void)
 
 			//下排显示  2019-01-11
 			//gs_dis_pixel_var.dis_obis_buff[0] = NumSegD7_D9[(buffer.B08[0]&0xF0)>>4] ;  
-			gs_dis_pixel_var.dis_obis_buff[1] = NumSegD7_D9[2]; 
-			gs_dis_pixel_var.dis_obis_buff[2] = NumSegD7_D9[2] ;
+			gs_dis_pixel_var.dis_obis_buff[0] = NumSegD7_D8[2]; 
+			gs_dis_pixel_var.dis_obis_buff[1] = NumSegD7_D8[2] ;
 		}
 		if(dis_num_char == 5)
 		{
@@ -747,8 +766,8 @@ void Link_Get_Dis_Data_Num_buff(void)
 
 			//下排显示  2019-01-11
 			//gs_dis_pixel_var.dis_obis_buff[0] = NumSegD7_D9[(buffer.B08[0]&0xF0)>>4] ;  
-			gs_dis_pixel_var.dis_obis_buff[1] = NumSegD7_D9[2]; 
-			gs_dis_pixel_var.dis_obis_buff[2] = NumSegD7_D9[4] ;
+			gs_dis_pixel_var.dis_obis_buff[0] = NumSegD7_D8[2]; 
+			gs_dis_pixel_var.dis_obis_buff[1] = NumSegD7_D8[4] ;
 		}
 	}
 }
@@ -830,7 +849,7 @@ void Link_Get_Dis_Char_buff(void)
 			gs_dis_pixel_var.dis_char_buff[2] |= CHAR_DATA_A; 
 			break;
 		case CHAR_KW:	 // 功率显示 xx.x kw//
-		    gs_dis_pixel_var.dis_char_buff[2] |= (CHAR_DATA_k+CHAR_DATA_W);  //kW
+//		    gs_dis_pixel_var.dis_char_buff[2] |= (CHAR_DATA_k+CHAR_DATA_W);  //kW
 			break;
 		case CHAR_HZ:	// 频率显示 xx.x HZ//
 		    gs_dis_pixel_var.dis_char_buff[2] |= CHAR_DATA_Hz;  //Hz
@@ -839,7 +858,10 @@ void Link_Get_Dis_Char_buff(void)
 			break;
 	}	
 
-			
+	//////////////////////////////////////////////////////////////////////////////////////////////
+
+	if(IsModeTest == TRUE)	gs_dis_pixel_var.dis_char_buff[0] |= CHAR_DATA_TEST ;
+	///////////////////////////////////////////////////////////////////////////////////////////////		
 }
 
 //*****************************************************************
@@ -884,47 +906,39 @@ void Link_Get_Dis_Drv_buff(void)
 
 	gs_dis_pixel_var.dis_buff[6] |= (gs_dis_pixel_var.dis_obis_buff[0] &0xEF);
 	gs_dis_pixel_var.dis_buff[7] |= (gs_dis_pixel_var.dis_obis_buff[1] &0xEF);
-	gs_dis_pixel_var.dis_buff[8] |= (gs_dis_pixel_var.dis_obis_buff[2] &0xEF);
+//	gs_dis_pixel_var.dis_buff[8] |= (gs_dis_pixel_var.dis_obis_buff[2] &0xEF);
 
 	
 	 //  dis_var.dis_char_buff[0:2] 的转换//
 	if(gs_dis_pixel_var.dis_char_buff[0] &CHAR_DATA_P1P2)	{gs_dis_pixel_var.dis_buff[1] |= BIT7;gs_dis_pixel_var.dis_buff[2] |= BIT7;}
 	if(gs_dis_pixel_var.dis_char_buff[0] &CHAR_DATA_P3)   	gs_dis_pixel_var.dis_buff[3] |= BIT7;
-	if(gs_dis_pixel_var.dis_char_buff[0] &CHAR_DATA_P4P5)   {gs_dis_pixel_var.dis_buff[4] |= BIT7;gs_dis_pixel_var.dis_buff[9] |= BIT7;}
+	if(gs_dis_pixel_var.dis_char_buff[0] &CHAR_DATA_P4P5)   {gs_dis_pixel_var.dis_buff[4] |= BIT7;gs_dis_pixel_var.dis_buff[8] |= BIT7;}
 	if(gs_dis_pixel_var.dis_char_buff[0] &CHAR_DATA_P6)     gs_dis_pixel_var.dis_buff[5] |= BIT7;
 	if(gs_dis_pixel_var.dis_char_buff[0] &CHAR_DATA_P7)     gs_dis_pixel_var.dis_buff[6] |= BIT4;
 	if(gs_dis_pixel_var.dis_char_buff[0] &CHAR_DATA_P8)     gs_dis_pixel_var.dis_buff[7] |= BIT4;
-	if(gs_dis_pixel_var.dis_char_buff[0] &CHAR_DATA_P9)   	gs_dis_pixel_var.dis_buff[8] |= BIT4;
+	if(gs_dis_pixel_var.dis_char_buff[0] &CHAR_DATA_EOI)     gs_dis_pixel_var.dis_buff[9] |= BIT0;
+	if(gs_dis_pixel_var.dis_char_buff[0] &CHAR_DATA_TEST)     gs_dis_pixel_var.dis_buff[10] |= BIT0;
+
 	
 	if(gs_dis_pixel_var.dis_char_buff[1] &CHAR_DATA_kWh)   	{gs_dis_pixel_var.dis_buff[9] |= BIT6;gs_dis_pixel_var.dis_buff[9] |= BIT2;}
 	if(gs_dis_pixel_var.dis_char_buff[1] &CHAR_DATA_kW)   	gs_dis_pixel_var.dis_buff[9] |= BIT6;
-	if(gs_dis_pixel_var.dis_char_buff[1] &CHAR_DATA_S1)   	gs_dis_pixel_var.dis_buff[9] |= BIT4;
-	if(gs_dis_pixel_var.dis_char_buff[1] &CHAR_DATA_S2)   	gs_dis_pixel_var.dis_buff[9] |= BIT0;
-	if(gs_dis_pixel_var.dis_char_buff[1] &CHAR_DATA_S3)   	gs_dis_pixel_var.dis_buff[9] |= BIT5;
-	if(gs_dis_pixel_var.dis_char_buff[1] &CHAR_DATA_S4)   	gs_dis_pixel_var.dis_buff[9] |= BIT1;
+	if(gs_dis_pixel_var.dis_char_buff[1] &CHAR_DATA_S1)   	gs_dis_pixel_var.dis_buff[8] |= BIT6;
+	if(gs_dis_pixel_var.dis_char_buff[1] &CHAR_DATA_S2)   	gs_dis_pixel_var.dis_buff[8] |= BIT7;
+	if(gs_dis_pixel_var.dis_char_buff[1] &CHAR_DATA_S3)   	gs_dis_pixel_var.dis_buff[8] |= BIT4;
+	if(gs_dis_pixel_var.dis_char_buff[1] &CHAR_DATA_S4)   	gs_dis_pixel_var.dis_buff[8] |= BIT5;
 
-	if(gs_dis_pixel_var.dis_char_buff[1] &CHAR_DATA_Received)   	gs_dis_pixel_var.dis_buff[10] |= BIT7;
-	if(gs_dis_pixel_var.dis_char_buff[1] &CHAR_DATA_Delivered)   	gs_dis_pixel_var.dis_buff[10] |= BIT6;
+	if(gs_dis_pixel_var.dis_char_buff[1] &CHAR_DATA_Received)   	gs_dis_pixel_var.dis_buff[11] |= BIT6;
+	if(gs_dis_pixel_var.dis_char_buff[1] &CHAR_DATA_Delivered)   	gs_dis_pixel_var.dis_buff[11] |= BIT5;
 
-	if(gs_dis_pixel_var.dis_char_buff[2] &CHAR_DATA_k)		gs_dis_pixel_var.dis_buff[10] |= BIT0;
-	if(gs_dis_pixel_var.dis_char_buff[2] &CHAR_DATA_W)		
-	{
-		gs_dis_pixel_var.dis_buff[10] |= BIT1;
-		gs_dis_pixel_var.dis_buff[10] |= BIT2;
-		gs_dis_pixel_var.dis_buff[11] |= BIT6;
-		gs_dis_pixel_var.dis_buff[11] |= BIT7;
-	}
-	if(gs_dis_pixel_var.dis_char_buff[2] &CHAR_DATA_V)		{gs_dis_pixel_var.dis_buff[10] |= BIT1;gs_dis_pixel_var.dis_buff[10] |= BIT2;}
-	if(gs_dis_pixel_var.dis_char_buff[2] &CHAR_DATA_A)		
-	{
-		gs_dis_pixel_var.dis_buff[11] |= BIT7;
-		gs_dis_pixel_var.dis_buff[10] |= BIT2;
-		gs_dis_pixel_var.dis_buff[10] |= BIT3;
-	}
-	if(gs_dis_pixel_var.dis_char_buff[2] &CHAR_DATA_Hz)		gs_dis_pixel_var.dis_buff[11] |= BIT5;
-	if(gs_dis_pixel_var.dis_char_buff[2] &CHAR_DATA_PF)		gs_dis_pixel_var.dis_buff[11] |= BIT4;
-	if(gs_dis_pixel_var.dis_char_buff[2] &CHAR_DATA_MD)		gs_dis_pixel_var.dis_buff[10] |= BIT4;
-	if(gs_dis_pixel_var.dis_char_buff[2] &CHAR_DATA_S9)		gs_dis_pixel_var.dis_buff[10] |= BIT5;
+	if(gs_dis_pixel_var.dis_char_buff[2] &CHAR_DATA_V)		gs_dis_pixel_var.dis_buff[9] |= BIT4;
+	if(gs_dis_pixel_var.dis_char_buff[2] &CHAR_DATA_A)		gs_dis_pixel_var.dis_buff[9] |= BIT5;
+	if(gs_dis_pixel_var.dis_char_buff[2] &CHAR_DATA_Hz)		gs_dis_pixel_var.dis_buff[9] |= BIT1;
+	if(gs_dis_pixel_var.dis_char_buff[2] &CHAR_DATA_MD)		gs_dis_pixel_var.dis_buff[8] |= BIT0;
+	if(gs_dis_pixel_var.dis_char_buff[2] &CHAR_DATA_S9)		gs_dis_pixel_var.dis_buff[10] |= BIT1;
+	if(gs_dis_pixel_var.dis_char_buff[2] &CHAR_DATA_S12)		gs_dis_pixel_var.dis_buff[10] |= BIT7;
+	if(gs_dis_pixel_var.dis_char_buff[2] &CHAR_DATA_S13)		gs_dis_pixel_var.dis_buff[10] |= BIT6;
+	if(gs_dis_pixel_var.dis_char_buff[2] &CHAR_DATA_S14)		gs_dis_pixel_var.dis_buff[10] |= BIT5;
+	
 	
 }
 
@@ -1114,23 +1128,23 @@ void api_LCDDisplay_adj_item(uint8 u8_item)
         break;
 
         case DIS_DATA_CLR:	//清零显示 //
-            gs_dis_pixel_var.dis_obis_buff[0] = NumSegD7_D9[0X0C]	;      //LCD-D1  C  //
+            gs_dis_pixel_var.dis_obis_buff[0] = NumSegD7_D8[0X0C]	;      //LCD-D1  C  //
             gs_dis_pixel_var.dis_obis_buff[1] = 0xA1	;              //LCD-D2  L  //
             gs_dis_pixel_var.dis_obis_buff[2] = 0x60	;              //LCD-D3  r  //
         break;
 		
-        case DIS_DATA_BROADCAST:	//广播命令显示通讯地址 //
-			mem_read(&adr[0], ADR_METER_PARAM1_RF_COMM_ID, 6, MEM_E2P1);//读取RF通讯地址
-            gs_dis_pixel_var.dis_data_buff[0] = NumSegD1_D6[(adr[1]&0x0F)];  
-            gs_dis_pixel_var.dis_data_buff[1] = NumSegD1_D6[(adr[2]&0xF0)>>4];
-            gs_dis_pixel_var.dis_data_buff[2] = NumSegD1_D6[(adr[2]&0x0F)];
-            gs_dis_pixel_var.dis_data_buff[3] = NumSegD1_D6[(adr[3]&0xF0)>>4];
-            gs_dis_pixel_var.dis_data_buff[4] = NumSegD1_D6[(adr[3]&0x0F)];
-            gs_dis_pixel_var.dis_data_buff[5] = NumSegD1_D6[(adr[4]&0xF0)>>4];
-            gs_dis_pixel_var.dis_obis_buff[0] = NumSegD7_D9[(adr[4]&0x0F)];
-            gs_dis_pixel_var.dis_obis_buff[1] = NumSegD7_D9[(adr[5]&0xF0)>>4];
-            gs_dis_pixel_var.dis_obis_buff[2] = NumSegD7_D9[(adr[5]&0x0F)];
-        break;
+//        case DIS_DATA_BROADCAST:	//广播命令显示通讯地址 //
+//			mem_read(&adr[0], ADR_METER_PARAM1_RF_COMM_ID, 6, MEM_E2P1);//读取RF通讯地址
+//            gs_dis_pixel_var.dis_data_buff[0] = NumSegD1_D6[(adr[1]&0x0F)];  
+//            gs_dis_pixel_var.dis_data_buff[1] = NumSegD1_D6[(adr[2]&0xF0)>>4];
+//            gs_dis_pixel_var.dis_data_buff[2] = NumSegD1_D6[(adr[2]&0x0F)];
+//            gs_dis_pixel_var.dis_data_buff[3] = NumSegD1_D6[(adr[3]&0xF0)>>4];
+//            gs_dis_pixel_var.dis_data_buff[4] = NumSegD1_D6[(adr[3]&0x0F)];
+//            gs_dis_pixel_var.dis_data_buff[5] = NumSegD1_D6[(adr[4]&0xF0)>>4];
+//            gs_dis_pixel_var.dis_obis_buff[0] = NumSegD7_D8[(adr[4]&0x0F)];
+//            gs_dis_pixel_var.dis_obis_buff[1] = NumSegD7_D8[(adr[5]&0xF0)>>4];
+//            gs_dis_pixel_var.dis_obis_buff[2] = NumSegD7_D8[(adr[5]&0x0F)];
+//        break;
         default:	
             sys_err();
         break;

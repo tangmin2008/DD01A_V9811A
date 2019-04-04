@@ -22,6 +22,8 @@
 MD_VAR gs_md_var;           // 最大需量计算变量RAM区数据 //
 MD_PARAM gs_md_param;  // 最大需量计算参数RAM区数据 //
 
+uint8 EOI_delay_1s = 0;
+
 /*****************************************************************************
 ** Function name    :api_check_Demand_para
 **
@@ -286,6 +288,8 @@ void api_updata_md_var_slid_per_minute(void)
                     }
                     gs_md_var.slid_var[i].val_slid =sum_hex32/gs_md_param.u8_period;
                     api_cmp_save_md_data(i, gs_md_var.slid_var[i].val_slid );
+
+					EOI_delay_1s = 1;
                 }
             }
         }

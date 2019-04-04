@@ -1,4 +1,4 @@
-C51 COMPILER V9.01   PROC_SYSTEM_INTERRUPT                                                 03/12/2019 09:56:06 PAGE 1   
+C51 COMPILER V9.01   PROC_SYSTEM_INTERRUPT                                                 04/04/2019 15:41:28 PAGE 1   
 
 
 C51 COMPILER V9.01, COMPILATION OF MODULE PROC_SYSTEM_INTERRUPT
@@ -62,456 +62,457 @@ line level    source
   50   2              if(gs_uart_iec_app_var[UART_CH0_IR].tx_ready_10ms>0)  gs_uart_iec_app_var[UART_CH0_IR].tx_ready_10
              -ms --;
   51   2          }
-C51 COMPILER V9.01   PROC_SYSTEM_INTERRUPT                                                 03/12/2019 09:56:06 PAGE 2   
+C51 COMPILER V9.01   PROC_SYSTEM_INTERRUPT                                                 04/04/2019 15:41:28 PAGE 2   
 
   52   1         
-  53   1      //    if(gs_uart_iec_app_var[CH_RF].iec_status!=0)  gs_uart_iec_app_var[CH_RF].delay_10ms++; 
-  54   1      //    if(gs_uart_iec_app_var[CH_RF].tx_delay_flg ==TRUE )
-  55   1      //    {
-  56   1      //        if(gs_uart_iec_app_var[CH_RF].tx_ready_10ms>0)  gs_uart_iec_app_var[CH_RF].tx_ready_10ms --;
-  57   1      //    }
-  58   1      //      //¼ÌµçÆ÷¶¯×÷Ê±¼äµÝ¼õ²Ù×÷  //
-  59   1      //      if(gs_relay_manage_var.u8_tmr_opera>0)
-  60   1      //      {
-  61   1      //              gs_relay_manage_var.u8_tmr_opera--;
-  62   1      //              if(gs_relay_manage_var.u8_tmr_opera==0)  CTL_Relay_FREE();              
-  63   1      //      }
-  64   1      //      //if(gs_sys_globaL_var.qf_time>0)  gs_sys_globaL_var.qf_time--;
-  65   1              //if(gs_sys_globaL_var.qf_time==1) LED_LED_QF_OFF();
-  66   1              gs_sys_globaL_var.qf_time++;
-  67   1          //if(guc_CommDelayTime>0) guc_CommDelayTime--;//  9260FÍ¨Ñ¶¶ÁÐ´±£»¤
-  68   1          
-  69   1              //RF·¢ËÍ³¬Ê±ÅÐ¶Ï´¦Àí  //
-  70   1      //    if((gs_rf_drv_var.status == RF_STATUS_TX)&&(gs_rf_drv_var.tmr_tx_max_wait<(RF_TX_WAIT_MAX_TRM+3)) ) 
-             - 
-  71   1      //      {
-  72   1      //      gs_rf_drv_var.tmr_tx_max_wait++;
-  73   1      //      }
-  74   1      
-  75   1      //      //RF·¢ËÍ³¬Ê±ÅÐ¶Ï´¦Àí  //
-  76   1      //    if(gs_dlt645_07_var.tx_ready_10ms >0 )
-  77   1      //      {
-  78   1      //      gs_dlt645_07_var.tx_ready_10ms--;
-  79   1      //      }
-  80   1              
-  81   1      }
-  82          
-  83          //=======================================================
-  84          //º¯ÊýÃû£ºInterrupt_Int1
-  85          //º¯Êý×÷ÓÃ£º¶Ë¿ÚÖÐ¶Ï1£¬ÖÐ¶ÏÏòÁ¿                         £¨13H£©
-  86          //======================================================= 
-  87          void Interrupt_Int1 (void) interrupt 2 using 2
-  88          {
-  89   1          TCON &= ~BIT3;
-  90   1      }
+  53   1      
+  54   1              gs_sys_globaL_var.qf_time++;
+  55   1      
+  56   1              
+  57   1      }
+  58          
+  59          //=======================================================
+  60          //º¯ÊýÃû£ºInterrupt_Int1
+  61          //º¯Êý×÷ÓÃ£º¶Ë¿ÚÖÐ¶Ï1£¬ÖÐ¶ÏÏòÁ¿                         £¨13H£©
+  62          //======================================================= 
+  63          void Interrupt_Int1 (void) interrupt 2 using 2
+  64          {
+  65   1          TCON &= ~BIT3;
+  66   1      }
+  67          //=======================================================
+  68          //º¯ÊýÃû£ºInterrupt_Timer1
+  69          //º¯Êý×÷ÓÃ£ºÄÚºËtimer1ÖÐ¶Ï£¬ÖÐ¶ÏÏòÁ¿            £¨1BH£©
+  70          //======================================================= 
+  71          void Interrupt_Timer1 (void) interrupt 3 using 2
+  72          {
+  73   1          TCON &= ~BIT7;
+  74   1              
+  75   1              TL1  = LOBYTE(T1_80MS_CNT);         //10ms
+  76   1          TH1  = HIBYTE(T1_80MS_CNT);
+  77   1      //      P9DO |= BIT2;
+  78   1      ////    UART4_INITLIZE_OFF();
+  79   1      ////    UART4_TX_DIR_OUT();
+  80   1      ////    P21FS = 0;
+  81   1              UART4_TX_HIGH();                //³öÂö³å½«½üºìÍâµÆÖÃµÍ
+  82   1      ////    P2OD &= ~PIN_UART4_TX;
+  83   1              TR1 = 0;
+  84   1              ET1 = 0;
+  85   1      
+  86   1      
+  87   1      // user coding begin
+  88   1      
+  89   1      }
+  90          
   91          //=======================================================
-  92          //º¯ÊýÃû£ºInterrupt_Timer1
-  93          //º¯Êý×÷ÓÃ£ºÄÚºËtimer1ÖÐ¶Ï£¬ÖÐ¶ÏÏòÁ¿            £¨1BH£©
+  92          //º¯ÊýÃû£ºInterrupt_Timer2
+  93          //º¯Êý×÷ÓÃ£ºÄÚºËtimer2ÖÐ¶Ï£¬ÖÐ¶ÏÏòÁ¿            £¨2BH£©
   94          //======================================================= 
-  95          void Interrupt_Timer1 (void) interrupt 3 using 2
+  95          void Interrupt_Timer2 (void) interrupt 5 using 2
   96          {
-  97   1          TCON &= ~BIT7;
-  98   1      
-  99   1      // user coding begin
- 100   1      
- 101   1      }
- 102          
- 103          //=======================================================
- 104          //º¯ÊýÃû£ºInterrupt_Timer2
- 105          //º¯Êý×÷ÓÃ£ºÄÚºËtimer2ÖÐ¶Ï£¬ÖÐ¶ÏÏòÁ¿            £¨2BH£©
- 106          //======================================================= 
- 107          void Interrupt_Timer2 (void) interrupt 5 using 2
- 108          {
- 109   1              T2CON &= ~BIT7;
- 110   1         //user coding begin
- 111   1             
- 112   1      }
-C51 COMPILER V9.01   PROC_SYSTEM_INTERRUPT                                                 03/12/2019 09:56:06 PAGE 3   
+  97   1              T2CON &= ~BIT7;
+  98   1         //user coding begin
+  99   1          TL2  = LOBYTE(T2_01MS_CNT);         //1ms
+ 100   1          TH2  = HIBYTE(T2_01MS_CNT);
+ 101   1              api_handl_bar_display_1ms();
+ 102   1      //       gs_sys_run.back_fg |= BIT3_FONT_FG_1MS;
+ 103   1              
+ 104   1      }
+ 105          
+ 106          //=======================================================
+ 107          //º¯ÊýÃû£ºInterrupt_Uart1
+ 108          //º¯Êý×÷ÓÃ£ºÄÚºËuart1ÖÐ¶Ï£¬ÖÐ¶ÏÏòÁ¿                     £¨3BH£©
+ 109          //=======================================================
+ 110          void Interrupt_Uart1 (void) interrupt 7 using 2
+ 111          {
+ 112   1          if (SCON1 & BIT0)
+ 113   1          {// ½ÓÊÜÖÐ¶Ï±ê¼Ç
+C51 COMPILER V9.01   PROC_SYSTEM_INTERRUPT                                                 04/04/2019 15:41:28 PAGE 3   
 
- 113          
- 114          //=======================================================
- 115          //º¯ÊýÃû£ºInterrupt_Uart1
- 116          //º¯Êý×÷ÓÃ£ºÄÚºËuart1ÖÐ¶Ï£¬ÖÐ¶ÏÏòÁ¿                     £¨3BH£©
- 117          //=======================================================
- 118          void Interrupt_Uart1 (void) interrupt 7 using 2
- 119          {
- 120   1          if (SCON1 & BIT0)
- 121   1          {// ½ÓÊÜÖÐ¶Ï±ê¼Ç
- 122   2              SCON1 &= ~BIT0;
- 123   2              // user coding begin
- 124   2          }
- 125   1          else if (SCON1 & BIT1)
- 126   1          {// ·¢ËÍÖÐ¶Ï±ê¼Ç
- 127   2              SCON1 &= ~BIT1;
- 128   2              // user coding begin
- 129   2          }
- 130   1      }
- 131          
- 132          
- 133          //=======================================================
- 134          //º¯ÊýÃû£ºInterrupt_ExInt2
- 135          //º¯Êý×÷ÓÃ£ºÍâ²¿ÖÐ¶Ï2£¬ÖÐ¶ÏÏòÁ¿                         £¨43H£©
- 136          //×¢Òâ£ºÏÈÇåÀ©Õ¹ÖÐ¶Ï±êÖ¾Î»£¬ºóÇåÄÚºËÖÐ¶Ï±êÖ¾Î»
- 137          //=======================================================
- 138          void Interrupt_ExInt2 (void) interrupt 8 using 2
- 139          {
- 140   1       uint8 buf;
- 141   1       uint8 temp_ifg;
- 142   1      
- 143   1          temp_ifg = ExInt2IE & ExInt2IFG;        // ·ÀÖ¹¶ÔÎ´Ê¹ÄÜÖÐ¶ÏµÄÎ»²Ù×÷ //
- 144   1      
- 145   1      ////////////////////////////////////////////////////////////////////////
- 146   1      //  UART2  TX   START
- 147   1      ////////////////////////////////////////////////////////////////////////
- 148   1      //    if (temp_ifg & BIT0)
- 149   1      //    {// uart2 translate interrupt flag
- 150   1      //        ExInt2IFG &= ~BIT0;        //BIT0, ExInt2IFG·¢ËÍÖÐ¶Ï±êÊ¶ //
- 151   1      //        SCON2 &= ~BIT1;           //BIT1 , UART2µÄSCON2ÖÐµÄ·¢ËÍÖÐ¶Ï±êÊ¶ //
- 152   1      //        // user coding begin
- 153   1      //        if (gs_uart_drv_var[UART_CH0_IR].tx_len>0)
- 154   1      //        {
- 155   1      //            buf=(gs_uart_drv_var[UART_CH0_IR].buff[gs_uart_drv_var[UART_CH0_IR].buff_index]);
- 156   1      //            if(gs_uart_drv_var[UART_CH0_IR].bits_len==7)
- 157   1      //           {
- 158   1      //                 // 7Î»Êý¾Ý´¦Àí·½Ê½ //
- 159   1      //                 ACC=(buf &0x7F);
- 160   1      //                if(P)
- 161   1      //                {
- 162   1      //                    buf |= BIT7;
- 163   1      //                }
- 164   1      //                else
- 165   1      //                {
- 166   1      //                    buf&= ~BIT7;
- 167   1      //                }
- 168   1      //            }
- 169   1      //            SBUF2 = buf;
- 170   1      //            gs_uart_iec_app_var[UART_CH0_IR].delay_10ms = 0;   // ÓÐÊý¾Ý´¦ÀíÊ±Çå³ýÑÓÊ±¼ÆÊýÆ÷ //
- 171   1      //            gs_uart_drv_var[UART_CH0_IR].buff[gs_uart_drv_var[UART_CH0_IR].buff_index] =0;
- 172   1      //            gs_uart_drv_var[UART_CH0_IR].buff_index++;
- 173   1      //            gs_uart_drv_var[UART_CH0_IR].tx_len -- ;
+ 114   2              SCON1 &= ~BIT0;
+ 115   2              // user coding begin
+ 116   2          }
+ 117   1          else if (SCON1 & BIT1)
+ 118   1          {// ·¢ËÍÖÐ¶Ï±ê¼Ç
+ 119   2              SCON1 &= ~BIT1;
+ 120   2              // user coding begin
+ 121   2          }
+ 122   1      }
+ 123          
+ 124          
+ 125          //=======================================================
+ 126          //º¯ÊýÃû£ºInterrupt_ExInt2
+ 127          //º¯Êý×÷ÓÃ£ºÍâ²¿ÖÐ¶Ï2£¬ÖÐ¶ÏÏòÁ¿                         £¨43H£©
+ 128          //×¢Òâ£ºÏÈÇåÀ©Õ¹ÖÐ¶Ï±êÖ¾Î»£¬ºóÇåÄÚºËÖÐ¶Ï±êÖ¾Î»
+ 129          //=======================================================
+ 130          void Interrupt_ExInt2 (void) interrupt 8 using 2
+ 131          {
+ 132   1       uint8 buf;
+ 133   1       uint8 temp_ifg;
+ 134   1      
+ 135   1          temp_ifg = ExInt2IE & ExInt2IFG;        // ·ÀÖ¹¶ÔÎ´Ê¹ÄÜÖÐ¶ÏµÄÎ»²Ù×÷ //
+ 136   1      
+ 137   1      ////////////////////////////////////////////////////////////////////////
+ 138   1      //  UART2  TX   START
+ 139   1      ////////////////////////////////////////////////////////////////////////
+ 140   1      //    if (temp_ifg & BIT0)
+ 141   1      //    {// uart2 translate interrupt flag
+ 142   1      //        ExInt2IFG &= ~BIT0;        //BIT0, ExInt2IFG·¢ËÍÖÐ¶Ï±êÊ¶ //
+ 143   1      //        SCON2 &= ~BIT1;           //BIT1 , UART2µÄSCON2ÖÐµÄ·¢ËÍÖÐ¶Ï±êÊ¶ //
+ 144   1      //        // user coding begin
+ 145   1      //        if (gs_uart_drv_var[UART_CH0_IR].tx_len>0)
+ 146   1      //        {
+ 147   1      //            buf=(gs_uart_drv_var[UART_CH0_IR].buff[gs_uart_drv_var[UART_CH0_IR].buff_index]);
+ 148   1      //            if(gs_uart_drv_var[UART_CH0_IR].bits_len==7)
+ 149   1      //           {
+ 150   1      //                 // 7Î»Êý¾Ý´¦Àí·½Ê½ //
+ 151   1      //                 ACC=(buf &0x7F);
+ 152   1      //                if(P)
+ 153   1      //                {
+ 154   1      //                    buf |= BIT7;
+ 155   1      //                }
+ 156   1      //                else
+ 157   1      //                {
+ 158   1      //                    buf&= ~BIT7;
+ 159   1      //                }
+ 160   1      //            }
+ 161   1      //            SBUF2 = buf;
+ 162   1      //            gs_uart_iec_app_var[UART_CH0_IR].delay_10ms = 0;   // ÓÐÊý¾Ý´¦ÀíÊ±Çå³ýÑÓÊ±¼ÆÊýÆ÷ //
+ 163   1      //            gs_uart_drv_var[UART_CH0_IR].buff[gs_uart_drv_var[UART_CH0_IR].buff_index] =0;
+ 164   1      //            gs_uart_drv_var[UART_CH0_IR].buff_index++;
+ 165   1      //            gs_uart_drv_var[UART_CH0_IR].tx_len -- ;
+ 166   1      //        }
+ 167   1      //        else
+ 168   1      //        {
+ 169   1      //            //·¢ËÍÍê³É  //
+ 170   1      //            gs_uart_drv_var[UART_CH0_IR].buff_index = 0;
+ 171   1      //            gs_uart_drv_var[UART_CH0_IR].status = UART_STATUS_BUSY_TX_OVER;  
+ 172   1      //                                        En_UART4_rx();
+ 173   1      //                                        Init_UART_soft(UART_CH0_IR);
  174   1      //        }
-C51 COMPILER V9.01   PROC_SYSTEM_INTERRUPT                                                 03/12/2019 09:56:06 PAGE 4   
+ 175   1      //    }
+C51 COMPILER V9.01   PROC_SYSTEM_INTERRUPT                                                 04/04/2019 15:41:28 PAGE 4   
 
- 175   1      //        else
- 176   1      //        {
- 177   1      //            //·¢ËÍÍê³É  //
- 178   1      //            gs_uart_drv_var[UART_CH0_IR].buff_index = 0;
- 179   1      //            gs_uart_drv_var[UART_CH0_IR].status = UART_STATUS_BUSY_TX_OVER;  
- 180   1      //                                        En_UART4_rx();
- 181   1      //                                        Init_UART_soft(UART_CH0_IR);
- 182   1      //        }
- 183   1      //    }
- 184   1      
- 185   1      //////////////////////////////////////////////////////////////////////////
- 186   1      ////  UART2  TX         END
- 187   1      //////////////////////////////////////////////////////////////////////////
- 188   1      
- 189   1      
- 190   1      //////////////////////////////////////////////////////////////////////////
- 191   1      ////  UART2  RX         START
- 192   1      //////////////////////////////////////////////////////////////////////////
- 193   1      //    if (temp_ifg & BIT1)
- 194   1      //    {// uart2 receive interrupt flag
- 195   1      //        ExInt2IFG &= ~BIT1;
- 196   1      //        SCON2 &= ~BIT0;
- 197   1      //        // user coding begin
- 198   1      //        buf = SBUF2;
- 199   1      //        gs_uart_drv_var[UART_CH0_IR].buff[gs_uart_drv_var[UART_CH0_IR].buff_index] = buf&0x7f;//  7Î»Êý¾
+ 176   1      
+ 177   1      //////////////////////////////////////////////////////////////////////////
+ 178   1      ////  UART2  TX         END
+ 179   1      //////////////////////////////////////////////////////////////////////////
+ 180   1      
+ 181   1      
+ 182   1      //////////////////////////////////////////////////////////////////////////
+ 183   1      ////  UART2  RX         START
+ 184   1      //////////////////////////////////////////////////////////////////////////
+ 185   1      //    if (temp_ifg & BIT1)
+ 186   1      //    {// uart2 receive interrupt flag
+ 187   1      //        ExInt2IFG &= ~BIT1;
+ 188   1      //        SCON2 &= ~BIT0;
+ 189   1      //        // user coding begin
+ 190   1      //        buf = SBUF2;
+ 191   1      //        gs_uart_drv_var[UART_CH0_IR].buff[gs_uart_drv_var[UART_CH0_IR].buff_index] = buf&0x7f;//  7Î»Êý¾
              -ÝÎ»//
- 200   1      //        gs_uart_iec_app_var[UART_CH0_IR].delay_10ms = 0;   // ÓÐÊý¾Ý´¦ÀíÊ±Çå³ýÑÓÊ±¼ÆÊýÆ÷ //
- 201   1      //        gs_uart_drv_var[UART_CH0_IR].buff_index++;
- 202   1      //        if(gs_uart_drv_var[UART_CH0_IR].buff_index>4)
- 203   1      //        {
- 204   1      //            NOP();
- 205   1      //            NOP();
- 206   1      //        }
- 207   1      //            gs_uart_drv_var[UART_CH0_IR].buff_index %= UART_BUFF_SIZE;
- 208   1      //        if(gs_uart_drv_var[UART_CH0_IR].buff_index>0x15)
- 209   1      //        {
- 210   1      //            NOP();
- 211   1      //            NOP();
- 212   1      //        }
- 213   1      //    }
- 214   1      ////////////////////////////////////////////////////////////////////////
- 215   1      //  UART2  RX   END
- 216   1      ////////////////////////////////////////////////////////////////////////
- 217   1      
- 218   1      
- 219   1      ////////////////////////////////////////////////////////////////////////
- 220   1      //  UART4  TX   START
- 221   1      ////////////////////////////////////////////////////////////////////////
- 222   1          if (temp_ifg & BIT2)
- 223   1          {// uart4 translate interrupt flag
- 224   2              ExInt2IFG &= ~BIT2;
- 225   2              SCON4 &= ~BIT1;
- 226   2                      if (gs_uart_drv_var[UART_CH0_IR].tx_len>0)
- 227   2                 {
- 228   3                         buf=(gs_uart_drv_var[UART_CH0_IR].buff[gs_uart_drv_var[UART_CH0_IR].buff_index]);
- 229   3                         if(gs_uart_drv_var[UART_CH0_IR].bits_len==7)
- 230   3                        {
- 231   4                                      // 7Î»Êý¾Ý´¦Àí·½Ê½ //
- 232   4                                      ACC=(buf &0x7F);
- 233   4                                 if(P)
- 234   4                                 {
- 235   5                                         buf |= BIT7;
-C51 COMPILER V9.01   PROC_SYSTEM_INTERRUPT                                                 03/12/2019 09:56:06 PAGE 5   
+ 192   1      //        gs_uart_iec_app_var[UART_CH0_IR].delay_10ms = 0;   // ÓÐÊý¾Ý´¦ÀíÊ±Çå³ýÑÓÊ±¼ÆÊýÆ÷ //
+ 193   1      //        gs_uart_drv_var[UART_CH0_IR].buff_index++;
+ 194   1      //        if(gs_uart_drv_var[UART_CH0_IR].buff_index>4)
+ 195   1      //        {
+ 196   1      //            NOP();
+ 197   1      //            NOP();
+ 198   1      //        }
+ 199   1      //            gs_uart_drv_var[UART_CH0_IR].buff_index %= UART_BUFF_SIZE;
+ 200   1      //        if(gs_uart_drv_var[UART_CH0_IR].buff_index>0x15)
+ 201   1      //        {
+ 202   1      //            NOP();
+ 203   1      //            NOP();
+ 204   1      //        }
+ 205   1      //    }
+ 206   1      ////////////////////////////////////////////////////////////////////////
+ 207   1      //  UART2  RX   END
+ 208   1      ////////////////////////////////////////////////////////////////////////
+ 209   1      
+ 210   1      
+ 211   1      ////////////////////////////////////////////////////////////////////////
+ 212   1      //  UART4  TX   START
+ 213   1      ////////////////////////////////////////////////////////////////////////
+ 214   1          if (temp_ifg & BIT2)
+ 215   1          {// uart4 translate interrupt flag
+ 216   2              ExInt2IFG &= ~BIT2;
+ 217   2              SCON4 &= ~BIT1;
+ 218   2                      if (gs_uart_drv_var[UART_CH0_IR].tx_len>0)
+ 219   2                 {
+ 220   3                         buf=(gs_uart_drv_var[UART_CH0_IR].buff[gs_uart_drv_var[UART_CH0_IR].buff_index]);
+ 221   3                         if(gs_uart_drv_var[UART_CH0_IR].bits_len==7)
+ 222   3                        {
+ 223   4                                      // 7Î»Êý¾Ý´¦Àí·½Ê½ //
+ 224   4                                      ACC=(buf &0x7F);
+ 225   4                                 if(P)
+ 226   4                                 {
+ 227   5                                         buf |= BIT7;
+ 228   5                                 }
+ 229   4                                 else
+ 230   4                                 {
+ 231   5                                         buf&= ~BIT7;
+ 232   5                                 }
+ 233   4                         }
+ 234   3                         SBUF4 = buf;
+ 235   3                         gs_uart_iec_app_var[UART_CH0_IR].delay_10ms = 0;   // ÓÐÊý¾Ý´¦ÀíÊ±Çå³ýÑÓÊ±¼ÆÊýÆ÷ //
+ 236   3                         gs_uart_drv_var[UART_CH0_IR].buff[gs_uart_drv_var[UART_CH0_IR].buff_index] =0;
+C51 COMPILER V9.01   PROC_SYSTEM_INTERRUPT                                                 04/04/2019 15:41:28 PAGE 5   
 
- 236   5                                 }
- 237   4                                 else
- 238   4                                 {
- 239   5                                         buf&= ~BIT7;
- 240   5                                 }
- 241   4                         }
- 242   3                         SBUF4 = buf;
- 243   3                         gs_uart_iec_app_var[UART_CH0_IR].delay_10ms = 0;   // ÓÐÊý¾Ý´¦ÀíÊ±Çå³ýÑÓÊ±¼ÆÊýÆ÷ //
- 244   3                         gs_uart_drv_var[UART_CH0_IR].buff[gs_uart_drv_var[UART_CH0_IR].buff_index] =0;
- 245   3                         gs_uart_drv_var[UART_CH0_IR].buff_index++;
- 246   3                         gs_uart_drv_var[UART_CH0_IR].tx_len -- ;
- 247   3                 }
- 248   2                 else
- 249   2                 {
- 250   3                         //·¢ËÍÍê³É  //
- 251   3                         gs_uart_drv_var[UART_CH0_IR].buff_index = 0;
- 252   3                         gs_uart_drv_var[UART_CH0_IR].status = UART_STATUS_BUSY_TX_OVER;      
- 253   3                   En_UART4_rx(); 
- 254   3                               Init_UART_soft(UART_CH0_IR);   
- 255   3                       }
- 256   2               /*Uart4_Transmit();
- 257   2              // user coding begin
- 258   2          if(gs_RacCtrl.ucStatus==Rac_Send)
- 259   2          {
- 260   2            if(gs_RacCtrl.ucSendPoint<gs_RacCtrl.ucSendLen)   
- 261   2            {
- 262   2              i=Lib_check_bitnum(gs_RacCtrl.ucBuf[gs_RacCtrl.ucSendPoint]);            //·¢ËÍÆæÐ£ÑéÎ»
- 263   2              if(i==0)
- 264   2              {    
- 265   2                SCON4 |=0x08;                        //Å¼Ð£ÑéµÄÖµ  0x1906µÄbit3 1
- 266   2              }
- 267   2              else
- 268   2              {    
- 269   2                SCON4 &=0xf7;                  //ÆæÐ£ÑéµÄÖµ  0x1906µÄbit3 0
- 270   2              }
- 271   2              SBUF4 = gs_RacCtrl.ucBuf[gs_RacCtrl.ucSendPoint++];
- 272   2            }
- 273   2            else
- 274   2            {
- 275   2              gs_RacCtrl.ucStatus=Rac_Rev;  
- 276   2            }                                                                                                                         
- 277   2          }*/
- 278   2         }
- 279   1      ////////////////////////////////////////////////////////////////////////
- 280   1      //  UART4  TX   END
- 281   1      ////////////////////////////////////////////////////////////////////////
- 282   1      
- 283   1      
- 284   1      ////////////////////////////////////////////////////////////////////////
- 285   1      //  UART4  RX   START
- 286   1      ////////////////////////////////////////////////////////////////////////
- 287   1          if (temp_ifg & BIT3)
- 288   1          {
- 289   2                      // uart4 receive interrupt flag
- 290   2              ExInt2IFG &= ~BIT3;
- 291   2              SCON4 &= ~BIT0;
- 292   2                      buf = SBUF4;
- 293   2                         gs_uart_drv_var[UART_CH0_IR].buff[gs_uart_drv_var[UART_CH0_IR].buff_index] = buf&0x7f;//  7Î»Êý¾ÝÎ»//
- 294   2                         gs_uart_iec_app_var[UART_CH0_IR].delay_10ms = 0;   // ÓÐÊý¾Ý´¦ÀíÊ±Çå³ýÑÓÊ±¼ÆÊýÆ÷ //
- 295   2                         gs_uart_drv_var[UART_CH0_IR].buff_index++;
- 296   2                         if(gs_uart_drv_var[UART_CH0_IR].buff_index>4)
- 297   2                         {
-C51 COMPILER V9.01   PROC_SYSTEM_INTERRUPT                                                 03/12/2019 09:56:06 PAGE 6   
+ 237   3                         gs_uart_drv_var[UART_CH0_IR].buff_index++;
+ 238   3                         gs_uart_drv_var[UART_CH0_IR].tx_len -- ;
+ 239   3                 }
+ 240   2                 else
+ 241   2                 {
+ 242   3                         //·¢ËÍÍê³É  //
+ 243   3                         gs_uart_drv_var[UART_CH0_IR].buff_index = 0;
+ 244   3                         gs_uart_drv_var[UART_CH0_IR].status = UART_STATUS_BUSY_TX_OVER;      
+ 245   3                   En_UART4_rx(); 
+ 246   3                               Init_UART_soft(UART_CH0_IR);   
+ 247   3                       }
+ 248   2               /*Uart4_Transmit();
+ 249   2              // user coding begin
+ 250   2          if(gs_RacCtrl.ucStatus==Rac_Send)
+ 251   2          {
+ 252   2            if(gs_RacCtrl.ucSendPoint<gs_RacCtrl.ucSendLen)   
+ 253   2            {
+ 254   2              i=Lib_check_bitnum(gs_RacCtrl.ucBuf[gs_RacCtrl.ucSendPoint]);            //·¢ËÍÆæÐ£ÑéÎ»
+ 255   2              if(i==0)
+ 256   2              {    
+ 257   2                SCON4 |=0x08;                        //Å¼Ð£ÑéµÄÖµ  0x1906µÄbit3 1
+ 258   2              }
+ 259   2              else
+ 260   2              {    
+ 261   2                SCON4 &=0xf7;                  //ÆæÐ£ÑéµÄÖµ  0x1906µÄbit3 0
+ 262   2              }
+ 263   2              SBUF4 = gs_RacCtrl.ucBuf[gs_RacCtrl.ucSendPoint++];
+ 264   2            }
+ 265   2            else
+ 266   2            {
+ 267   2              gs_RacCtrl.ucStatus=Rac_Rev;  
+ 268   2            }                                                                                                                         
+ 269   2          }*/
+ 270   2         }
+ 271   1      ////////////////////////////////////////////////////////////////////////
+ 272   1      //  UART4  TX   END
+ 273   1      ////////////////////////////////////////////////////////////////////////
+ 274   1      
+ 275   1      
+ 276   1      ////////////////////////////////////////////////////////////////////////
+ 277   1      //  UART4  RX   START
+ 278   1      ////////////////////////////////////////////////////////////////////////
+ 279   1          if (temp_ifg & BIT3)
+ 280   1          {
+ 281   2                      // uart4 receive interrupt flag
+ 282   2              ExInt2IFG &= ~BIT3;
+ 283   2              SCON4 &= ~BIT0;
+ 284   2                      buf = SBUF4;
+ 285   2                         gs_uart_drv_var[UART_CH0_IR].buff[gs_uart_drv_var[UART_CH0_IR].buff_index] = buf&0x7f;//  7Î»Êý¾ÝÎ»//
+ 286   2                         gs_uart_iec_app_var[UART_CH0_IR].delay_10ms = 0;   // ÓÐÊý¾Ý´¦ÀíÊ±Çå³ýÑÓÊ±¼ÆÊýÆ÷ //
+ 287   2                         gs_uart_drv_var[UART_CH0_IR].buff_index++;
+ 288   2                         if(gs_uart_drv_var[UART_CH0_IR].buff_index>4)
+ 289   2                         {
+ 290   3                                 NOP();
+ 291   3                                 NOP();
+ 292   3                         }
+ 293   2                      gs_uart_drv_var[UART_CH0_IR].buff_index %= 250;//UART_BUFF_SIZE;
+ 294   2                      if(gs_uart_drv_var[UART_CH0_IR].buff_index>0x15)
+ 295   2                      {
+ 296   3                              NOP();
+ 297   3                              NOP();
+ 298   3                      }
+C51 COMPILER V9.01   PROC_SYSTEM_INTERRUPT                                                 04/04/2019 15:41:28 PAGE 6   
 
- 298   3                                 NOP();
- 299   3                                 NOP();
- 300   3                         }
- 301   2                      gs_uart_drv_var[UART_CH0_IR].buff_index %= 250;//UART_BUFF_SIZE;
- 302   2                      if(gs_uart_drv_var[UART_CH0_IR].buff_index>0x15)
- 303   2                      {
- 304   3                              NOP();
- 305   3                              NOP();
- 306   3                      }
- 307   2             /* if(gs_RacCtrl.ucStatus==Rac_Rev)
- 308   2              {
- 309   2                  if(gs_RacCtrl.ucRevPoint<gs_RacCtrl.ucRevLen)
- 310   2                  {
- 311   2                      gs_RacCtrl.ucBuf[gs_RacCtrl.ucRevPoint++]=SBUF4;
- 312   2                      if(gs_RacCtrl.ucRevPoint==gs_RacCtrl.ucRevLen)
- 313   2                      {
- 314   2                          gs_RacCtrl.ucStatus=Rac_WaitPro;
- 315   2                      //    if( gs_RacPhy.uc_Sendstat == true)  
- 316   2                        //  {
- 317   2                        //     gs_sys_run.font_fg |= BIT0_FONT_FG_readpower; // µçÁ¿¶ÁÈ¡ÊÂ¼þÍê³É±êÊ¶
- 318   2                       //   }
- 319   2                      }
- 320   2                  }
- 321   2              }*/
- 322   2      
- 323   2          }
- 324   1      ////////////////////////////////////////////////////////////////////////
- 325   1      //  UART4  RX   END
- 326   1      ////////////////////////////////////////////////////////////////////////
- 327   1      
- 328   1      
- 329   1          if (temp_ifg & BIT4)
- 330   1          {// uart2timer0 interrupt
- 331   2              ExInt2IFG &= ~BIT4;
- 332   2              // user coding begin  
- 333   2          }
- 334   1          if (temp_ifg & BIT5)
- 335   1          {// uart4timer0 interrupt
- 336   2              ExInt2IFG &= ~BIT5;
- 337   2              // user coding begin    
- 338   2          }
- 339   1          if (temp_ifg & BIT6)
- 340   1          {// flash erase interrupt
- 341   2              ExInt2IFG &= ~BIT6;
- 342   2              // user coding begin  
- 343   2          }
- 344   1      
- 345   1      ////////////////////////////////////////////////////////////////////////
- 346   1      //   ACTIVE ENERGY PLUSE accumulate     START
+ 299   2             /* if(gs_RacCtrl.ucStatus==Rac_Rev)
+ 300   2              {
+ 301   2                  if(gs_RacCtrl.ucRevPoint<gs_RacCtrl.ucRevLen)
+ 302   2                  {
+ 303   2                      gs_RacCtrl.ucBuf[gs_RacCtrl.ucRevPoint++]=SBUF4;
+ 304   2                      if(gs_RacCtrl.ucRevPoint==gs_RacCtrl.ucRevLen)
+ 305   2                      {
+ 306   2                          gs_RacCtrl.ucStatus=Rac_WaitPro;
+ 307   2                      //    if( gs_RacPhy.uc_Sendstat == true)  
+ 308   2                        //  {
+ 309   2                        //     gs_sys_run.font_fg |= BIT0_FONT_FG_readpower; // µçÁ¿¶ÁÈ¡ÊÂ¼þÍê³É±êÊ¶
+ 310   2                       //   }
+ 311   2                      }
+ 312   2                  }
+ 313   2              }*/
+ 314   2      
+ 315   2          }
+ 316   1      ////////////////////////////////////////////////////////////////////////
+ 317   1      //  UART4  RX   END
+ 318   1      ////////////////////////////////////////////////////////////////////////
+ 319   1      
+ 320   1      
+ 321   1          if (temp_ifg & BIT4)
+ 322   1          {// uart2timer0 interrupt
+ 323   2              ExInt2IFG &= ~BIT4;
+ 324   2              // user coding begin  
+ 325   2          }
+ 326   1          if (temp_ifg & BIT5)
+ 327   1          {// uart4timer0 interrupt
+ 328   2              ExInt2IFG &= ~BIT5;
+ 329   2              // user coding begin    
+ 330   2          }
+ 331   1          if (temp_ifg & BIT6)
+ 332   1          {// flash erase interrupt
+ 333   2              ExInt2IFG &= ~BIT6;
+ 334   2              // user coding begin  
+ 335   2          }
+ 336   1      
+ 337   1      ////////////////////////////////////////////////////////////////////////
+ 338   1      //   ACTIVE ENERGY PLUSE accumulate     START
+ 339   1      ////////////////////////////////////////////////////////////////////////
+ 340   1          if (temp_ifg & BIT7)
+ 341   1          {// CF impluse interrupt
+ 342   2              ExInt2IFG &= ~BIT7;
+ 343   2              // user coding begin
+ 344   2                gs_energy_var.pluse[1]++;    //ÓÐ¹¦×ÜµçÄÜÀÛ¼Æ //
+ 345   2         //  gs_mot_drv_var.u8_cnt ++;
+ 346   2          }
  347   1      ////////////////////////////////////////////////////////////////////////
- 348   1          if (temp_ifg & BIT7)
- 349   1          {// CF impluse interrupt
- 350   2              ExInt2IFG &= ~BIT7;
- 351   2              // user coding begin
- 352   2                gs_energy_var.pluse[1]++;    //ÓÐ¹¦×ÜµçÄÜÀÛ¼Æ //
- 353   2         //  gs_mot_drv_var.u8_cnt ++;
- 354   2          }
- 355   1      ////////////////////////////////////////////////////////////////////////
- 356   1      //   ACTIVE ENERGY PLUSE accumulate     END
- 357   1      ////////////////////////////////////////////////////////////////////////
- 358   1      
- 359   1      
-C51 COMPILER V9.01   PROC_SYSTEM_INTERRUPT                                                 03/12/2019 09:56:06 PAGE 7   
+ 348   1      //   ACTIVE ENERGY PLUSE accumulate     END
+ 349   1      ////////////////////////////////////////////////////////////////////////
+ 350   1      
+ 351   1      
+ 352   1          EXIF &= ~BIT4;
+ 353   1      }
+ 354          
+ 355          //=======================================================
+ 356          //º¯ÊýÃû£ºInterrupt_ExInt3
+ 357          //º¯Êý×÷ÓÃ£ºÍâ²¿ÖÐ¶Ï3£¬ÖÐ¶ÏÏòÁ¿                         £¨4BH£© 
+ 358          //×¢Òâ£ºÏÈÇåÀ©Õ¹ÖÐ¶Ï±êÖ¾Î»£¬ºóÇåÄÚºËÖÐ¶Ï±êÖ¾Î»          
+ 359          //=======================================================
+ 360          void Interrupt_ExInt3 (void) interrupt 9 using 2
+C51 COMPILER V9.01   PROC_SYSTEM_INTERRUPT                                                 04/04/2019 15:41:28 PAGE 7   
 
- 360   1          EXIF &= ~BIT4;
- 361   1      }
- 362          
- 363          //=======================================================
- 364          //º¯ÊýÃû£ºInterrupt_ExInt3
- 365          //º¯Êý×÷ÓÃ£ºÍâ²¿ÖÐ¶Ï3£¬ÖÐ¶ÏÏòÁ¿                         £¨4BH£© 
- 366          //×¢Òâ£ºÏÈÇåÀ©Õ¹ÖÐ¶Ï±êÖ¾Î»£¬ºóÇåÄÚºËÖÐ¶Ï±êÖ¾Î»          
- 367          //=======================================================
- 368          void Interrupt_ExInt3 (void) interrupt 9 using 2
- 369          {
- 370   1       unsigned char temp_ifg;
- 371   1              
- 372   1          temp_ifg = ExInt3IE & ExInt3IFG;
- 373   1          if (temp_ifg & BIT4)
- 374   1          {// uart3timer0 interrupt
- 375   2             ExInt3IFG &= ~BIT4;
- 376   2              // user coding begin   
- 377   2          }
- 378   1              if (temp_ifg & BIT5)//UART5 ÖÐÆÕÍ¨¶¨Ê±Æ÷Òç³öÖÐ¶Ï
- 379   1          {// uart3timer0 interrupt
- 380   2             ExInt3IFG &= ~BIT5;
- 381   2              // user coding begin   
- 382   2          }                   
- 383   1          if (temp_ifg & BIT6)
- 384   1          {// rtc interrupt
- 385   2              ExInt3IFG &= ~BIT6;
- 386   2              // user coding begin  
- 387   2             gs_sys_run.back_fg |= BIT1_BACK_FG_RTC;   //ÅäÖÃÏÔÊ¾°´¼ü±êÊ¶ÓÐÐ§ //  //  RTC Ã¿Ãë²úÉúµÄÖÐ¶Ï  //
- 388   2              gs_emu_adj_var.sec_flg=TRUE;           // Ó²¼þ¶Ì½ÓÐ£±íÃë¶¨Ê±±êÊ¶ //
- 389   2      
- 390   2          }
- 391   1      
- 392   1      
- 393   1          if (temp_ifg & BIT7)        //  ÎÞ¹¦
- 394   1          {// CF2 interrupt
- 395   2              ExInt3IFG &= ~BIT7;
- 396   2                    gs_energy_var.pluse[0]++;    //ÓÐ¹¦×ÜµçÄÜÀÛ¼Æ //
- 397   2      //                  LED_LED_QF_ON();
- 398   2      //          gs_sys_globaL_var.qf_time=6;// 50MSÎÞ¹¦Âö¿í
- 399   2             // user coding begin 
- 400   2            
- 401   2          }
- 402   1          EXIF &= ~BIT5;
- 403   1      }
- 404          //=======================================================
- 405          //º¯ÊýÃû£ºInterrupt_ExInt4
- 406          //º¯Êý×÷ÓÃ£ºÍâ²¿ÖÐ¶Ï4£¬ÖÐ¶ÏÏòÁ¿                         £¨53H£©
- 407          //×¢Òâ£ºÏÈÇåÀ©Õ¹ÖÐ¶Ï±êÖ¾Î»£¬ºóÇåÄÚºËÖÐ¶Ï±êÖ¾Î»
- 408          //======================================================= 
- 409          void Interrupt_ExInt4 (void) interrupt 10 using 2
- 410          {
- 411   1      
- 412   1       unsigned char temp_ifg;
- 413   1       
- 414   1          temp_ifg = ExInt4IE & ExInt4IFG;
- 415   1      //    if (temp_ifg & BIT0)
- 416   1      //    {
- 417   1      //        ExInt4IFG &= ~BIT0;
- 418   1      //        // user coding begin   
- 419   1      //    }
- 420   1      //    if (temp_ifg & BIT1)
- 421   1      //    {
-C51 COMPILER V9.01   PROC_SYSTEM_INTERRUPT                                                 03/12/2019 09:56:06 PAGE 8   
+ 361          {
+ 362   1       unsigned char temp_ifg;
+ 363   1              
+ 364   1          temp_ifg = ExInt3IE & ExInt3IFG;
+ 365   1          if (temp_ifg & BIT4)
+ 366   1          {// uart3timer0 interrupt
+ 367   2             ExInt3IFG &= ~BIT4;
+ 368   2              // user coding begin   
+ 369   2          }
+ 370   1              if (temp_ifg & BIT5)//UART5 ÖÐÆÕÍ¨¶¨Ê±Æ÷Òç³öÖÐ¶Ï
+ 371   1          {// uart3timer0 interrupt
+ 372   2             ExInt3IFG &= ~BIT5;
+ 373   2              // user coding begin   
+ 374   2          }                   
+ 375   1          if (temp_ifg & BIT6)
+ 376   1          {// rtc interrupt
+ 377   2              ExInt3IFG &= ~BIT6;
+ 378   2              // user coding begin  
+ 379   2             gs_sys_run.back_fg |= BIT1_BACK_FG_RTC;   //ÅäÖÃÏÔÊ¾°´¼ü±êÊ¶ÓÐÐ§ //  //  RTC Ã¿Ãë²úÉúµÄÖÐ¶Ï  //
+ 380   2              gs_emu_adj_var.sec_flg=TRUE;           // Ó²¼þ¶Ì½ÓÐ£±íÃë¶¨Ê±±êÊ¶ //
+ 381   2      
+ 382   2          }
+ 383   1      
+ 384   1      
+ 385   1          if (temp_ifg & BIT7)        //  ÎÞ¹¦
+ 386   1          {// CF2 interrupt
+ 387   2              ExInt3IFG &= ~BIT7;
+ 388   2                  gs_energy_var.pluse[0]++;    //ÓÐ¹¦×ÜµçÄÜÀÛ¼Æ //
+ 389   2                      ///////////////////////////////////////////////////
+ 390   2                      //²âÊÔÄ£Ê½ÏÂ½üºìÍâÊä³öÂö³å               cxy 2019-04-02
+ 391   2                      if(IsModeTest == TRUE)
+ 392   2                      {
+ 393   3                              UART4_FUNC_DIS();
+ 394   3                              UART4_TX_LOW();
+ 395   3                              UART4_TX_DIR_OUT() ;
+ 396   3      //                      //³öÂö³å½«½üºìÍâµÆÖÃ¸ß 
+ 397   3      //                      P9DO &= ~BIT2;//ÖÃ¸ß¹Ø±Õ±¨¾¯µÆ
+ 398   3      //                      //¿ªÆô80ms¶¨Ê±Æ÷
+ 399   3                              TL1      = LOBYTE(T1_80MS_CNT);    //80ms  Timer1
+ 400   3                              TH1      = HIBYTE(T1_80MS_CNT);
+ 401   3                              Start_Timer1();
+ 402   3                      }
+ 403   2                      else
+ 404   2                      {       //¹Ø±Õ80ms¶¨Ê±Æ÷
+ 405   3                              TR1 = 0;
+ 406   3                              ET1 = 0;
+ 407   3                      }
+ 408   2                      //ÏÔÊ¾ÈýÌõ¿¸±íÊ¾Âö³åËÙÂÊcoding  //Çå¿ÕÈýÌõ¸Ü
+ 409   2                      gs_dis_pixel_var.dis_buff[10] &= ~(BIT7+BIT6+BIT5);
+ 410   2                      Write_LCD(&gs_dis_pixel_var.dis_buff[0]);
+ 411   2                      Bar_No = 0;//½ø¶ÈÌõµÈÓÚ0ËµÃ÷ÈýÌõ¿¸ÊÇ±»Çå¿ÕµÄ
+ 412   2                      //t_count = 0;
+ 413   2                      TL2  = LOBYTE(T2_01MS_CNT); 
+ 414   2                      TH2      = HIBYTE(T2_01MS_CNT);
+ 415   2                      TR2 = 1;
+ 416   2                      ET2 = 1;
+ 417   2                      //¿ªÆô¶¨Ê±Æ÷
+ 418   2              //////////////////////////////////////////////////
+ 419   2          }
+ 420   1          EXIF &= ~BIT5;
+ 421   1      }
+ 422          //=======================================================
+C51 COMPILER V9.01   PROC_SYSTEM_INTERRUPT                                                 04/04/2019 15:41:28 PAGE 8   
 
- 422   1      //        ExInt4IFG &= ~BIT1;
- 423   1      //        // user coding begin    
- 424   1      //    }
- 425   1      //    if (temp_ifg & BIT2)
- 426   1      //    {
- 427   1      //        ExInt4IFG &= ~BIT2;
- 428   1      //        // user coding begin    
- 429   1      //    }
- 430   1          if (temp_ifg & BIT3)
- 431   1          {
- 432   2              
- 433   2      //              for(cnt=10;cnt>0;cnt--)
- 434   2      //               {
- 435   2      //                  NOP();
- 436   2      //           }
- 437   2      //               if((P1ID & BIT2 ) ==0)         //!!!   p1.2
- 438   2      //           {
- 439   2      //                      io_trg_var.cover_key2_status = TRUE;
- 440   2      //               }
- 441   2                       ExInt4IFG &= ~BIT3;
- 442   2              // user coding begin   
- 443   2          }
- 444   1      //    if (temp_ifg & BIT4)
- 445   1      //    {
- 446   1      //        ExInt4IFG &= ~BIT4;
- 447   1      //        // user coding begin   
- 448   1      //    }
- 449   1      //    if (temp_ifg & BIT5)
- 450   1      //    {
- 451   1      //        ExInt4IFG &= ~BIT5;
- 452   1      //        // user coding begin 
- 453   1      //    }
- 454   1         
- 455   1          EXIF &= ~BIT6;
- 456   1      }
- 457          
- 458          //=======================================================
- 459          //º¯ÊýÃû£ºInterrupt_PF
- 460          //º¯Êý×÷ÓÃ£ºÏµÍ³µôµçÔ¤¾¯ÖÐ¶Ï£¬ÖÐ¶ÏÏòÁ¿          £¨63H£©
- 461          //======================================================= 
- 462          /*void Interrupt_PF (void) interrupt 12 using 2
- 463          {// powerdown interrupt
- 464              EICON &= ~BIT3;
- 465              // user coding begin
- 466              Int27();    
- 467          }*/
- 468                  
- 469          
- 470          
- 471          /***************************************************************
- 472          *    END
- 473          ****************************************************************/
- 474          
+ 423          //º¯ÊýÃû£ºInterrupt_ExInt4
+ 424          //º¯Êý×÷ÓÃ£ºÍâ²¿ÖÐ¶Ï4£¬ÖÐ¶ÏÏòÁ¿                         £¨53H£©
+ 425          //×¢Òâ£ºÏÈÇåÀ©Õ¹ÖÐ¶Ï±êÖ¾Î»£¬ºóÇåÄÚºËÖÐ¶Ï±êÖ¾Î»
+ 426          //======================================================= 
+ 427          void Interrupt_ExInt4 (void) interrupt 10 using 2
+ 428          {
+ 429   1      
+ 430   1       unsigned char temp_ifg;
+ 431   1       
+ 432   1          temp_ifg = ExInt4IE & ExInt4IFG;
+ 433   1      //    if (temp_ifg & BIT0)
+ 434   1      //    {
+ 435   1      //        ExInt4IFG &= ~BIT0;
+ 436   1      //        // user coding begin   
+ 437   1      //    }
+ 438   1      //    if (temp_ifg & BIT1)
+ 439   1      //    {
+ 440   1      //        ExInt4IFG &= ~BIT1;
+ 441   1      //        // user coding begin    
+ 442   1      //    }
+ 443   1      //    if (temp_ifg & BIT2)
+ 444   1      //    {
+ 445   1      //        ExInt4IFG &= ~BIT2;
+ 446   1      //        // user coding begin    
+ 447   1      //    }
+ 448   1          if (temp_ifg & BIT3)
+ 449   1          {
+ 450   2              
+ 451   2      
+ 452   2                       ExInt4IFG &= ~BIT3;
+ 453   2              // user coding begin   
+ 454   2          }
+ 455   1      
+ 456   1         
+ 457   1          EXIF &= ~BIT6;
+ 458   1      }
+ 459          
+ 460          //=======================================================
+ 461          //º¯ÊýÃû£ºInterrupt_PF
+ 462          //º¯Êý×÷ÓÃ£ºÏµÍ³µôµçÔ¤¾¯ÖÐ¶Ï£¬ÖÐ¶ÏÏòÁ¿          £¨63H£©
+ 463          //======================================================= 
+ 464          /*void Interrupt_PF (void) interrupt 12 using 2
+ 465          {// powerdown interrupt
+ 466              EICON &= ~BIT3;
+ 467              // user coding begin
+ 468              Int27();    
+ 469          }*/
+ 470                  
+ 471          
+ 472          
+ 473          /***************************************************************
+ 474          *    END
+ 475          ****************************************************************/
+ 476          
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    597    ----
+   CODE SIZE        =    749    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----       2
    PDATA SIZE       =   ----    ----
    DATA SIZE        =   ----    ----
-   IDATA SIZE       =   ----    ----
-C51 COMPILER V9.01   PROC_SYSTEM_INTERRUPT                                                 03/12/2019 09:56:06 PAGE 9   
+C51 COMPILER V9.01   PROC_SYSTEM_INTERRUPT                                                 04/04/2019 15:41:28 PAGE 9   
 
+   IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
 END OF MODULE INFORMATION.
 

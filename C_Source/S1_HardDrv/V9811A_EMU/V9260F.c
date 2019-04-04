@@ -43,24 +43,24 @@ void Init_RacCtrl(void)
 ===========================================================================================*/
 void RxReset_V9260(void)
 {
-    P21FS=0; 
-    P20FS=0; 
-    P2OE&=(~BIT1);       //TXD 允许输出
-    P2IE&=(~BIT1);       
-    
-    P2OD |=(BIT1);
-
-    P2OD&=(~BIT1);  
-	// 去除中断 ，使用延时//
-	//guc_CommDelayTime = 10;
-	// while(guc_CommDelayTime >0);  //100ms
-	CLRWDT(); 	
-	Lib_Delay_ms(100);
-	CLRWDT(); 	
-     P2OD |=(BIT1);
-
-    P21FS=2;  
-    P20FS=2; 
+//    P21FS=0; 
+//    P20FS=0; 
+//    P2OE&=(~BIT1);       //TXD 允许输出
+//    P2IE&=(~BIT1);       
+//    
+//    P2OD |=(BIT1);
+//
+//    P2OD&=(~BIT1);  
+//	// 去除中断 ，使用延时//
+//	//guc_CommDelayTime = 10;
+//	// while(guc_CommDelayTime >0);  //100ms
+//	CLRWDT(); 	
+//	Lib_Delay_ms(100);
+//	CLRWDT(); 	
+//     P2OD |=(BIT1);
+//
+//    P21FS=2;  
+//    P20FS=2; 
 }
 /*=========================================================================================\n
 * @function_name: WriteRaccoon

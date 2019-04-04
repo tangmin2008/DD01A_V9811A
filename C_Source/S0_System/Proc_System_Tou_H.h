@@ -56,10 +56,12 @@ extern void Proc_get_clock(void);
 extern void Proc_init_tou_var(void);
 extern void Proc_handl_tou_10ms(void);
 extern void Proc_handl_tou_1s(void);
+extern void api_handl_bar_display_1ms(void);
 
+extern void api_handl_bar_display_10ms(void);
 extern void  Initlize_Auto_ClrMeter_Var(void);
 extern void  Proc_Auto_ClrMeter_Pre_sec(void);
-
+extern uint8 t_count;
 extern uint8 button_flag;
 extern uint8 MAGN_delay;
 extern uint8 button_delay;
@@ -72,7 +74,7 @@ extern uint8 KEY_READ_FLAG;
 extern uint8 KEY_READ_DELAY;
 extern uint8 IsModeTest ;
 extern uint8 TestDelay ;
-
+extern uint8 Bar_No;
 /***************************************************************
 *    5     其他内容，例如伪指令等       
 ****************************************************************/

@@ -1,4 +1,4 @@
-C51 COMPILER V9.01   PROC_SYSTEM_INITIALIZE                                                03/12/2019 10:03:42 PAGE 1   
+C51 COMPILER V9.01   PROC_SYSTEM_INITIALIZE                                                04/04/2019 15:41:28 PAGE 1   
 
 
 C51 COMPILER V9.01, COMPILATION OF MODULE PROC_SYSTEM_INITIALIZE
@@ -62,7 +62,7 @@ line level    source
   50   2                  }
   51   1                  NOP();
   52   1                #endif
-C51 COMPILER V9.01   PROC_SYSTEM_INITIALIZE                                                03/12/2019 10:03:42 PAGE 2   
+C51 COMPILER V9.01   PROC_SYSTEM_INITIALIZE                                                04/04/2019 15:41:28 PAGE 2   
 
   53   1      
   54   1          SPCFNC=1;           //调整FLASH功耗
@@ -126,7 +126,7 @@ line level    source
  112   1              ////////////////////////////////////////////////
  113   1              //  S0_System 区相关RAM初始化
  114   1              ////////////////////////////////////////////////
-C51 COMPILER V9.01   PROC_SYSTEM_INITIALIZE                                                03/12/2019 10:03:42 PAGE 3   
+C51 COMPILER V9.01   PROC_SYSTEM_INITIALIZE                                                04/04/2019 15:41:28 PAGE 3   
 
  115   1              Proc_sys_data_init();
  116   1              Proc_init_Check_var();
@@ -190,7 +190,7 @@ line level    source
  174   4                      }
  175   3                      CLRWDT();
  176   3                      api_clr_current_MD_data();
-C51 COMPILER V9.01   PROC_SYSTEM_INITIALIZE                                                03/12/2019 10:03:42 PAGE 4   
+C51 COMPILER V9.01   PROC_SYSTEM_INITIALIZE                                                04/04/2019 15:41:28 PAGE 4   
 
  177   3              }
  178   2      }
@@ -254,7 +254,7 @@ line level    source
                  IT20=1;                    //外部中断2下降沿触发
                  IEN1|=Bin(10000000);       //允许LPD中断  
                  IEN1|=Bin(00000010);       //允许外部中断2
-C51 COMPILER V9.01   PROC_SYSTEM_INITIALIZE                                                03/12/2019 10:03:42 PAGE 5   
+C51 COMPILER V9.01   PROC_SYSTEM_INITIALIZE                                                04/04/2019 15:41:28 PAGE 5   
 
                  IEN1|=Bin(00001000);       //允许RTC中断
                  EA=1;
@@ -318,7 +318,7 @@ line level    source
  297   1              //下翻按键      2019-01-18
  298   1              P14FS = 0x00;
  299   1              P1IE |= BIT4;//输入使能
-C51 COMPILER V9.01   PROC_SYSTEM_INITIALIZE                                                03/12/2019 10:03:42 PAGE 6   
+C51 COMPILER V9.01   PROC_SYSTEM_INITIALIZE                                                04/04/2019 15:41:28 PAGE 6   
 
  300   1              while(1)
  301   1              {
@@ -382,7 +382,7 @@ line level    source
  359   1              Init_EMU(NORMAL_MODE);
  360   1              Check_EMU_AdjParam();
  361   1              Lib_Set_String( &LPReadPara.Original_Ptr, 0, 5) ;       
-C51 COMPILER V9.01   PROC_SYSTEM_INITIALIZE                                                03/12/2019 10:03:42 PAGE 7   
+C51 COMPILER V9.01   PROC_SYSTEM_INITIALIZE                                                04/04/2019 15:41:28 PAGE 7   
 
 *** WARNING C182 IN LINE 361 OF ..\C_SOURCE\S0_SYSTEM\PROC_SYSTEM_INITIALIZE.C: pointer to different objects
  362   1              gs_even_fun_var.into_cnt[ID_CLASS_II_PWN-ID_CLASS_II_min]=4;  // 事件保持时间 二类事件序号
@@ -446,7 +446,7 @@ line level    source
  418   2                      }
  419   1      //              if(Judge_PG_DN_key() == FALSE)
  420   1      //              {
-C51 COMPILER V9.01   PROC_SYSTEM_INITIALIZE                                                03/12/2019 10:03:42 PAGE 8   
+C51 COMPILER V9.01   PROC_SYSTEM_INITIALIZE                                                04/04/2019 15:41:28 PAGE 8   
 
  421   1      //                      button_delay = 0;
  422   1      //              }
@@ -510,7 +510,7 @@ line level    source
  479   2              //电网类事件结束
  480   2                      //      gs_even_fun_var.into_cnt[ID_CLASS_II_NOL1-ID_CLASS_II_min]=4;  // 事件保持时间 二类事件序号
  481   2                      //      gs_even_fun_var.esc_cnt[ID_CLASS_II_NOL1-ID_CLASS_II_min]=4;  // 事件保持时间
-C51 COMPILER V9.01   PROC_SYSTEM_INITIALIZE                                                03/12/2019 10:03:42 PAGE 9   
+C51 COMPILER V9.01   PROC_SYSTEM_INITIALIZE                                                04/04/2019 15:41:28 PAGE 9   
 
  482   2                      //      api_deal_even_class_recode(ID_CLASS_II_NOL1,END);
  483   2                      //      gs_even_fun_var.into_cnt[ID_CLASS_II_NOL2-ID_CLASS_II_min]=4;  // 事件保持时间 二类事件序号
@@ -574,7 +574,7 @@ line level    source
  540   4                                      ////
  541   4                                      mem_write(ADR_BLOCK_4Energy_L0_E2P, &energy_data_array[0].buf[0], 5*LEN_EC_UNIT,MEM_E2P1);
  542   4                                      mem_write(ADR_BLOCK_4MMD_L0_E2P,&st_mmd_unit_array[0].buf[0],5*LEN_NEW_MMD_UNIT,MEM_E2P1);
-C51 COMPILER V9.01   PROC_SYSTEM_INITIALIZE                                                03/12/2019 10:03:42 PAGE 10  
+C51 COMPILER V9.01   PROC_SYSTEM_INITIALIZE                                                04/04/2019 15:41:28 PAGE 10  
 
  543   4                                      mem_write(ADR_BLOCK_4MMD_sum_L0_E2P,&sum_st_mmd_unit_array[0].buf[0],5*LEN_SUM_MMD_UNIT,MEM_E2P1);              
  544   4                              
