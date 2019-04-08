@@ -1128,9 +1128,12 @@ void api_LCDDisplay_adj_item(uint8 u8_item)
         break;
 
         case DIS_DATA_CLR:	//清零显示 //
-            gs_dis_pixel_var.dis_obis_buff[0] = NumSegD7_D8[0X0C]	;      //LCD-D1  C  //
-            gs_dis_pixel_var.dis_obis_buff[1] = 0xA1	;              //LCD-D2  L  //
-            gs_dis_pixel_var.dis_obis_buff[2] = 0x60	;              //LCD-D3  r  //
+//            gs_dis_pixel_var.dis_obis_buff[0] = NumSegD7_D8[0X0C]	;      //LCD-D1  C  //
+//            gs_dis_pixel_var.dis_obis_buff[1] = 0xA1	;              //LCD-D2  L  //
+//            gs_dis_pixel_var.dis_obis_buff[2] = 0x60	;              //LCD-D3  r  //
+			gs_dis_pixel_var.dis_data_buff[0] = NumSegD1_D6[0X0C]	;      //LCD-D1  C  //
+			gs_dis_pixel_var.dis_data_buff[1] = 0x58;                                //LCD-D2  L  //
+            gs_dis_pixel_var.dis_data_buff[2] = 0x60;     //LCD-D3  r  //
         break;
 		
 //        case DIS_DATA_BROADCAST:	//广播命令显示通讯地址 //
