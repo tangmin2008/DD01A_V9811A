@@ -643,7 +643,8 @@ void Link_Get_Dis_Data_Num_buff(void)
 		{
 			//显示当前需量kw
 			//mem_read(&temp[0], (INT16U)&gs_energy_user_data.us_val[EC_CH_AC_PT_TT][0].buf[0], LEN_EC_UNIT, MEM_RAM);	  //获取当前数据 //
-			mem_read(&t, ADR_BLOCK_4MMD_L0_E2P, 4, MEM_E2P1);				    
+//			mem_read(&t, ADR_BLOCK_4MMD_L0_E2P, 4, MEM_E2P1);
+			mem_read(&t, &st_mmd_unit_array[0].buf[0],4,MEM_RAM);				    
 			Lib_long_bcd4(&buffer.B08[0],t.val.val_hex32);
 //			mem_read(&buffer.B08[0], ADR_BLOCK_4MMD_L0_E2P, 4, MEM_E2P1);
 //			api_get_energy_LCD(&temp[0], gs_dis_param.ec_form,&buffer.B08[0]);
@@ -670,7 +671,8 @@ void Link_Get_Dis_Data_Num_buff(void)
 		{
 			//显示当前累计需量kw
 //			mem_read(&temp[0], (INT16U)&gs_energy_user_data.us_val[EC_CH_AC_PT_TT][0].buf[0], LEN_EC_UNIT, MEM_RAM);	  //获取当前数据 //
-			mem_read(&t, ADR_BLOCK_4MMD_sum_L0_E2P, 4, MEM_E2P1);
+//			mem_read(&t, ADR_BLOCK_4MMD_sum_L0_E2P, 4, MEM_E2P1);
+			mem_read(&t, &sum_st_mmd_unit_array[0].buf[0],4,MEM_RAM);
 			Lib_long_bcd4(&buffer.B08[0],t.val.val_hex32);
 //			api_get_energy_LCD(&temp[0], gs_dis_param.ec_form,&buffer.B08[0]);
 			//debug////
@@ -721,7 +723,8 @@ void Link_Get_Dis_Data_Num_buff(void)
 		{
 			//显示前一天需量kw
 //			mem_read(&temp[0], (INT16U)&gs_energy_user_data.us_val[EC_CH_AC_PT_TT][0].buf[0], LEN_EC_UNIT, MEM_RAM);	  //获取当前数据 //
-			mem_read(&t, ADR_BLOCK_4MMD_L0_E2P+LEN_NEW_MMD_UNIT, 4, MEM_E2P1);
+//			mem_read(&t, ADR_BLOCK_4MMD_L0_E2P+LEN_NEW_MMD_UNIT, 4, MEM_E2P1);
+			mem_read(&t, &st_mmd_unit_array[0].buf[0]+LEN_NEW_MMD_UNIT,4,MEM_RAM);
 			Lib_long_bcd4(&buffer.B08[0],t.val.val_hex32);
 //			api_get_energy_LCD(&temp[0], gs_dis_param.ec_form,&buffer.B08[0]);
 			//debug////
@@ -748,6 +751,7 @@ void Link_Get_Dis_Data_Num_buff(void)
 			//显示前一天累计需量kw
 //			mem_read(&temp[0], (INT16U)&gs_energy_user_data.us_val[EC_CH_AC_PT_TT][0].buf[0], LEN_EC_UNIT, MEM_RAM);	  //获取当前数据 //
 			mem_read(&t, ADR_BLOCK_4MMD_sum_L0_E2P+LEN_SUM_MMD_UNIT, 4, MEM_E2P1);
+			mem_read(&t, &sum_st_mmd_unit_array[0].buf[0]+LEN_SUM_MMD_UNIT,4,MEM_RAM);
 			Lib_long_bcd4(&buffer.B08[0],t.val.val_hex32);
 //			api_get_energy_LCD(&temp[0], gs_dis_param.ec_form,&buffer.B08[0]);
 			//debug////

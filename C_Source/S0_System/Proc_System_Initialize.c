@@ -288,6 +288,9 @@ void Proc_sleep_when_reset(void)
 
 	CLRWDT();     
 	api_Measure_ram_INIT();          //清除瞬时量 //
+//	Init_GPIO_run();
+//	E2p_IIC_Initail();
+//	E2p_Start_i2c();
 	api_init_current_energy_data_ram();//  初始化电量//
 	//api_check_current_energy_data();		//  初始化电量//
 

@@ -37,7 +37,7 @@ uint8 TestDelay = 0;
 uint8 TestDelaySecond = 0;
 uint8 Bar_No = 0;
 float timdelay = 0;
-uint8 t_count =0;
+float t_count =0;
 /*****************************************************************************
 ** Function name    :Proc_get_clock
 **
