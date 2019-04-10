@@ -230,6 +230,9 @@ void api_updated_LCDDisplayPixel_per_second(void)
 	}
 	switch(Bar_No)
 	{
+		case 0:
+			gs_dis_pixel_var.dis_buff[10] &= ~(BIT7+BIT6+BIT5);
+			break;
 		case 1:
 			gs_dis_pixel_var.dis_buff[10] |= BIT7;
 			break;
