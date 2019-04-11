@@ -28,6 +28,7 @@ uint8 g_ch_comm;   //当前通讯通道号 //
 UART_COMM_APP_VAR  gs_uart_iec_app_var[UART_CH_NUM];
 COMM_DATA  comm_data;
 uint8 clr_flag = 0;
+uint8 IsClrEvent = 0;
 /*******************************************************************************
 * 常量表区code
 *******************************************************************************/
@@ -924,6 +925,7 @@ INT8U IEC_Cmd_Write_Deal(INT8U* sptr,INT8U len)
             Set_RTCTime(&gs_CurDateTime);
             EA=1;
             mem_db_write(ADR_METER_VAR_RTC, &gs_CurDateTime.Week, 7, MEM_E2P1);
+			CLRWDT();  
 				    api_deal_even_class_recode(ID_CLASS_I_setRtc,START);
             api_init_md_data_ram();
 		#if (TARIFF_MAX_NUM>0)
@@ -974,7 +976,9 @@ INT8U IEC_Cmd_Write_Deal(INT8U* sptr,INT8U len)
                     return(FALSE);
                 }
                 mem_db_write((INT16U)comm_data.addr, &data_buff[0], comm_data.len, mem_type);
+//				CLRWDT();
                 api_init_md_data_ram();
+				CLRWDT();
                 break;
 
 
@@ -993,15 +997,15 @@ INT8U IEC_Cmd_Write_Deal(INT8U* sptr,INT8U len)
 			{
 				if((*(sptr+16)=='3'))					// clear all
 				{
-//					gs_adj_emu_param.w1gain=0;
-//					gs_adj_emu_param.p1cal=0;
+					gs_adj_emu_param.w1gain=0;
+					gs_adj_emu_param.p1cal=0;
 					gs_adj_emu_param.watt1os=0;
-//					gs_adj_emu_param.irms1os=0;
-//					gs_adj_emu_param.w2gain=0;
-//					gs_adj_emu_param.p2cal=0;
-//					gs_adj_emu_param.watt2os=0;
-//					gs_adj_emu_param.irms2os=0;
-//					gs_adj_emu_param.urmsos=0;
+					gs_adj_emu_param.irms1os=0;
+					gs_adj_emu_param.w2gain=0;
+					gs_adj_emu_param.p2cal=0;
+					gs_adj_emu_param.watt2os=0;
+					gs_adj_emu_param.irms2os=0;
+					gs_adj_emu_param.urmsos=0;
 					CLRWDT();
 				}
 				if((*(sptr+16)=='2'))					// 清第二路交表参数
@@ -1046,7 +1050,8 @@ INT8U IEC_Cmd_Write_Deal(INT8U* sptr,INT8U len)
 		case 0x08020200://NN=FF，清除所有通道；//
 			if((*(sptr+13)=='F')&&(*(sptr+14)=='F'))	//YYY
 			{
-				api_clr_even_by_comm();	
+//				api_clr_even_by_comm();	
+				IsClrEvent = 1;
 				CLRWDT();
 			}
 			else
@@ -1058,6 +1063,7 @@ INT8U IEC_Cmd_Write_Deal(INT8U* sptr,INT8U len)
 			case 0x08020100://只清当前需量清零//
 				Lib_Asc_BCDA(&data_buff[0], (sptr+13), comm_data.len_asc);   //AtoB(INT8U Asc)
 				if((data_buff[0]!=0))  return(FALSE);
+				CLRWDT();
 				api_clr_current_MD_data();
 				api_deal_even_class_recode(ID_CLASS_I_resetMD,START);
 			CLRWDT();
@@ -1172,11 +1178,15 @@ INT8U IEC_Cmd_Write_Deal(INT8U* sptr,INT8U len)
 	if((comm_data.di1_di0.u32 == 0x04000302)||(comm_data.di1_di0.u32 == 0x04000303)||(comm_data.di1_di0.u32 == 0x04040100))
 	{
 		mem_read(&gs_dis_param.auto_sec, ADR_BLOCK21_DIS_PARAM_E2P, LEN_BLOCK21_DIS_PARAM_E2P, MEM_E2P1);
-	}	
+	}
+//	CLRWDT();  //2019-04-11增加看门狗防止复位	
     // 数据设置成功后的组帧操作 //
-     api_deal_even_class_recode(ID_CLASS_I_PROG,START);   //生成编程事件记录 //
+//	gs_uart_iec_app_var[g_ch_comm].tx_ready_10ms  += 4;
+    api_deal_even_class_recode(ID_CLASS_I_PROG,START);   //生成编程事件记录 //
+//	IsProg = 1;
     gs_uart_iec_app_var[g_ch_comm].len= 1;
-    Get_ACK_Answer(sptr);	 
+    Get_ACK_Answer(sptr);
+//	gs_uart_iec_app_var[g_ch_comm].delay_10ms = 0;	 
     return(TRUE); 
 }
 
@@ -1488,6 +1498,17 @@ void api_handl_COMM_pre_10ms(uint8 ch)
 		CLRWDT();
 		api_chg_LCDDisplay_adj_item(DIS_DATA_CLR);   // 液晶显示 //
 	}
+		
+	if(IsClrEvent == 1)
+	{
+		IsClrEvent = 0;
+		api_clr_even_by_comm();
+	}
+//	if(IsProg == 1)
+//	{
+//		IsProg = 0;
+//		api_deal_even_class_recode(ID_CLASS_I_PROG,START);
+//	}
 
 }
 ///////////////////////////////////////////////////////////////////

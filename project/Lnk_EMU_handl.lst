@@ -1,4 +1,4 @@
-C51 COMPILER V9.01   LNK_EMU_HANDL                                                         04/10/2019 09:17:39 PAGE 1   
+C51 COMPILER V9.01   LNK_EMU_HANDL                                                         04/11/2019 18:46:28 PAGE 1   
 
 
 C51 COMPILER V9.01, COMPILATION OF MODULE LNK_EMU_HANDL
@@ -56,218 +56,218 @@ line level    source
   44          {
   45   1      
   46   1      #if meter_type == D_1P3W
-                  if(u8_mode==SLEEP_MODE)
-                  {
-                      CtrlADC5=0X80;     //¹Ø±ÕMÍ¨µÀ //
-                      CtrlADC6=0;         //¹Ø±ÕËùÓÐAD²ÉÑù //  
-                      PMG=1;              //¹Ø±Õ¼ÆÁ¿Ê±ÖÓ  //
-                      return;
-C51 COMPILER V9.01   LNK_EMU_HANDL                                                         04/10/2019 09:17:39 PAGE 2   
+  47   1          if(u8_mode==SLEEP_MODE)
+  48   1          {
+  49   2              CtrlADC5=0X80;     //¹Ø±ÕMÍ¨µÀ //
+  50   2              CtrlADC6=0;         //¹Ø±ÕËùÓÐAD²ÉÑù //  
+  51   2              PMG=1;              //¹Ø±Õ¼ÆÁ¿Ê±ÖÓ  //
+  52   2              return;
+C51 COMPILER V9.01   LNK_EMU_HANDL                                                         04/11/2019 18:46:28 PAGE 2   
 
-                  }
-              
-                  PMG=0;              //´ò¿ª¼ÆÁ¿Ê±ÖÓ  //
-                  //step1  //
-                  SetMeterCfgACK(0x00,PMCtrl4);   //¹Ø±ÕÄÜÁ¿ÀÛ¼Ó¡¢CF Êä³öÒÔ¼°Æð¶¯/Ç±¶¯ÅÐ¶ÏµçÂ· //
-                  SetMeterCfgACK(0x00,PMCtrl1);   // ¹Ø±Õ¼ÆÁ¿Í¨µÀ£¬²¢Í£Ö¹¹¦ÂÊ/ÓÐÐ§Öµ¼ÆËã  //
-                  // step2  //
-                  CtrlADC5=0X80;   
-                  CtrlADC6=0;   
-                  if(u8_mode==NORMAL_MODE)
-                  {
-                      Set_EmuClock(EMUCLK_3M2);          // 3.2M ¼ÆÁ¿Ö÷Æµ //
-                      ADCOPEN(ADCAPDN+ADCBPDN+ADCUPDN);//OPEN ADC U  A  B
-                      SetMeterCfgACK(0X889374BC,PARABPF);    // ÊÖ²áÒªÇó //
-                  }
-                  else if((u8_mode ==DLX_MODE)||(u8_mode ==CONST_MODE))
-                  {
-                      Set_EmuClock(EMUCLK_800k);       // 800K¼ÆÁ¿Ö÷Æµ //
-                      ADCOPEN(ADCAPDN+ADCBPDN);//OPEN ADC  A B
-                      SetMeterCfgACK(0X911D3C9C,PARABPF);    // ÊÖ²áÒªÇó // 
-                  }
-                  else
-                  {
-                      sys_err();          // ÊäÈë²ÎÊýÒì³££¬ËÀÑ­»·ÍË³ö //
-                  }
-                  CtrlADC0=(ADCA4X+ADCB4X+ADCU2X); //ADC A 4X GAIN  ADC B 4x GAIN ADC U 2sX GAIN      
-              
-                  // step3  //
-               
-                  SetMeterCfgACK(INITGATEP,GATEP);//ÉèÖÃ¼ÆÁ¿³õÊ¼Öµ
-                  SetMeterCfgACK(INITGATEQ,GATEQ);
-              
-                  // step4 // 
-              //    SetMeterCfgACK(0,0x10f0);    //0x10f0  PPCNT  ÕýÏò E1 ÄÜÁ¿ÀÛ¼Ó¼Ä´æÆ÷  //
-              //    SetMeterCfgACK(0,0x10f1);    //0x10f1  NPCNT  ·´Ïò E1 ÄÜÁ¿ÀÛ¼Ó¼Ä´æÆ÷ //
-              //    SetMeterCfgACK(0,0x10f2);    //0x10f2  PPCFCNT  ÕýÏò E1 ÄÜÁ¿Âö³å¼ÆÊýÆ÷   //
-              //    SetMeterCfgACK(0,0x10f3);   //0x10f3  NPCFCNT  ·´Ïò E1 ÄÜÁ¿Âö³å¼ÆÊýÆ÷   //
-              //    SetMeterCfgACK(0,0x10f6);   //0x10f6  PQCNT  ÕýÏò E2 ÄÜÁ¿ÀÛ¼Ó¼Ä´æÆ÷//
-              //    SetMeterCfgACK(0,0x10f7);   //0x10f7  NQCNT  ·´Ïò E2 ÄÜÁ¿ÀÛ¼Ó¼Ä´æÆ÷   //
-              //    SetMeterCfgACK(0,0x10f8);   //0x10f8  PQCFCNT   ÕýÏò E2 ÄÜÁ¿Âö³å¼ÆÊýÆ÷  //
-              //    SetMeterCfgACK(0,0x10f9);   //0x10f9 NQCFCNT   ·´Ïò E2 ÄÜÁ¿Âö³å¼ÆÊýÆ÷  //
-              //    // step5// 
-              //    SetMeterCfgACK(0xC8,PMCtrl4);             //  ?????  //
-              //    SetMeterCfgACK(0x08,PMCtrl4);
-              //    SetMeterCfgACK(0x00,PMCtrl4);
-                  // step6 // 
-              //    SetMeterCfgACK(0,0x10f0);    //0x10f0  PPCNT  ÕýÏò E1 ÄÜÁ¿ÀÛ¼Ó¼Ä´æÆ÷  //
-              //    SetMeterCfgACK(0,0x10f1);    //0x10f1  NPCNT  ·´Ïò E1 ÄÜÁ¿ÀÛ¼Ó¼Ä´æÆ÷ //
-              //    SetMeterCfgACK(0,0x10f2);    //0x10f2  PPCFCNT  ÕýÏò E1 ÄÜÁ¿Âö³å¼ÆÊýÆ÷   //
-              //    SetMeterCfgACK(0,0x10f3);   //0x10f3  NPCFCNT  ·´Ïò E1 ÄÜÁ¿Âö³å¼ÆÊýÆ÷   //
-              //    SetMeterCfgACK(0,0x10f6);   //0x10f6  PQCNT  ÕýÏò E2 ÄÜÁ¿ÀÛ¼Ó¼Ä´æÆ÷//
-              //    SetMeterCfgACK(0,0x10f7);   //0x10f7  NQCNT  ·´Ïò E2 ÄÜÁ¿ÀÛ¼Ó¼Ä´æÆ÷   //
-              //    SetMeterCfgACK(0,0x10f8);   //0x10f8  PQCFCNT   ÕýÏò E2 ÄÜÁ¿Âö³å¼ÆÊýÆ÷  //
-              //    SetMeterCfgACK(0,0x10f9);   //0x10f9 NQCFCNT   ·´Ïò E2 ÄÜÁ¿Âö³å¼ÆÊýÆ÷  //
-               
-                  // step7// 
-                  SetMeterCfgACK(0x01,GATECP);//Ç±¶¯1   ,=1»á½ûÖ¹Âö³å·¢³ö    //
-                  SetMeterCfgACK(0x01,GATECQ);//Ç±¶¯2   ,=1»á½ûÖ¹Âö³å·¢³ö  //
-              //    SetMeterCfgACK(0x00,DATACP);//Çå³£Êý¹¦ÂÊ¼Ä´æÆ÷ //
-              
-                  // step8// 
-                  SetMeterCfgACK(0x57,PMCtrl1);//BIT7= 0  ²âÊÔÎ»È·±£Îª0  ; BIT6=1 Ê¹ÄÜ½Ç²îÐ£Õý  //
-C51 COMPILER V9.01   LNK_EMU_HANDL                                                         04/10/2019 09:17:39 PAGE 3   
+  53   2          }
+  54   1      
+  55   1          PMG=0;              //´ò¿ª¼ÆÁ¿Ê±ÖÓ  //
+  56   1          //step1  //
+  57   1          SetMeterCfgACK(0x00,PMCtrl4);   //¹Ø±ÕÄÜÁ¿ÀÛ¼Ó¡¢CF Êä³öÒÔ¼°Æð¶¯/Ç±¶¯ÅÐ¶ÏµçÂ· //
+  58   1          SetMeterCfgACK(0x00,PMCtrl1);   // ¹Ø±Õ¼ÆÁ¿Í¨µÀ£¬²¢Í£Ö¹¹¦ÂÊ/ÓÐÐ§Öµ¼ÆËã  //
+  59   1          // step2  //
+  60   1          CtrlADC5=0X80;   
+  61   1          CtrlADC6=0;   
+  62   1          if(u8_mode==NORMAL_MODE)
+  63   1          {
+  64   2              Set_EmuClock(EMUCLK_3M2);          // 3.2M ¼ÆÁ¿Ö÷Æµ //
+  65   2              ADCOPEN(ADCAPDN+ADCBPDN+ADCUPDN);//OPEN ADC U  A  B
+  66   2              SetMeterCfgACK(0X889374BC,PARABPF);    // ÊÖ²áÒªÇó //
+  67   2          }
+  68   1          else if((u8_mode ==DLX_MODE)||(u8_mode ==CONST_MODE))
+  69   1          {
+  70   2              Set_EmuClock(EMUCLK_800k);       // 800K¼ÆÁ¿Ö÷Æµ //
+  71   2              ADCOPEN(ADCAPDN+ADCBPDN);//OPEN ADC  A B
+  72   2              SetMeterCfgACK(0X911D3C9C,PARABPF);    // ÊÖ²áÒªÇó // 
+  73   2          }
+  74   1          else
+  75   1          {
+  76   2              sys_err();          // ÊäÈë²ÎÊýÒì³££¬ËÀÑ­»·ÍË³ö //
+  77   2          }
+  78   1          CtrlADC0=(ADCA4X+ADCB4X+ADCU2X); //ADC A 4X GAIN  ADC B 4x GAIN ADC U 2sX GAIN      
+  79   1      
+  80   1          // step3  //
+  81   1       
+  82   1          SetMeterCfgACK(INITGATEP,GATEP);//ÉèÖÃ¼ÆÁ¿³õÊ¼Öµ
+  83   1          SetMeterCfgACK(INITGATEQ,GATEQ);
+  84   1      
+  85   1          // step4 // 
+  86   1      //    SetMeterCfgACK(0,0x10f0);    //0x10f0  PPCNT  ÕýÏò E1 ÄÜÁ¿ÀÛ¼Ó¼Ä´æÆ÷  //
+  87   1      //    SetMeterCfgACK(0,0x10f1);    //0x10f1  NPCNT  ·´Ïò E1 ÄÜÁ¿ÀÛ¼Ó¼Ä´æÆ÷ //
+  88   1      //    SetMeterCfgACK(0,0x10f2);    //0x10f2  PPCFCNT  ÕýÏò E1 ÄÜÁ¿Âö³å¼ÆÊýÆ÷   //
+  89   1      //    SetMeterCfgACK(0,0x10f3);   //0x10f3  NPCFCNT  ·´Ïò E1 ÄÜÁ¿Âö³å¼ÆÊýÆ÷   //
+  90   1      //    SetMeterCfgACK(0,0x10f6);   //0x10f6  PQCNT  ÕýÏò E2 ÄÜÁ¿ÀÛ¼Ó¼Ä´æÆ÷//
+  91   1      //    SetMeterCfgACK(0,0x10f7);   //0x10f7  NQCNT  ·´Ïò E2 ÄÜÁ¿ÀÛ¼Ó¼Ä´æÆ÷   //
+  92   1      //    SetMeterCfgACK(0,0x10f8);   //0x10f8  PQCFCNT   ÕýÏò E2 ÄÜÁ¿Âö³å¼ÆÊýÆ÷  //
+  93   1      //    SetMeterCfgACK(0,0x10f9);   //0x10f9 NQCFCNT   ·´Ïò E2 ÄÜÁ¿Âö³å¼ÆÊýÆ÷  //
+  94   1      //    // step5// 
+  95   1      //    SetMeterCfgACK(0xC8,PMCtrl4);             //  ?????  //
+  96   1      //    SetMeterCfgACK(0x08,PMCtrl4);
+  97   1      //    SetMeterCfgACK(0x00,PMCtrl4);
+  98   1          // step6 // 
+  99   1      //    SetMeterCfgACK(0,0x10f0);    //0x10f0  PPCNT  ÕýÏò E1 ÄÜÁ¿ÀÛ¼Ó¼Ä´æÆ÷  //
+ 100   1      //    SetMeterCfgACK(0,0x10f1);    //0x10f1  NPCNT  ·´Ïò E1 ÄÜÁ¿ÀÛ¼Ó¼Ä´æÆ÷ //
+ 101   1      //    SetMeterCfgACK(0,0x10f2);    //0x10f2  PPCFCNT  ÕýÏò E1 ÄÜÁ¿Âö³å¼ÆÊýÆ÷   //
+ 102   1      //    SetMeterCfgACK(0,0x10f3);   //0x10f3  NPCFCNT  ·´Ïò E1 ÄÜÁ¿Âö³å¼ÆÊýÆ÷   //
+ 103   1      //    SetMeterCfgACK(0,0x10f6);   //0x10f6  PQCNT  ÕýÏò E2 ÄÜÁ¿ÀÛ¼Ó¼Ä´æÆ÷//
+ 104   1      //    SetMeterCfgACK(0,0x10f7);   //0x10f7  NQCNT  ·´Ïò E2 ÄÜÁ¿ÀÛ¼Ó¼Ä´æÆ÷   //
+ 105   1      //    SetMeterCfgACK(0,0x10f8);   //0x10f8  PQCFCNT   ÕýÏò E2 ÄÜÁ¿Âö³å¼ÆÊýÆ÷  //
+ 106   1      //    SetMeterCfgACK(0,0x10f9);   //0x10f9 NQCFCNT   ·´Ïò E2 ÄÜÁ¿Âö³å¼ÆÊýÆ÷  //
+ 107   1       
+ 108   1          // step7// 
+ 109   1          SetMeterCfgACK(0x01,GATECP);//Ç±¶¯1   ,=1»á½ûÖ¹Âö³å·¢³ö    //
+ 110   1          SetMeterCfgACK(0x01,GATECQ);//Ç±¶¯2   ,=1»á½ûÖ¹Âö³å·¢³ö  //
+ 111   1      //    SetMeterCfgACK(0x00,DATACP);//Çå³£Êý¹¦ÂÊ¼Ä´æÆ÷ //
+ 112   1      
+ 113   1          // step8// 
+ 114   1          SetMeterCfgACK(0x57,PMCtrl1);//BIT7= 0  ²âÊÔÎ»È·±£Îª0  ; BIT6=1 Ê¹ÄÜ½Ç²îÐ£Õý  //
+C51 COMPILER V9.01   LNK_EMU_HANDL                                                         04/11/2019 18:46:28 PAGE 3   
 
-                                                //BIT5= 0  IA--I1,IB--I2 ; BIT4=1 Ê¹ÄÜPMÊý×ÖÐÅºÅ´¦Àí  //
-                                                //BIT3= 0  ÆÁ±ÎMÍ¨µÀÊý×ÖÐÅºÅÊäÈë; BIT2=1 Ê¹ÄÜI2Êý×ÖÐÅºÅÊäÈëÊ¹ÄÜ  //
-                                                //BIT1= 1   Ê¹ÄÜI1Êý×ÖÐÅºÅÊäÈëÊ¹ÄÜ; BIT0=1 Ê¹ÄÜUÊý×ÖÐÅºÅÊäÈëÊ¹ÄÜ  //
-                  SetMeterCfgACK(0x00,PMCtrl2);// Êý×ÖÔöÒæÀàµÄ²ÎÊý¼Ä´æÆ÷£¬ÒªÇóÎª0  //
-              
-                  SetMeterCfgACK(0x70,PMCtrl3);//¿ªÆôÁ½Â·ÓÐ¹¦,´øÍ¨ºÍµÍÍ¨ÂË²¨Æ÷ÓÐÐ§ //
-               //   SetMeterCfgACK(0xD2,PMCtrl4);//BIT7= 1 E2 ¼ÆÁ¿Í¨µÀÆð¶¯/Ç±¶¯ÅÐ¶ÏÊ¹ÄÜ  ; BIT6=1  E2 ¼ÆÁ¿Í¨µÀÆð¶¯/Ç±¶¯Å
+ 115   1                                        //BIT5= 0  IA--I1,IB--I2 ; BIT4=1 Ê¹ÄÜPMÊý×ÖÐÅºÅ´¦Àí  //
+ 116   1                                        //BIT3= 0  ÆÁ±ÎMÍ¨µÀÊý×ÖÐÅºÅÊäÈë; BIT2=1 Ê¹ÄÜI2Êý×ÖÐÅºÅÊäÈëÊ¹ÄÜ  //
+ 117   1                                        //BIT1= 1   Ê¹ÄÜI1Êý×ÖÐÅºÅÊäÈëÊ¹ÄÜ; BIT0=1 Ê¹ÄÜUÊý×ÖÐÅºÅÊäÈëÊ¹ÄÜ  //
+ 118   1          SetMeterCfgACK(0x00,PMCtrl2);// Êý×ÖÔöÒæÀàµÄ²ÎÊý¼Ä´æÆ÷£¬ÒªÇóÎª0  //
+ 119   1      
+ 120   1          SetMeterCfgACK(0x70,PMCtrl3);//¿ªÆôÁ½Â·ÓÐ¹¦,´øÍ¨ºÍµÍÍ¨ÂË²¨Æ÷ÓÐÐ§ //
+ 121   1       //   SetMeterCfgACK(0xD2,PMCtrl4);//BIT7= 1 E2 ¼ÆÁ¿Í¨µÀÆð¶¯/Ç±¶¯ÅÐ¶ÏÊ¹ÄÜ  ; BIT6=1  E2 ¼ÆÁ¿Í¨µÀÆð¶¯/Ç±¶¯Å
              -Ð¶ÏÊ¹ÄÜ  //
-                                               //BIT5= 1 E2 ÄÜÁ¿ CF Âö³åÊä³ö¿ªÆô; BIT4=1 Ê¹ÄÜE1 ÄÜÁ¿ CF Âö³åÊä³ö //
-                                               //BIT3= 0 ½ûÖ¹ÄÜÁ¿ÀÛ¼ÓºÍÄÜÁ¿Âö³å¼ÆÊý; BIT2=0  E1 ÄÜÁ¿ CF Âö³å´ÓÒý½Å CF1 Ê
+ 122   1                                       //BIT5= 1 E2 ÄÜÁ¿ CF Âö³åÊä³ö¿ªÆô; BIT4=1 Ê¹ÄÜE1 ÄÜÁ¿ CF Âö³åÊä³ö //
+ 123   1                                       //BIT3= 0 ½ûÖ¹ÄÜÁ¿ÀÛ¼ÓºÍÄÜÁ¿Âö³å¼ÆÊý; BIT2=0  E1 ÄÜÁ¿ CF Âö³å´ÓÒý½Å CF1 Ê
              -ä³ö£¬E2 ÄÜÁ¿ CF Âö³å´ÓÒý½Å CF2 Êä³ö  //
-                                               //BIT1:0= 10 ³£Êý¹¦ÂÊ //
-                  SetMeterCfgACK(0,0x10f0);    //0x10f0  PPCNT  ÕýÏò E1 ÄÜÁ¿ÀÛ¼Ó¼Ä´æÆ÷  //
-                  SetMeterCfgACK(0,0x10f1);    //0x10f1  NPCNT  ·´Ïò E1 ÄÜÁ¿ÀÛ¼Ó¼Ä´æÆ÷ //
-                  SetMeterCfgACK(0,0x10f2);    //0x10f2  PPCFCNT  ÕýÏò E1 ÄÜÁ¿Âö³å¼ÆÊýÆ÷   //
-                  SetMeterCfgACK(0,0x10f3);   //0x10f3  NPCFCNT  ·´Ïò E1 ÄÜÁ¿Âö³å¼ÆÊýÆ÷   //
-                  SetMeterCfgACK(0,0x10f6);   //0x10f6  PQCNT  ÕýÏò E2 ÄÜÁ¿ÀÛ¼Ó¼Ä´æÆ÷//
-                  SetMeterCfgACK(0,0x10f7);   //0x10f7  NQCNT  ·´Ïò E2 ÄÜÁ¿ÀÛ¼Ó¼Ä´æÆ÷   //
-                  SetMeterCfgACK(0,0x10f8);   //0x10f8  PQCFCNT   ÕýÏò E2 ÄÜÁ¿Âö³å¼ÆÊýÆ÷  //
-                  SetMeterCfgACK(0,0x10f9);   //0x10f9 NQCFCNT   ·´Ïò E2 ÄÜÁ¿Âö³å¼ÆÊýÆ÷  //
-                  // step9 // 
-                  SetMeterCfgACK(0xDE,PMCtrl4);//BIT7= 1  E2 ¼ÆÁ¿Í¨µÀÆð¶¯/Ç±¶¯ÅÐ¶ÏÊ¹ÄÜ  ; BIT6=1  E2 ¼ÆÁ¿Í¨µÀÆð¶¯/Ç±¶¯ÅÐ
+ 124   1                                       //BIT1:0= 10 ³£Êý¹¦ÂÊ //
+ 125   1          SetMeterCfgACK(0,0x10f0);    //0x10f0  PPCNT  ÕýÏò E1 ÄÜÁ¿ÀÛ¼Ó¼Ä´æÆ÷  //
+ 126   1          SetMeterCfgACK(0,0x10f1);    //0x10f1  NPCNT  ·´Ïò E1 ÄÜÁ¿ÀÛ¼Ó¼Ä´æÆ÷ //
+ 127   1          SetMeterCfgACK(0,0x10f2);    //0x10f2  PPCFCNT  ÕýÏò E1 ÄÜÁ¿Âö³å¼ÆÊýÆ÷   //
+ 128   1          SetMeterCfgACK(0,0x10f3);   //0x10f3  NPCFCNT  ·´Ïò E1 ÄÜÁ¿Âö³å¼ÆÊýÆ÷   //
+ 129   1          SetMeterCfgACK(0,0x10f6);   //0x10f6  PQCNT  ÕýÏò E2 ÄÜÁ¿ÀÛ¼Ó¼Ä´æÆ÷//
+ 130   1          SetMeterCfgACK(0,0x10f7);   //0x10f7  NQCNT  ·´Ïò E2 ÄÜÁ¿ÀÛ¼Ó¼Ä´æÆ÷   //
+ 131   1          SetMeterCfgACK(0,0x10f8);   //0x10f8  PQCFCNT   ÕýÏò E2 ÄÜÁ¿Âö³å¼ÆÊýÆ÷  //
+ 132   1          SetMeterCfgACK(0,0x10f9);   //0x10f9 NQCFCNT   ·´Ïò E2 ÄÜÁ¿Âö³å¼ÆÊýÆ÷  //
+ 133   1          // step9 // 
+ 134   1          SetMeterCfgACK(0xDE,PMCtrl4);//BIT7= 1  E2 ¼ÆÁ¿Í¨µÀÆð¶¯/Ç±¶¯ÅÐ¶ÏÊ¹ÄÜ  ; BIT6=1  E2 ¼ÆÁ¿Í¨µÀÆð¶¯/Ç±¶¯ÅÐ
              -¶ÏÊ¹ÄÜ  //
-                                                                //BIT5= 0 E2 ÄÜÁ¿ CF Âö³åÊä³ö¹Ø±Õ; BIT4=1 Ê¹ÄÜE1 ÄÜÁ¿ CF
+ 135   1                                                        //BIT5= 0 E2 ÄÜÁ¿ CF Âö³åÊä³ö¹Ø±Õ; BIT4=1 Ê¹ÄÜE1 ÄÜÁ¿ CF
              - Âö³åÊä³ö //
-                                                                //BIT3= 1 Ê¹ÄÜÄÜÁ¿ÀÛ¼ÓºÍÄÜÁ¿Âö³å¼ÆÊý; BIT2=0  E1 ÄÜÁ¿ CF
+ 136   1                                                        //BIT3= 1 Ê¹ÄÜÄÜÁ¿ÀÛ¼ÓºÍÄÜÁ¿Âö³å¼ÆÊý; BIT2=0  E1 ÄÜÁ¿ CF
              - Âö³å´ÓÒý½Å CF1 Êä³ö£¬E2 ÄÜÁ¿ CF Âö³å´ÓÒý½Å CF2 Êä³ö  //
-                                                                //BIT1:0= 10 ³£Êý¹¦ÂÊ //
-                   // step10 // 
-                  SetMeterCfgACK(0,PHCCtrl1);//Çå0
-                  SetMeterCfgACK(0,PHCCtrl2);//Çå0
-              
-                  SetMeterCfgACK(0x01,CFCtrl);           //ÒÔE2Õý·´¾ø¶ÔÖµÀÛ¼ÓÄÜÁ¿ÎªÒÀ¾Ý²úÉúCF2  ÒÔE1ÕýÏàÄÜÁ¿ÎªÒÀ¾Ý²úÉúCF
+ 137   1                                                        //BIT1:0= 10 ³£Êý¹¦ÂÊ //
+ 138   1           // step10 // 
+ 139   1          SetMeterCfgACK(0,PHCCtrl1);//Çå0
+ 140   1          SetMeterCfgACK(0,PHCCtrl2);//Çå0
+ 141   1      
+ 142   1          SetMeterCfgACK(0x01,CFCtrl);           //ÒÔE2Õý·´¾ø¶ÔÖµÀÛ¼ÓÄÜÁ¿ÎªÒÀ¾Ý²úÉúCF2  ÒÔE1ÕýÏàÄÜÁ¿ÎªÒÀ¾Ý²úÉúCF
              -        //
-               
-                   // step11// 
-                  SetMeterCfgACK(0x01,DATACP);//Çå³£Êý¹¦ÂÊ¼Ä´æÆ÷ //
-                  P9OE&=(~(BIT5));//´ò¿ªCF2 IOÊä³ö//
-                  P9FC|=(BIT5);
-              //    P1OE &=(~(BIT3));//´ò¿ªCF 1 IOÊä³ö//
-              //    P13FS |=(BIT2);
-                  EIE|=0x02;
-                  ExInt3IE|=BIT7;     // ¿ªÆôCF2ÖÐ¶Ï //  ÓÐ¹¦ÖÐ¶Ï
+ 143   1       
+ 144   1           // step11// 
+ 145   1          SetMeterCfgACK(0x01,DATACP);//Çå³£Êý¹¦ÂÊ¼Ä´æÆ÷ //
+ 146   1          P9OE&=(~(BIT5));//´ò¿ªCF2 IOÊä³ö//
+ 147   1          P9FC|=(BIT5);
+ 148   1      //    P1OE &=(~(BIT3));//´ò¿ªCF 1 IOÊä³ö//
+ 149   1      //    P13FS |=(BIT2);
+ 150   1          EIE|=0x02;
+ 151   1          ExInt3IE|=BIT7;     // ¿ªÆôCF2ÖÐ¶Ï //  ÓÐ¹¦ÖÐ¶Ï
+ 152   1      
+ 153   1          gs_emu_run_var.delay_emu = 3;   // ³õÊ¼»¯ºóµÄÎÈ¶¨Ê±¼äÎª2Ãë //
+ 154   1      
+ 155   1      #endif
+ 156   1      #if meter_type == D_1P2W
+                      if(u8_mode==SLEEP_MODE)
+                      {
+                              CtrlADC5=0X80;     //¹Ø±ÕMÍ¨µÀ //
+                              CtrlADC6=0;         //¹Ø±ÕËùÓÐAD²ÉÑù //  
+                              PMG=1;              //¹Ø±Õ¼ÆÁ¿Ê±ÖÓ  //
+                              return;
+                      }
               
-                  gs_emu_run_var.delay_emu = 3;   // ³õÊ¼»¯ºóµÄÎÈ¶¨Ê±¼äÎª2Ãë //
+                      PMG=0;              //´ò¿ª¼ÆÁ¿Ê±ÖÓ  //
+                      //step1  //
+                      SetMeterCfgACK(0x00,PMCtrl4);   //¹Ø±ÕÄÜÁ¿ÀÛ¼Ó¡¢CF Êä³öÒÔ¼°Æð¶¯/Ç±¶¯ÅÐ¶ÏµçÂ· //
+                      SetMeterCfgACK(0x00,PMCtrl1);   // ¹Ø±Õ¼ÆÁ¿Í¨µÀ£¬²¢Í£Ö¹¹¦ÂÊ/ÓÐÐ§Öµ¼ÆËã  //
+                      // step2  //
+                      CtrlADC5=0x80;   
+C51 COMPILER V9.01   LNK_EMU_HANDL                                                         04/11/2019 18:46:28 PAGE 4   
+
+                      CtrlADC6=0;   
+                      if(u8_mode==NORMAL_MODE)
+                      {
+                              Set_EmuClock(EMUCLK_3M2);          // 3.2M ¼ÆÁ¿Ö÷Æµ //
+                              ADCOPEN(ADCBPDN+ADCAPDN+ADCUPDN);//OPEN ADC U  A 
+                              SetMeterCfgACK(0X889374BC,PARABPF);    // ÊÖ²áÒªÇó //
+                      }
+                      else if((u8_mode ==DLX_MODE)||(u8_mode ==CONST_MODE))
+                      {
+                              Set_EmuClock(EMUCLK_800k);       // 800K¼ÆÁ¿Ö÷Æµ //
+                              ADCOPEN(ADCBPDN+ADCAPDN);//OPEN ADC  A 
+                              SetMeterCfgACK(0X911D3C9C,PARABPF);    // ÊÖ²áÒªÇó // 
+                      }
+                      else
+                      {
+                              sys_err();          // ÊäÈë²ÎÊýÒì³££¬ËÀÑ­»·ÍË³ö //
+                      }
+                      CtrlADC0=(ADCA4X+ADCB4X+ADCU2X); //ADC A 4X GAIN  ADC B 4x GAIN ADC U 2sX GAIN  
+              
+                      // step3  //   
+                      SetMeterCfgACK(INITGATEP,GATEP);//ÉèÖÃ¼ÆÁ¿³õÊ¼Öµ
+                      SetMeterCfgACK(INITGATEQ,GATEQ);
+              
+              
+                      // step7// 
+                      SetMeterCfgACK(0x01,GATECP);//Ç±¶¯1   ,=1»á½ûÖ¹Âö³å·¢³ö    //
+                      SetMeterCfgACK(0x01,GATECQ);//Ç±¶¯2   ,=1»á½ûÖ¹Âö³å·¢³ö  //
+                      //    SetMeterCfgACK(0x00,DATACP);//Çå³£Êý¹¦ÂÊ¼Ä´æÆ÷ //
+              
+                      // step8//
+                      SetMeterCfgACK(0x73,PMCtrl1); 
+                      //SetMeterCfgACK(0x57,PMCtrl1);//BIT7= 0  ²âÊÔÎ»È·±£Îª0  ; BIT6=1 Ê¹ÄÜ½Ç²îÐ£Õý  //
+                                                                                      //BIT5= 0  IA--I1,IB--I2 ; BIT4=1 Ê¹ÄÜPMÊý×ÖÐÅºÅ´¦Àí  //
+                                                                                      //BIT3= 0  ÆÁ±ÎMÍ¨µÀÊý×ÖÐÅºÅÊäÈë; BIT2=1 Ê¹ÄÜI2Êý×ÖÐÅºÅÊäÈëÊ¹ÄÜ  //
+                                                                                      //BIT1= 1   Ê¹ÄÜI1Êý×ÖÐÅºÅÊäÈëÊ¹ÄÜ; BIT0=1 Ê¹ÄÜUÊý×ÖÐÅºÅÊäÈëÊ¹ÄÜ  //
+                      SetMeterCfgACK(0x00,PMCtrl2);// Êý×ÖÔöÒæÀàµÄ²ÎÊý¼Ä´æÆ÷£¬ÒªÇóÎª0  //
+                      
+                      SetMeterCfgACK(0x60,PMCtrl3);
+                      // SetMeterCfgACK(0x70,PMCtrl3);//¿ªÆôÁ½Â·ÓÐ¹¦,´øÍ¨ºÍµÍÍ¨ÂË²¨Æ÷ÓÐÐ§ //
+              
+                      SetMeterCfgACK(0,0x10f0);    //0x10f0  PPCNT  ÕýÏò E1 ÄÜÁ¿ÀÛ¼Ó¼Ä´æÆ÷  //
+                      SetMeterCfgACK(0,0x10f1);    //0x10f1  NPCNT  ·´Ïò E1 ÄÜÁ¿ÀÛ¼Ó¼Ä´æÆ÷ //
+                      SetMeterCfgACK(0,0x10f2);    //0x10f2  PPCFCNT  ÕýÏò E1 ÄÜÁ¿Âö³å¼ÆÊýÆ÷   //
+                      SetMeterCfgACK(0,0x10f3);   //0x10f3  NPCFCNT  ·´Ïò E1 ÄÜÁ¿Âö³å¼ÆÊýÆ÷   //
+                      SetMeterCfgACK(0,0x10f6);   //0x10f6  PQCNT  ÕýÏò E2 ÄÜÁ¿ÀÛ¼Ó¼Ä´æÆ÷//
+                      SetMeterCfgACK(0,0x10f7);   //0x10f7  NQCNT  ·´Ïò E2 ÄÜÁ¿ÀÛ¼Ó¼Ä´æÆ÷   //
+                      SetMeterCfgACK(0,0x10f8);   //0x10f8  PQCFCNT   ÕýÏò E2 ÄÜÁ¿Âö³å¼ÆÊýÆ÷  //
+                      SetMeterCfgACK(0,0x10f9);   //0x10f9 NQCFCNT   ·´Ïò E2 ÄÜÁ¿Âö³å¼ÆÊýÆ÷  //
+                      // step9 // 
+                      SetMeterCfgACK(0x7F,PMCtrl4);//BIT7= 1  E2 ¼ÆÁ¿Í¨µÀÆð¶¯/Ç±¶¯ÅÐ¶ÏÊ¹ÄÜ  ; BIT6=1  E2 ¼ÆÁ¿Í¨µÀÆð¶¯/Ç±¶¯ÅÐ¶ÏÊ
+             -¹ÄÜ  //
+                                                                              //BIT5= 0 E2 ÄÜÁ¿ CF Âö³åÊä³ö¹Ø±Õ; BIT4=1 Ê¹ÄÜE1 ÄÜÁ¿ CF Âö³åÊä³ö //
+                                                                              //BIT3= 1 Ê¹ÄÜÄÜÁ¿ÀÛ¼ÓºÍÄÜÁ¿Âö³å¼ÆÊý; BIT2=0  E1 ÄÜÁ¿ CF Âö³å´ÓÒý½Å CF1 Êä³ö£¬E2 ÄÜÁ¿ CF Âö³å´ÓÒý½
+             -Å CF2 Êä³ö  //
+                                                                              //BIT1:0= 10 ³£Êý¹¦ÂÊ //
+                      // step10 // 
+                      SetMeterCfgACK(0,PHCCtrl1);//Çå0
+                      SetMeterCfgACK(0,PHCCtrl2);//Çå0
+              
+                      SetMeterCfgACK(0x00,CFCtrl);           //ÒÔE2Õý·´¾ø¶ÔÖµÀÛ¼ÓÄÜÁ¿ÎªÒÀ¾Ý²úÉúCF2  ÒÔE1ÕýÏàÄÜÁ¿ÎªÒÀ¾Ý²úÉúCF  //
+              
+                       // step11// 
+C51 COMPILER V9.01   LNK_EMU_HANDL                                                         04/11/2019 18:46:28 PAGE 5   
+
+                      SetMeterCfgACK(0x00,DATACP);//Çå³£Êý¹¦ÂÊ¼Ä´æÆ÷ //
+                      P9OE&=(~(BIT5));//´ò¿ªCF2 IOÊä³ö//
+                      P9FC|=(BIT5);
+                      P9OE&=(~(BIT6));//´ò¿ªCF2 IOÊä³ö//
+                      P9FC|=(BIT6);
+                      EIE|=(0x02+0x01);
+                      ExInt2IE|=BIT7;     // ¿ªÆôCF1ÖÐ¶Ï //  ÎÞ¹¦ÖÐ¶Ï
+                      ExInt3IE|=BIT7;     // ¿ªÆôCF2ÖÐ¶Ï //  ÓÐ¹¦ÖÐ¶Ï
+              
+                      gs_emu_run_var.delay_emu = 3;   // ³õÊ¼»¯ºóµÄÎÈ¶¨Ê±¼äÎª2Ãë //
               
               #endif
- 156   1      #if meter_type == D_1P2W
- 157   1              if(u8_mode==SLEEP_MODE)
- 158   1              {
- 159   2                      CtrlADC5=0X80;     //¹Ø±ÕMÍ¨µÀ //
- 160   2                      CtrlADC6=0;         //¹Ø±ÕËùÓÐAD²ÉÑù //  
- 161   2                      PMG=1;              //¹Ø±Õ¼ÆÁ¿Ê±ÖÓ  //
- 162   2                      return;
- 163   2              }
- 164   1      
- 165   1              PMG=0;              //´ò¿ª¼ÆÁ¿Ê±ÖÓ  //
- 166   1              //step1  //
- 167   1              SetMeterCfgACK(0x00,PMCtrl4);   //¹Ø±ÕÄÜÁ¿ÀÛ¼Ó¡¢CF Êä³öÒÔ¼°Æð¶¯/Ç±¶¯ÅÐ¶ÏµçÂ· //
- 168   1              SetMeterCfgACK(0x00,PMCtrl1);   // ¹Ø±Õ¼ÆÁ¿Í¨µÀ£¬²¢Í£Ö¹¹¦ÂÊ/ÓÐÐ§Öµ¼ÆËã  //
- 169   1              // step2  //
- 170   1              CtrlADC5=0x80;   
-C51 COMPILER V9.01   LNK_EMU_HANDL                                                         04/10/2019 09:17:39 PAGE 4   
-
- 171   1              CtrlADC6=0;   
- 172   1              if(u8_mode==NORMAL_MODE)
- 173   1              {
- 174   2                      Set_EmuClock(EMUCLK_3M2);          // 3.2M ¼ÆÁ¿Ö÷Æµ //
- 175   2                      ADCOPEN(ADCBPDN+ADCAPDN+ADCUPDN);//OPEN ADC U  A 
- 176   2                      SetMeterCfgACK(0X889374BC,PARABPF);    // ÊÖ²áÒªÇó //
- 177   2              }
- 178   1              else if((u8_mode ==DLX_MODE)||(u8_mode ==CONST_MODE))
- 179   1              {
- 180   2                      Set_EmuClock(EMUCLK_800k);       // 800K¼ÆÁ¿Ö÷Æµ //
- 181   2                      ADCOPEN(ADCBPDN+ADCAPDN);//OPEN ADC  A 
- 182   2                      SetMeterCfgACK(0X911D3C9C,PARABPF);    // ÊÖ²áÒªÇó // 
- 183   2              }
- 184   1              else
- 185   1              {
- 186   2                      sys_err();          // ÊäÈë²ÎÊýÒì³££¬ËÀÑ­»·ÍË³ö //
- 187   2              }
- 188   1              CtrlADC0=(ADCA4X+ADCB4X+ADCU2X); //ADC A 4X GAIN  ADC B 4x GAIN ADC U 2sX GAIN  
- 189   1      
- 190   1              // step3  //   
- 191   1              SetMeterCfgACK(INITGATEP,GATEP);//ÉèÖÃ¼ÆÁ¿³õÊ¼Öµ
- 192   1              SetMeterCfgACK(INITGATEQ,GATEQ);
- 193   1      
- 194   1      
- 195   1              // step7// 
- 196   1              SetMeterCfgACK(0x01,GATECP);//Ç±¶¯1   ,=1»á½ûÖ¹Âö³å·¢³ö    //
- 197   1              SetMeterCfgACK(0x01,GATECQ);//Ç±¶¯2   ,=1»á½ûÖ¹Âö³å·¢³ö  //
- 198   1              //    SetMeterCfgACK(0x00,DATACP);//Çå³£Êý¹¦ÂÊ¼Ä´æÆ÷ //
- 199   1      
- 200   1              // step8//
- 201   1              SetMeterCfgACK(0x73,PMCtrl1); 
- 202   1              //SetMeterCfgACK(0x57,PMCtrl1);//BIT7= 0  ²âÊÔÎ»È·±£Îª0  ; BIT6=1 Ê¹ÄÜ½Ç²îÐ£Õý  //
- 203   1                                                                              //BIT5= 0  IA--I1,IB--I2 ; BIT4=1 Ê¹ÄÜPMÊý×ÖÐÅºÅ´¦Àí  //
- 204   1                                                                              //BIT3= 0  ÆÁ±ÎMÍ¨µÀÊý×ÖÐÅºÅÊäÈë; BIT2=1 Ê¹ÄÜI2Êý×ÖÐÅºÅÊäÈëÊ¹ÄÜ  //
- 205   1                                                                              //BIT1= 1   Ê¹ÄÜI1Êý×ÖÐÅºÅÊäÈëÊ¹ÄÜ; BIT0=1 Ê¹ÄÜUÊý×ÖÐÅºÅÊäÈëÊ¹ÄÜ  //
- 206   1              SetMeterCfgACK(0x00,PMCtrl2);// Êý×ÖÔöÒæÀàµÄ²ÎÊý¼Ä´æÆ÷£¬ÒªÇóÎª0  //
- 207   1              
- 208   1              SetMeterCfgACK(0x60,PMCtrl3);
- 209   1              // SetMeterCfgACK(0x70,PMCtrl3);//¿ªÆôÁ½Â·ÓÐ¹¦,´øÍ¨ºÍµÍÍ¨ÂË²¨Æ÷ÓÐÐ§ //
- 210   1      
- 211   1              SetMeterCfgACK(0,0x10f0);    //0x10f0  PPCNT  ÕýÏò E1 ÄÜÁ¿ÀÛ¼Ó¼Ä´æÆ÷  //
- 212   1              SetMeterCfgACK(0,0x10f1);    //0x10f1  NPCNT  ·´Ïò E1 ÄÜÁ¿ÀÛ¼Ó¼Ä´æÆ÷ //
- 213   1              SetMeterCfgACK(0,0x10f2);    //0x10f2  PPCFCNT  ÕýÏò E1 ÄÜÁ¿Âö³å¼ÆÊýÆ÷   //
- 214   1              SetMeterCfgACK(0,0x10f3);   //0x10f3  NPCFCNT  ·´Ïò E1 ÄÜÁ¿Âö³å¼ÆÊýÆ÷   //
- 215   1              SetMeterCfgACK(0,0x10f6);   //0x10f6  PQCNT  ÕýÏò E2 ÄÜÁ¿ÀÛ¼Ó¼Ä´æÆ÷//
- 216   1              SetMeterCfgACK(0,0x10f7);   //0x10f7  NQCNT  ·´Ïò E2 ÄÜÁ¿ÀÛ¼Ó¼Ä´æÆ÷   //
- 217   1              SetMeterCfgACK(0,0x10f8);   //0x10f8  PQCFCNT   ÕýÏò E2 ÄÜÁ¿Âö³å¼ÆÊýÆ÷  //
- 218   1              SetMeterCfgACK(0,0x10f9);   //0x10f9 NQCFCNT   ·´Ïò E2 ÄÜÁ¿Âö³å¼ÆÊýÆ÷  //
- 219   1              // step9 // 
- 220   1              SetMeterCfgACK(0x7F,PMCtrl4);//BIT7= 1  E2 ¼ÆÁ¿Í¨µÀÆð¶¯/Ç±¶¯ÅÐ¶ÏÊ¹ÄÜ  ; BIT6=1  E2 ¼ÆÁ¿Í¨µÀÆð¶¯/Ç±¶¯ÅÐ¶ÏÊ
-             -¹ÄÜ  //
- 221   1                                                                      //BIT5= 0 E2 ÄÜÁ¿ CF Âö³åÊä³ö¹Ø±Õ; BIT4=1 Ê¹ÄÜE1 ÄÜÁ¿ CF Âö³åÊä³ö //
- 222   1                                                                      //BIT3= 1 Ê¹ÄÜÄÜÁ¿ÀÛ¼ÓºÍÄÜÁ¿Âö³å¼ÆÊý; BIT2=0  E1 ÄÜÁ¿ CF Âö³å´ÓÒý½Å CF1 Êä³ö£¬E2 ÄÜÁ¿ CF Âö³å´ÓÒý½
-             -Å CF2 Êä³ö  //
- 223   1                                                                      //BIT1:0= 10 ³£Êý¹¦ÂÊ //
- 224   1              // step10 // 
- 225   1              SetMeterCfgACK(0,PHCCtrl1);//Çå0
- 226   1              SetMeterCfgACK(0,PHCCtrl2);//Çå0
- 227   1      
- 228   1              SetMeterCfgACK(0x00,CFCtrl);           //ÒÔE2Õý·´¾ø¶ÔÖµÀÛ¼ÓÄÜÁ¿ÎªÒÀ¾Ý²úÉúCF2  ÒÔE1ÕýÏàÄÜÁ¿ÎªÒÀ¾Ý²úÉúCF  //
- 229   1      
- 230   1               // step11// 
-C51 COMPILER V9.01   LNK_EMU_HANDL                                                         04/10/2019 09:17:39 PAGE 5   
-
- 231   1              SetMeterCfgACK(0x00,DATACP);//Çå³£Êý¹¦ÂÊ¼Ä´æÆ÷ //
- 232   1              P9OE&=(~(BIT5));//´ò¿ªCF2 IOÊä³ö//
- 233   1              P9FC|=(BIT5);
- 234   1              P9OE&=(~(BIT6));//´ò¿ªCF2 IOÊä³ö//
- 235   1              P9FC|=(BIT6);
- 236   1              EIE|=(0x02+0x01);
- 237   1              ExInt2IE|=BIT7;     // ¿ªÆôCF1ÖÐ¶Ï //  ÎÞ¹¦ÖÐ¶Ï
- 238   1              ExInt3IE|=BIT7;     // ¿ªÆôCF2ÖÐ¶Ï //  ÓÐ¹¦ÖÐ¶Ï
- 239   1      
- 240   1              gs_emu_run_var.delay_emu = 3;   // ³õÊ¼»¯ºóµÄÎÈ¶¨Ê±¼äÎª2Ãë //
- 241   1      
- 242   1      #endif
  243   1      
  244   1      }
  245          /*******************************************************************************************
@@ -318,7 +318,7 @@ line level    source
  290   2          }
  291   1      
  292   1      
-C51 COMPILER V9.01   LNK_EMU_HANDL                                                         04/10/2019 09:17:39 PAGE 6   
+C51 COMPILER V9.01   LNK_EMU_HANDL                                                         04/11/2019 18:46:28 PAGE 6   
 
  293   1          if( tmpval <50)   tmpval =0;
  294   1      
@@ -382,7 +382,7 @@ line level    source
  352   1         uint32 val,val2,tmpval;
  353   1         fp32   f32_tmp;
  354   1         ST_U32_U08 TempValue;
-C51 COMPILER V9.01   LNK_EMU_HANDL                                                         04/10/2019 09:17:39 PAGE 7   
+C51 COMPILER V9.01   LNK_EMU_HANDL                                                         04/11/2019 18:46:28 PAGE 7   
 
  355   1      
  356   1          if(ch==PHASE_TT) 
@@ -446,7 +446,7 @@ line level    source
  414   1          else
  415   1          {
  416   2              if(ch==WIRE_L1) f32_tmp = cst_adj_const.Kim_Prms*val;
-C51 COMPILER V9.01   LNK_EMU_HANDL                                                         04/10/2019 09:17:39 PAGE 8   
+C51 COMPILER V9.01   LNK_EMU_HANDL                                                         04/11/2019 18:46:28 PAGE 8   
 
  417   2              if(ch==WIRE_L2) f32_tmp = cst_adj_const.Kim_Prms*val;
  418   2              tmpval = (uint32)f32_tmp;               
@@ -510,7 +510,7 @@ line level    source
  476          /*******************************************************************************************
  477          ** º¯ÊýÃû³Æ: Lnk_CAL_EMU_constSum
  478          ** º¯ÊýÃèÊö: ³£Á¿¼ÆÁ¿Ã¿Ãë¸üÐÂÊý¾Ý
-C51 COMPILER V9.01   LNK_EMU_HANDL                                                         04/10/2019 09:17:39 PAGE 9   
+C51 COMPILER V9.01   LNK_EMU_HANDL                                                         04/11/2019 18:46:28 PAGE 9   
 
  479          ** ÊäÈë²ÎÊý: 
  480          ** Êä³ö²ÎÊý: 
@@ -532,13 +532,39 @@ line level    source
  496   1              //Lnk_get_EMU_ractive_const();
  497   1      
  498   1              //ÓÐ¹¦¹¦ÂÊÐ´Èë//
- 499   1          val1.u32 = 0;
- 500   1      
- 501   1              //¹¦ÂÊ»ñÈ¡ //
- 502   1      #if meter_type == D_1P3W
-                      val1.u32+=ReadMeterParaACK(DATAIP);
-                      val1.u32+=ReadMeterParaACK(DATAIQ);     
-              
+ 499   1      //      gs_measure_var_data.gs_really[PHASE_TT].dw_p_val.u32 = cst_adj_const.Kim_Prms*REF_START_Pn;
+ 500   1          val1.u32 = 0;
+ 501   1              
+ 502   1              //¹¦ÂÊ»ñÈ¡ //
+ 503   1      #if meter_type == D_1P3W
+ 504   1              val1.u32+=ReadMeterParaACK(DATAIP);
+ 505   1              val1.u32+=ReadMeterParaACK(DATAIQ);     
+ 506   1      
+ 507   1              if(val1.u32>=0x80000000)
+ 508   1              {
+ 509   2                      gs_emu_run_var.net_flg &= (~REV_TT_ACPOWER);
+ 510   2                      val1.u32=~val1.u32+1;  
+ 511   2              //      gs_emu_run_var.net_flg |= REV_TT_ACPOWER;// ºÏÏà¹¦ÂÊ·´Ïò
+ 512   2              }
+ 513   1              else
+ 514   1                      gs_emu_run_var.net_flg |= REV_TT_ACPOWER;// ºÏÏà¹¦ÂÊ·´Ïò
+ 515   1      //      sumval0.u32=REF_START_Pn;
+ 516   1              sumval0.u32=val1.u32;
+ 517   1              if(val1.u32<REF_START_Pn) 
+ 518   1              {
+ 519   2                      sumval0.u32=0;
+ 520   2      //              val1.u32 = 0;
+ 521   2                      gs_emu_run_var.net_flg &= (~REV_TT_ACPOWER);//ÆÁ±Î·´ÏòÖ¸Ê¾
+ 522   2              }
+ 523   1              sumval0.u32 /= 2;
+ 524   1              val1.u32 = sumval0.u32;
+ 525   1              SetMeterCfgACK(sumval0.u32,DATACP); 
+ 526   1              gs_measure_var_data.gs_really[PHASE_TT].dw_p_val.u32 = cst_adj_const.Kim_Prms*val1.u32;
+ 527   1      #endif
+ 528   1      
+ 529   1      #if meter_type == D_1P2W
+              //ÓÐ¹¦´¦Àí
+                      val1.u32=ReadMeterParaACK(DATAIP);
                       if(val1.u32>=0x80000000)
                       {
                               gs_emu_run_var.net_flg &= (~REV_TT_ACPOWER);
@@ -548,6 +574,8 @@ line level    source
                       else
                               gs_emu_run_var.net_flg |= REV_TT_ACPOWER;// ºÏÏà¹¦ÂÊ·´Ïò
               //      sumval0.u32=REF_START_Pn;
+C51 COMPILER V9.01   LNK_EMU_HANDL                                                         04/11/2019 18:46:28 PAGE 10  
+
                       sumval0.u32=val1.u32;
                       if(val1.u32<REF_START_Pn) 
                       {
@@ -555,382 +583,362 @@ line level    source
                               val1.u32 = 0;
                               gs_emu_run_var.net_flg &= (~REV_TT_ACPOWER);//ÆÁ±Î·´ÏòÖ¸Ê¾
                       }
-                      sumval0.u32 /= 2;
                       SetMeterCfgACK(sumval0.u32,DATACP); 
                       gs_measure_var_data.gs_really[PHASE_TT].dw_p_val.u32 = cst_adj_const.Kim_Prms*val1.u32;
+              //ÎÞ¹¦´¦Àí
+                      val1.u32=ReadMeterParaACK(DATAIQ);
+                      if(val1.u32>=0x80000000)
+                      {
+                              val1.u32=~val1.u32+1;  
+                      }
+              //      else
+              //              gs_emu_run_var.net_flg |= REV_TT_ACPOWER;// ºÏÏà¹¦ÂÊ·´Ïò
+                              
+                      sumval0.u32=val1.u32;
+                      if(val1.u32<REF_START_Pn) 
+                      {
+                              sumval0.u32=0;
+                              val1.u32 = 0;
+                      }
+                      gs_measure_var_data.gs_really[PHASE_TT].dw_q_val.u32 = cst_adj_const.Kim_Prms2*val1.u32/1.568;
               #endif
- 526   1      
- 527   1      #if meter_type == D_1P2W
- 528   1      //ÓÐ¹¦´¦Àí
- 529   1              val1.u32=ReadMeterParaACK(DATAIP);
- 530   1              if(val1.u32>=0x80000000)
- 531   1              {
- 532   2                      gs_emu_run_var.net_flg &= (~REV_TT_ACPOWER);
- 533   2                      val1.u32=~val1.u32+1;  
- 534   2              //      gs_emu_run_var.net_flg |= REV_TT_ACPOWER;// ºÏÏà¹¦ÂÊ·´Ïò
- 535   2              }
- 536   1              else
- 537   1                      gs_emu_run_var.net_flg |= REV_TT_ACPOWER;// ºÏÏà¹¦ÂÊ·´Ïò
- 538   1      //      sumval0.u32=REF_START_Pn;
- 539   1              sumval0.u32=val1.u32;
- 540   1              if(val1.u32<REF_START_Pn) 
-C51 COMPILER V9.01   LNK_EMU_HANDL                                                         04/10/2019 09:17:39 PAGE 10  
-
- 541   1              {
- 542   2                      sumval0.u32=0;
- 543   2                      val1.u32 = 0;
- 544   2                      gs_emu_run_var.net_flg &= (~REV_TT_ACPOWER);//ÆÁ±Î·´ÏòÖ¸Ê¾
- 545   2              }
- 546   1              SetMeterCfgACK(sumval0.u32,DATACP); 
- 547   1              gs_measure_var_data.gs_really[PHASE_TT].dw_p_val.u32 = cst_adj_const.Kim_Prms*val1.u32;
- 548   1      //ÎÞ¹¦´¦Àí
- 549   1              val1.u32=ReadMeterParaACK(DATAIQ);
- 550   1              if(val1.u32>=0x80000000)
- 551   1              {
- 552   2                      val1.u32=~val1.u32+1;  
- 553   2              }
- 554   1      //      else
- 555   1      //              gs_emu_run_var.net_flg |= REV_TT_ACPOWER;// ºÏÏà¹¦ÂÊ·´Ïò
- 556   1                      
- 557   1              sumval0.u32=val1.u32;
- 558   1              if(val1.u32<REF_START_Pn) 
- 559   1              {
- 560   2                      sumval0.u32=0;
- 561   2                      val1.u32 = 0;
- 562   2              }
- 563   1              gs_measure_var_data.gs_really[PHASE_TT].dw_q_val.u32 = cst_adj_const.Kim_Prms2*val1.u32/1.568;
- 564   1      #endif
- 565   1              if(gs_measure_var_data.gs_really[PHASE_TT].dw_q_val.u32 == 0)
- 566   1              {
- 567   2                      Bar_No = 0;
- 568   2              }
- 569   1      }
- 570          
- 571          
- 572          /*******************************************************************************************
- 573          ** º¯ÊýÃû³Æ: 
- 574          ** º¯ÊýÃèÊö: »ñÈ¡ÎÞ¹¦¹¦ÂÊ
- 575          ** ÊäÈë²ÎÊý: 
- 576          ** Êä³ö²ÎÊý: 
- 577          ** ËµÃ÷    : 
- 578          *******************************************************************************************/
- 579          void Lnk_get_EMU_ractive_const(void)
- 580          {
- 581   1              ST_U32_U08 Temp_paraqc;
- 582   1              ST_U32_U08 val1,sumval1;
- 583   1              ST_U32_U08 val2,sumval2;
- 584   1              ST_U32_U08 TempValue;
- 585   1              float err_ec;
- 586   1              
- 587   1              val1.u32 = 0;
- 588   1              Temp_paraqc.u32 = 0;
- 589   1              val2.u32 = 0;
- 590   1              //¶ÁÈ¡AÂ·ÎÞ¹¦
- 591   1              val1.u32=ReadMeterParaACK(DATAIQ);          
- 592   1              // ¶ÁÈ¡¶þ´Î²¹³¥¼Ä´æÆ÷
- 593   1              Temp_paraqc.u32=ReadMeterParaACK(PARAQC);
+ 567   1      //      if(gs_measure_var_data.gs_really[PHASE_TT].dw_p_val.u32 == 0)
+ 568   1      //      {
+ 569   1      //              Bar_No = 0;
+ 570   1      //      }
+ 571   1      
+ 572   1              p_val = gs_measure_var_data.gs_really[PHASE_TT].dw_p_val.u32;
+ 573   1              #if meter_type == D_1P3W
+ 574   1                        p_val /= 2;
+ 575   1              #endif
+ 576   1              t_val = (float)31700/(float)(p_val);
+ 577   1      }
+ 578          
+ 579          
+ 580          /*******************************************************************************************
+ 581          ** º¯ÊýÃû³Æ: 
+ 582          ** º¯ÊýÃèÊö: »ñÈ¡ÎÞ¹¦¹¦ÂÊ
+ 583          ** ÊäÈë²ÎÊý: 
+ 584          ** Êä³ö²ÎÊý: 
+ 585          ** ËµÃ÷    : 
+ 586          *******************************************************************************************/
+ 587          void Lnk_get_EMU_ractive_const(void)
+ 588          {
+ 589   1              ST_U32_U08 Temp_paraqc;
+ 590   1              ST_U32_U08 val1,sumval1;
+ 591   1              ST_U32_U08 val2,sumval2;
+ 592   1              ST_U32_U08 TempValue;
+ 593   1              float err_ec;
  594   1              
- 595   1              //BÂ·¹¦ÂÊÒÔ¼°µçÑ¹µçÁ÷»ñÈ¡»ñÈ¡9260F  //
- 596   1              if(ReadRaccoon(RegAAQ,1,BPhy)==TRUE)     // ×î´ó 200ms¶ÁÈ¡µÈ´ý    //  ÀíÂÛÊ±¼ä76ms  RegIAP
- 597   1              {
- 598   2                      memcpy((uint8*)TempValue.B08,gs_RacCtrl.ucBuf+3,4); //ÓÐ¹¦ÃëÆ½¾ù¹¦ÂÊ
- 599   2                      Lib_Rev_Copy_Arry(&TempValue.B08[0],4);// µÍ×Ö½ÚÔÚÇ°  µ¹ÖÃ//'
- 600   2                      val2.u32= TempValue.u32*1.669f; //0.01%¾«¶È
- 601   2              }
- 602   1              else 
-C51 COMPILER V9.01   LNK_EMU_HANDL                                                         04/10/2019 09:17:39 PAGE 11  
+ 595   1              val1.u32 = 0;
+ 596   1              Temp_paraqc.u32 = 0;
+ 597   1              val2.u32 = 0;
+ 598   1              //¶ÁÈ¡AÂ·ÎÞ¹¦
+ 599   1              val1.u32=ReadMeterParaACK(DATAIQ);          
+ 600   1              // ¶ÁÈ¡¶þ´Î²¹³¥¼Ä´æÆ÷
+ 601   1              Temp_paraqc.u32=ReadMeterParaACK(PARAQC);
+ 602   1              
+C51 COMPILER V9.01   LNK_EMU_HANDL                                                         04/11/2019 18:46:28 PAGE 11  
 
- 603   1              {
- 604   2                      gs_sys_run.font_fg |= BIT4_FONT_FG_EnyBottom;
- 605   2                      return;
- 606   2              }
- 607   1      
- 608   1              if((sumval1.u32 <= REF_START_Pn)||(sumval1.u32 >= REF_START_REV_Pn))// ÎÞ¹¦Æô¶¯
- 609   1              {
- 610   2                      sumval1.u32 =0; 
- 611   2              }
- 612   1              
- 613   1              if((sumval2.u32 <= REF_START_Pn)||(sumval2.u32 >= REF_START_REV_Pn))// ÎÞ¹¦Æô¶¯
- 614   1              {
- 615   2                      sumval2.u32 =0; 
- 616   2              }
- 617   1      
- 618   1      
- 619   1              //ÌáÈ¡ºÏÏàÒÔ¼°·ÖÏà·½Ïò//
- 620   1              if(val1.u32>=0x80000000)
- 621   1              {
- 622   2              //       gs_emu_run_var.net_flg |= REV_TT_RACPOWER; // ºÏÏà·´Ïò
- 623   2              }
- 624   1              else
- 625   1              {
- 626   2              //      gs_emu_run_var.net_flg &= (~REV_TT_RACPOWER); // ºÏÏà·´Ïò
- 627   2              }
- 628   1      
- 629   1              if(val2.u32>=0x80000000)
- 630   1              {
- 631   2              //              gs_emu_run_var.net_flg |= REV_N_RACPOWER; // BÂ··´Ïò //
- 632   2              }
- 633   1              else
- 634   1              {
- 635   2              //              gs_emu_run_var.net_flg &= (~REV_N_RACPOWER); // BÂ·ÕýÏò//
- 636   2              }
- 637   1      
- 638   1                
- 639   1                //¸ù¾ÝºÏÏàÒÔ¼°BÂ·´óÐ¡£¬ÅÐ¶ÏAÂ··½Ïò//
- 640   1      //        if(Temp_paraqc.u32==0) // ¶þ´Î²¹³¥¼Ä´æÆ÷
- 641   1      //        {
- 642   1      //        if((gs_emu_run_var.net_flg&REV_TT_RACPOWER)!=REV_TT_RACPOWER) // AÂ·ÕýÏò
- 643   1      //        {
- 644   1      //             if(gs_emu_run_var.net_flg&REV_N_RACPOWER) //ÎÞ¹¦ BÂ··´ÏòÖ±½Ó¶ªÈë 
- 645   1      //             {
- 646   1      //               if(gs_sys_globaL_var.Rac_energy[0]==0x55) //´úÊýºÍ
- 647   1      //               {
- 648   1      //                        val2.u32=~val2.u32+1;  // È¡·´¶ªÈë
- 649   1      //               }
- 650   1      //                       else
- 651   1      //                       {
- 652   1      //                        val2.u32 = val2.u32; //Ö±½Ó¶ªÈë
- 653   1      //                       }
- 654   1      //                 }
- 655   1      //                 else 
- 656   1      //                 {
- 657   1      //               if(gs_sys_globaL_var.Rac_energy[0]==0x55) //´úÊýºÍ
- 658   1      //               {
- 659   1      //                        val2.u32=~val2.u32+1;  // È¡·´¶ªÈë
- 660   1      //               }
- 661   1      //                       else
- 662   1      //                       {
- 663   1      //                        val2.u32=~val2.u32+1;  // È¡·´¶ªÈë
- 664   1      //                       }
-C51 COMPILER V9.01   LNK_EMU_HANDL                                                         04/10/2019 09:17:39 PAGE 12  
+ 603   1              //BÂ·¹¦ÂÊÒÔ¼°µçÑ¹µçÁ÷»ñÈ¡»ñÈ¡9260F  //
+ 604   1              if(ReadRaccoon(RegAAQ,1,BPhy)==TRUE)     // ×î´ó 200ms¶ÁÈ¡µÈ´ý    //  ÀíÂÛÊ±¼ä76ms  RegIAP
+ 605   1              {
+ 606   2                      memcpy((uint8*)TempValue.B08,gs_RacCtrl.ucBuf+3,4); //ÓÐ¹¦ÃëÆ½¾ù¹¦ÂÊ
+ 607   2                      Lib_Rev_Copy_Arry(&TempValue.B08[0],4);// µÍ×Ö½ÚÔÚÇ°  µ¹ÖÃ//'
+ 608   2                      val2.u32= TempValue.u32*1.669f; //0.01%¾«¶È
+ 609   2              }
+ 610   1              else 
+ 611   1              {
+ 612   2                      gs_sys_run.font_fg |= BIT4_FONT_FG_EnyBottom;
+ 613   2                      return;
+ 614   2              }
+ 615   1      
+ 616   1              if((sumval1.u32 <= REF_START_Pn)||(sumval1.u32 >= REF_START_REV_Pn))// ÎÞ¹¦Æô¶¯
+ 617   1              {
+ 618   2                      sumval1.u32 =0; 
+ 619   2              }
+ 620   1              
+ 621   1              if((sumval2.u32 <= REF_START_Pn)||(sumval2.u32 >= REF_START_REV_Pn))// ÎÞ¹¦Æô¶¯
+ 622   1              {
+ 623   2                      sumval2.u32 =0; 
+ 624   2              }
+ 625   1      
+ 626   1      
+ 627   1              //ÌáÈ¡ºÏÏàÒÔ¼°·ÖÏà·½Ïò//
+ 628   1              if(val1.u32>=0x80000000)
+ 629   1              {
+ 630   2              //       gs_emu_run_var.net_flg |= REV_TT_RACPOWER; // ºÏÏà·´Ïò
+ 631   2              }
+ 632   1              else
+ 633   1              {
+ 634   2              //      gs_emu_run_var.net_flg &= (~REV_TT_RACPOWER); // ºÏÏà·´Ïò
+ 635   2              }
+ 636   1      
+ 637   1              if(val2.u32>=0x80000000)
+ 638   1              {
+ 639   2              //              gs_emu_run_var.net_flg |= REV_N_RACPOWER; // BÂ··´Ïò //
+ 640   2              }
+ 641   1              else
+ 642   1              {
+ 643   2              //              gs_emu_run_var.net_flg &= (~REV_N_RACPOWER); // BÂ·ÕýÏò//
+ 644   2              }
+ 645   1      
+ 646   1                
+ 647   1                //¸ù¾ÝºÏÏàÒÔ¼°BÂ·´óÐ¡£¬ÅÐ¶ÏAÂ··½Ïò//
+ 648   1      //        if(Temp_paraqc.u32==0) // ¶þ´Î²¹³¥¼Ä´æÆ÷
+ 649   1      //        {
+ 650   1      //        if((gs_emu_run_var.net_flg&REV_TT_RACPOWER)!=REV_TT_RACPOWER) // AÂ·ÕýÏò
+ 651   1      //        {
+ 652   1      //             if(gs_emu_run_var.net_flg&REV_N_RACPOWER) //ÎÞ¹¦ BÂ··´ÏòÖ±½Ó¶ªÈë 
+ 653   1      //             {
+ 654   1      //               if(gs_sys_globaL_var.Rac_energy[0]==0x55) //´úÊýºÍ
+ 655   1      //               {
+ 656   1      //                        val2.u32=~val2.u32+1;  // È¡·´¶ªÈë
+ 657   1      //               }
+ 658   1      //                       else
+ 659   1      //                       {
+ 660   1      //                        val2.u32 = val2.u32; //Ö±½Ó¶ªÈë
+ 661   1      //                       }
+ 662   1      //                 }
+ 663   1      //                 else 
+ 664   1      //                 {
+C51 COMPILER V9.01   LNK_EMU_HANDL                                                         04/11/2019 18:46:28 PAGE 12  
 
- 665   1      //                 }
- 666   1      //        }
- 667   1      //              else  //AÂ··´
- 668   1      //              {
- 669   1      //             if(gs_emu_run_var.net_flg&REV_N_RACPOWER) //ÎÞ¹¦ BÂ··´ÏòÖ±½Ó¶ªÈë 
- 670   1      //             {
- 671   1      //               if(gs_sys_globaL_var.Rac_energy[0]==0x55) //´úÊýºÍ
- 672   1      //               {
- 673   1      //                        val2.u32=~val2.u32+1;  // È¡·´¶ªÈë
- 674   1      //               }
- 675   1      //                       else
- 676   1      //                       {
- 677   1      //                        val2.u32=~val2.u32+1;  // È¡·´¶ªÈë
- 678   1      //                       }
- 679   1      //                 }
- 680   1      //                 else 
- 681   1      //                 {
- 682   1      //               if(gs_sys_globaL_var.Rac_energy[0]==0x55) //´úÊýºÍ
- 683   1      //               {
- 684   1      //                        val2.u32=~val2.u32+1;  // È¡·´¶ªÈë
- 685   1      //               }
- 686   1      //                       else
- 687   1      //                       {
- 688   1      //                        val2.u32=val2.u32;  // Ö±½Ó¶ªÈë
- 689   1      //                       }
- 690   1      //                 }
- 691   1      //        }
- 692   1      //           // 9260F ÎÞ¹¦Ð´Èë¶þ´Î²¹³¥¼Ä´æÆ÷ 2^31/(2^31*gs_adj_emu_param.w1gain*sumval2.u32*(2.175/1.2/1.086))/
-             -/
- 693   1      //           err_ec = (float)((float)(0x80000000/(float)(0x80000000+gs_adj_emu_param.w1gain)));
- 694   1      //               val2.u32 =  val2.u32*err_ec ;
- 695   1      //               SetMeterCfgACK( val2.u32,PARAQC);
- 696   1      //           gs_measure_var_data.gs_really[PHASE_TT].dw_q_val.u32 = cst_adj_const.Kim_Prms2*sumval0.u32;
- 697   1      //           gs_measure_var_data.gs_really[WIRE_L1].dw_q_val.u32 = cst_adj_const.Kim_Prms2*val1.u32;
- 698   1      //           gs_measure_var_data.gs_really[WIRE_L2].dw_q_val.u32 = cst_adj_const.Kim_Prms2*val2.u32;
+ 665   1      //               if(gs_sys_globaL_var.Rac_energy[0]==0x55) //´úÊýºÍ
+ 666   1      //               {
+ 667   1      //                        val2.u32=~val2.u32+1;  // È¡·´¶ªÈë
+ 668   1      //               }
+ 669   1      //                       else
+ 670   1      //                       {
+ 671   1      //                        val2.u32=~val2.u32+1;  // È¡·´¶ªÈë
+ 672   1      //                       }
+ 673   1      //                 }
+ 674   1      //        }
+ 675   1      //              else  //AÂ··´
+ 676   1      //              {
+ 677   1      //             if(gs_emu_run_var.net_flg&REV_N_RACPOWER) //ÎÞ¹¦ BÂ··´ÏòÖ±½Ó¶ªÈë 
+ 678   1      //             {
+ 679   1      //               if(gs_sys_globaL_var.Rac_energy[0]==0x55) //´úÊýºÍ
+ 680   1      //               {
+ 681   1      //                        val2.u32=~val2.u32+1;  // È¡·´¶ªÈë
+ 682   1      //               }
+ 683   1      //                       else
+ 684   1      //                       {
+ 685   1      //                        val2.u32=~val2.u32+1;  // È¡·´¶ªÈë
+ 686   1      //                       }
+ 687   1      //                 }
+ 688   1      //                 else 
+ 689   1      //                 {
+ 690   1      //               if(gs_sys_globaL_var.Rac_energy[0]==0x55) //´úÊýºÍ
+ 691   1      //               {
+ 692   1      //                        val2.u32=~val2.u32+1;  // È¡·´¶ªÈë
+ 693   1      //               }
+ 694   1      //                       else
+ 695   1      //                       {
+ 696   1      //                        val2.u32=val2.u32;  // Ö±½Ó¶ªÈë
+ 697   1      //                       }
+ 698   1      //                 }
  699   1      //        }
- 700   1      //        else
- 701   1      //        {
- 702   1              if((gs_emu_run_var.net_flg&REV_TT_RACPOWER)!=REV_TT_RACPOWER) // AÂ·ÕýÏò
- 703   1              {
- 704   2                     if(gs_emu_run_var.net_flg&REV_N_RACPOWER) //ÎÞ¹¦ BÂ··´ÏòÖ±½Ó¶ªÈë 
- 705   2                     {
- 706   3                                val2.u32=~val2.u32+1;  //
- 707   3                               //{
- 708   3                                 //if(val1.u32 >= val2.u32)
- 709   3      //                         gs_emu_run_var.net_flg|REV_L_RACPOWER ;  //A·ûºÅ
- 710   3                                 TempValue.u32 = val2.u32+ val1.u32;     //AÂ·¹¦ÂÊÖµ
- 711   3                                 //È«²¿È¡·´¶ªÈë
- 712   3                               //}
- 713   3                         
- 714   3                         }
- 715   2                         else //ÎÞ¹¦BÂ·Õý
- 716   2                         {
- 717   3                                 if(val1.u32 >= val2.u32)
- 718   3                                 {
- 719   4                                   TempValue.u32 = val1.u32 - val2.u32 ;        //AÂ·¹¦ÂÊÖµ
- 720   4      //                           gs_emu_run_var.net_flg&=(~REV_L_RACPOWER);   //A·ûºÅ
- 721   4                                       val2.u32=~val2.u32+1;  // È¡·´¶ªÈë
- 722   4                                 }
- 723   3                                 else
- 724   3                                 {
- 725   4      //                           gs_emu_run_var.net_flg|REV_L_RACPOWER;   //A·ûºÅ
-C51 COMPILER V9.01   LNK_EMU_HANDL                                                         04/10/2019 09:17:39 PAGE 13  
+ 700   1      //           // 9260F ÎÞ¹¦Ð´Èë¶þ´Î²¹³¥¼Ä´æÆ÷ 2^31/(2^31*gs_adj_emu_param.w1gain*sumval2.u32*(2.175/1.2/1.086))/
+             -/
+ 701   1      //           err_ec = (float)((float)(0x80000000/(float)(0x80000000+gs_adj_emu_param.w1gain)));
+ 702   1      //               val2.u32 =  val2.u32*err_ec ;
+ 703   1      //               SetMeterCfgACK( val2.u32,PARAQC);
+ 704   1      //           gs_measure_var_data.gs_really[PHASE_TT].dw_q_val.u32 = cst_adj_const.Kim_Prms2*sumval0.u32;
+ 705   1      //           gs_measure_var_data.gs_really[WIRE_L1].dw_q_val.u32 = cst_adj_const.Kim_Prms2*val1.u32;
+ 706   1      //           gs_measure_var_data.gs_really[WIRE_L2].dw_q_val.u32 = cst_adj_const.Kim_Prms2*val2.u32;
+ 707   1      //        }
+ 708   1      //        else
+ 709   1      //        {
+ 710   1              if((gs_emu_run_var.net_flg&REV_TT_RACPOWER)!=REV_TT_RACPOWER) // AÂ·ÕýÏò
+ 711   1              {
+ 712   2                     if(gs_emu_run_var.net_flg&REV_N_RACPOWER) //ÎÞ¹¦ BÂ··´ÏòÖ±½Ó¶ªÈë 
+ 713   2                     {
+ 714   3                                val2.u32=~val2.u32+1;  //
+ 715   3                               //{
+ 716   3                                 //if(val1.u32 >= val2.u32)
+ 717   3      //                         gs_emu_run_var.net_flg|REV_L_RACPOWER ;  //A·ûºÅ
+ 718   3                                 TempValue.u32 = val2.u32+ val1.u32;     //AÂ·¹¦ÂÊÖµ
+ 719   3                                 //È«²¿È¡·´¶ªÈë
+ 720   3                               //}
+ 721   3                         
+ 722   3                         }
+ 723   2                         else //ÎÞ¹¦BÂ·Õý
+ 724   2                         {
+ 725   3                                 if(val1.u32 >= val2.u32)
+C51 COMPILER V9.01   LNK_EMU_HANDL                                                         04/11/2019 18:46:28 PAGE 13  
 
- 726   4                                   TempValue.u32 = val2.u32 - val1.u32 ;   //AÂ·¹¦ÂÊÖµ
- 727   4                                       if(gs_sys_globaL_var.Rac_energy[0]==0x55) //´úÊýºÍ
- 728   4                                       {
- 729   5                                         val2.u32=~val2.u32+1;  // È¡·´¶ªÈë
- 730   5                                       }
- 731   4                                 }
- 732   3                         }
- 733   2              }
- 734   1                      else  //AÂ··´
- 735   1                      {
- 736   2                     if(gs_emu_run_var.net_flg&REV_N_RACPOWER) //ÎÞ¹¦ BÂ··´ÏòÖ±½Ó¶ªÈë 
- 737   2                     {
- 738   3                                 if(val1.u32 >= val2.u32)
- 739   3                                 {
- 740   4                                   TempValue.u32 = val1.u32 - val2.u32 ;        //AÂ·¹¦ÂÊÖµ
- 741   4      //                           gs_emu_run_var.net_flg|=REV_L_RACPOWER;   //A·ûºÅ
- 742   4                                       if(gs_sys_globaL_var.Rac_energy[0]!=0x55)   //´úÊýºÍ
- 743   4                                       {
- 744   5                                         val2.u32= val2.u32;    //Ö±½Ó¶ªÈë
- 745   5                                       }
- 746   4                                       else
- 747   4                                       {
- 748   5                                         val2.u32=~val2.u32+1;  // È¡·´¶ªÈë
- 749   5                                       }
- 750   4                                      }
- 751   3                                 else
- 752   3                                 {
- 753   4      //                           gs_emu_run_var.net_flg&=(~REV_L_RACPOWER);   //A·ûºÅ
- 754   4                                   TempValue.u32 = val2.u32 - val1.u32 ;       //AÂ·¹¦ÂÊÖµ
- 755   4                                       val2.u32=~val2.u32+1;  // È¡·´¶ªÈë
- 756   4                                 }
- 757   3                         }
- 758   2                         else //ÎÞ¹¦BÂ·Õý
- 759   2                         {
- 760   3                                   TempValue.u32 = val1.u32 + val2.u32 ;        //AÂ·¹¦ÂÊÖµ
- 761   3      //                           gs_emu_run_var.net_flg|=REV_L_RACPOWER;   //A·ûºÅ
- 762   3                                       if(gs_sys_globaL_var.Rac_energy[0]!=0x55)   //´úÊýºÍ
- 763   3                                       {
- 764   4                                         val2.u32= val2.u32;    //Ö±½Ó¶ªÈë
- 765   4                                       }
- 766   3                                       else
- 767   3                                       {
- 768   4                                         val2.u32=~val2.u32+1;  // È¡·´¶ªÈë
- 769   4                                       }
- 770   3                         }
- 771   2              }
- 772   1                      
- 773   1                   // 9260F ÎÞ¹¦Ð´Èë¶þ´Î²¹³¥¼Ä´æÆ÷ 2^31/(2^31*gs_adj_emu_param.w1gain*sumval2.u32*(2.175/1.2/1.086))//
- 774   1                   err_ec = (float)((float)(0x80000000/(float)(0x80000000+gs_adj_emu_param.w1gain)));
- 775   1      
- 776   1                       if(val2.u32>0x80000000)
- 777   1                       {
- 778   2                    val2.u32=~val2.u32+1;  // È¡·´¶ªÈë
- 779   2                        val2.u32 =  val2.u32*err_ec ;
- 780   2                    val2.u32=~val2.u32+1;  // È¡·´¶ªÈë
- 781   2                       }
- 782   1                       else  val2.u32 =  val2.u32*err_ec ;
+ 726   3                                 {
+ 727   4                                   TempValue.u32 = val1.u32 - val2.u32 ;        //AÂ·¹¦ÂÊÖµ
+ 728   4      //                           gs_emu_run_var.net_flg&=(~REV_L_RACPOWER);   //A·ûºÅ
+ 729   4                                       val2.u32=~val2.u32+1;  // È¡·´¶ªÈë
+ 730   4                                 }
+ 731   3                                 else
+ 732   3                                 {
+ 733   4      //                           gs_emu_run_var.net_flg|REV_L_RACPOWER;   //A·ûºÅ
+ 734   4                                   TempValue.u32 = val2.u32 - val1.u32 ;   //AÂ·¹¦ÂÊÖµ
+ 735   4                                       if(gs_sys_globaL_var.Rac_energy[0]==0x55) //´úÊýºÍ
+ 736   4                                       {
+ 737   5                                         val2.u32=~val2.u32+1;  // È¡·´¶ªÈë
+ 738   5                                       }
+ 739   4                                 }
+ 740   3                         }
+ 741   2              }
+ 742   1                      else  //AÂ··´
+ 743   1                      {
+ 744   2                     if(gs_emu_run_var.net_flg&REV_N_RACPOWER) //ÎÞ¹¦ BÂ··´ÏòÖ±½Ó¶ªÈë 
+ 745   2                     {
+ 746   3                                 if(val1.u32 >= val2.u32)
+ 747   3                                 {
+ 748   4                                   TempValue.u32 = val1.u32 - val2.u32 ;        //AÂ·¹¦ÂÊÖµ
+ 749   4      //                           gs_emu_run_var.net_flg|=REV_L_RACPOWER;   //A·ûºÅ
+ 750   4                                       if(gs_sys_globaL_var.Rac_energy[0]!=0x55)   //´úÊýºÍ
+ 751   4                                       {
+ 752   5                                         val2.u32= val2.u32;    //Ö±½Ó¶ªÈë
+ 753   5                                       }
+ 754   4                                       else
+ 755   4                                       {
+ 756   5                                         val2.u32=~val2.u32+1;  // È¡·´¶ªÈë
+ 757   5                                       }
+ 758   4                                      }
+ 759   3                                 else
+ 760   3                                 {
+ 761   4      //                           gs_emu_run_var.net_flg&=(~REV_L_RACPOWER);   //A·ûºÅ
+ 762   4                                   TempValue.u32 = val2.u32 - val1.u32 ;       //AÂ·¹¦ÂÊÖµ
+ 763   4                                       val2.u32=~val2.u32+1;  // È¡·´¶ªÈë
+ 764   4                                 }
+ 765   3                         }
+ 766   2                         else //ÎÞ¹¦BÂ·Õý
+ 767   2                         {
+ 768   3                                   TempValue.u32 = val1.u32 + val2.u32 ;        //AÂ·¹¦ÂÊÖµ
+ 769   3      //                           gs_emu_run_var.net_flg|=REV_L_RACPOWER;   //A·ûºÅ
+ 770   3                                       if(gs_sys_globaL_var.Rac_energy[0]!=0x55)   //´úÊýºÍ
+ 771   3                                       {
+ 772   4                                         val2.u32= val2.u32;    //Ö±½Ó¶ªÈë
+ 773   4                                       }
+ 774   3                                       else
+ 775   3                                       {
+ 776   4                                         val2.u32=~val2.u32+1;  // È¡·´¶ªÈë
+ 777   4                                       }
+ 778   3                         }
+ 779   2              }
+ 780   1                      
+ 781   1                   // 9260F ÎÞ¹¦Ð´Èë¶þ´Î²¹³¥¼Ä´æÆ÷ 2^31/(2^31*gs_adj_emu_param.w1gain*sumval2.u32*(2.175/1.2/1.086))//
+ 782   1                   err_ec = (float)((float)(0x80000000/(float)(0x80000000+gs_adj_emu_param.w1gain)));
  783   1      
- 784   1                       SetMeterCfgACK(val2.u32,PARAQC);
- 785   1      //        }
- 786   1      
- 787   1                  //ÓÐÐ§Öµ»ñÈ¡//
-C51 COMPILER V9.01   LNK_EMU_HANDL                                                         04/10/2019 09:17:39 PAGE 14  
+ 784   1                       if(val2.u32>0x80000000)
+ 785   1                       {
+ 786   2                    val2.u32=~val2.u32+1;  // È¡·´¶ªÈë
+ 787   2                        val2.u32 =  val2.u32*err_ec ;
+C51 COMPILER V9.01   LNK_EMU_HANDL                                                         04/11/2019 18:46:28 PAGE 14  
 
- 788   1                      if(val2.u32>0x80000000)
- 789   1                      {
- 790   2                    val2.u32=~val2.u32+1;  // È¡·´¶ªÈë
- 791   2                      }
- 792   1                      
- 793   1                  if(val1.u32>0x80000000)
- 794   1                      {
- 795   2                    val1.u32=~val1.u32+1;  // È¡·´¶ªÈë
- 796   2                      }       
- 797   1                  if(TempValue.u32>0x80000000)
- 798   1                      {
- 799   2                    TempValue.u32=~TempValue.u32+1;  // È¡·´¶ªÈë
- 800   2                      }               
- 801   1                      gs_measure_var_data.gs_really[PHASE_TT].dw_q_val.u32 = cst_adj_const.Kim_Prms2*val1.u32;
- 802   1                      gs_measure_var_data.gs_really[WIRE_L1].dw_q_val.u32 = cst_adj_const.Kim_Prms2*TempValue.u32;
- 803   1                      gs_measure_var_data.gs_really[WIRE_L2].dw_q_val.u32 = cst_adj_const.Kim_Prms2*val2.u32;
- 804   1                      gs_measure_var_data.gs_really[WIRE_L3].dw_q_val.u32 = 0;
- 805   1      
- 806   1      }
- 807          
- 808          
- 809          /*******************************************************************************************
- 810          ** º¯ÊýÃû³Æ: Lnk_get_EMU_activePower
- 811          ** º¯ÊýÃèÊö: »ñÈ¡ÎÞ¹¦¹¦ÂÊ
- 812          ** ÊäÈë²ÎÊý: ch: Í¨µÀÐòºÅ
- 813          ** Êä³ö²ÎÊý: uint32 Ö¸¶¨Í¨µÀ¹¦ÂÊÖµ£¬HEXÂë,Á¿¸ÙÎª0.1W
- 814          ** ËµÃ÷    : 
- 815          *******************************************************************************************/
- 816          uint32 Lnk_get_EMU_ractivePower(uint8 ch)
- 817          {
- 818   1         uint32 val,tmpval;
- 819   1         fp32   f32_tmp;
- 820   1         ST_U32_U08 TempValue;
- 821   1      
- 822   1          if(ch==WIRE_L1) 
- 823   1          {
- 824   2      //       gs_emu_run_var.net_flg &= ~REV_L_RACPOWER;
- 825   2                 val=ReadMeterParaACK(DATAIQ);         
- 826   2             if(val>=0x80000000)
- 827   2             {
- 828   3                      val=~val+1; 
- 829   3      //              gs_emu_run_var.net_flg |= REV_L_RACPOWER;
- 830   3             }
- 831   2          }
- 832   1              
- 833   1          else  if(ch==WIRE_L2) 
- 834   1          {
- 835   2              if(ReadRaccoon(RegAAQ,1,BPhy)==TRUE)     // ×î´ó 200ms¶ÁÈ¡µÈ´ý    //  ÀíÂÛÊ±¼ä15ms
- 836   2              {
- 837   3             memcpy((uint8*)TempValue.B08,gs_RacCtrl.ucBuf+3,4); //ÓÐ¹¦ÃëÆ½¾ù¹¦ÂÊ
- 838   3             Lib_Rev_Copy_Arry(&TempValue.B08[0],4);// µÍ×Ö½ÚÔÚÇ°  µ¹ÖÃ//
- 839   3             val = TempValue.u32;
- 840   3              }
- 841   2              else // ¶ÁÈ¡Ê§°Ü£¬Ë¢ÐÂ´®¿Ú// 
- 842   2              {
- 843   3                  gs_sys_run.font_fg |= BIT4_FONT_FG_EnyBottom;
- 844   3              }
- 845   2      //      gs_emu_run_var.net_flg &= ~REV_N_RACPOWER;
- 846   2      
- 847   2             if(val>=0x80000000)
- 848   2             {
- 849   3                      val=~val+1; 
-C51 COMPILER V9.01   LNK_EMU_HANDL                                                         04/10/2019 09:17:39 PAGE 15  
+ 788   2                    val2.u32=~val2.u32+1;  // È¡·´¶ªÈë
+ 789   2                       }
+ 790   1                       else  val2.u32 =  val2.u32*err_ec ;
+ 791   1      
+ 792   1                       SetMeterCfgACK(val2.u32,PARAQC);
+ 793   1      //        }
+ 794   1      
+ 795   1                  //ÓÐÐ§Öµ»ñÈ¡//
+ 796   1                      if(val2.u32>0x80000000)
+ 797   1                      {
+ 798   2                    val2.u32=~val2.u32+1;  // È¡·´¶ªÈë
+ 799   2                      }
+ 800   1                      
+ 801   1                  if(val1.u32>0x80000000)
+ 802   1                      {
+ 803   2                    val1.u32=~val1.u32+1;  // È¡·´¶ªÈë
+ 804   2                      }       
+ 805   1                  if(TempValue.u32>0x80000000)
+ 806   1                      {
+ 807   2                    TempValue.u32=~TempValue.u32+1;  // È¡·´¶ªÈë
+ 808   2                      }               
+ 809   1                      gs_measure_var_data.gs_really[PHASE_TT].dw_q_val.u32 = cst_adj_const.Kim_Prms2*val1.u32;
+ 810   1                      gs_measure_var_data.gs_really[WIRE_L1].dw_q_val.u32 = cst_adj_const.Kim_Prms2*TempValue.u32;
+ 811   1                      gs_measure_var_data.gs_really[WIRE_L2].dw_q_val.u32 = cst_adj_const.Kim_Prms2*val2.u32;
+ 812   1                      gs_measure_var_data.gs_really[WIRE_L3].dw_q_val.u32 = 0;
+ 813   1      
+ 814   1      }
+ 815          
+ 816          
+ 817          /*******************************************************************************************
+ 818          ** º¯ÊýÃû³Æ: Lnk_get_EMU_activePower
+ 819          ** º¯ÊýÃèÊö: »ñÈ¡ÎÞ¹¦¹¦ÂÊ
+ 820          ** ÊäÈë²ÎÊý: ch: Í¨µÀÐòºÅ
+ 821          ** Êä³ö²ÎÊý: uint32 Ö¸¶¨Í¨µÀ¹¦ÂÊÖµ£¬HEXÂë,Á¿¸ÙÎª0.1W
+ 822          ** ËµÃ÷    : 
+ 823          *******************************************************************************************/
+ 824          uint32 Lnk_get_EMU_ractivePower(uint8 ch)
+ 825          {
+ 826   1         uint32 val,tmpval;
+ 827   1         fp32   f32_tmp;
+ 828   1         ST_U32_U08 TempValue;
+ 829   1      
+ 830   1          if(ch==WIRE_L1) 
+ 831   1          {
+ 832   2      //       gs_emu_run_var.net_flg &= ~REV_L_RACPOWER;
+ 833   2                 val=ReadMeterParaACK(DATAIQ);         
+ 834   2             if(val>=0x80000000)
+ 835   2             {
+ 836   3                      val=~val+1; 
+ 837   3      //              gs_emu_run_var.net_flg |= REV_L_RACPOWER;
+ 838   3             }
+ 839   2          }
+ 840   1              
+ 841   1          else  if(ch==WIRE_L2) 
+ 842   1          {
+ 843   2              if(ReadRaccoon(RegAAQ,1,BPhy)==TRUE)     // ×î´ó 200ms¶ÁÈ¡µÈ´ý    //  ÀíÂÛÊ±¼ä15ms
+ 844   2              {
+ 845   3             memcpy((uint8*)TempValue.B08,gs_RacCtrl.ucBuf+3,4); //ÓÐ¹¦ÃëÆ½¾ù¹¦ÂÊ
+ 846   3             Lib_Rev_Copy_Arry(&TempValue.B08[0],4);// µÍ×Ö½ÚÔÚÇ°  µ¹ÖÃ//
+ 847   3             val = TempValue.u32;
+ 848   3              }
+ 849   2              else // ¶ÁÈ¡Ê§°Ü£¬Ë¢ÐÂ´®¿Ú// 
+C51 COMPILER V9.01   LNK_EMU_HANDL                                                         04/11/2019 18:46:28 PAGE 15  
 
- 850   3      //              gs_emu_run_var.net_flg |= REV_N_RACPOWER;
- 851   3             }
- 852   2      
- 853   2                 val = val*1.669;//2.175f/1.2f*1.086f;
- 854   2          }
- 855   1          else
- 856   1          {
- 857   2              val = 0;
- 858   2          }
- 859   1      
- 860   1          if(val<REF_START_Pn)
- 861   1          {
- 862   2              tmpval =0;    
- 863   2      //        if(ch==WIRE_L1) gs_emu_run_var.net_flg &= ~REV_L_RACPOWER;
- 864   2      //        if(ch==WIRE_L2) gs_emu_run_var.net_flg &= ~REV_N_RACPOWER;
- 865   2          }
- 866   1          else
- 867   1          {
- 868   2              
- 869   2              if(ch==WIRE_L1) f32_tmp = cst_adj_const.Kim_Prms2*val;
- 870   2              if(ch==WIRE_L2) f32_tmp = cst_adj_const.Kim_Prms2*val;
- 871   2              tmpval = (uint32)f32_tmp;               
- 872   2          }
- 873   1              
- 874   1          return (tmpval);
- 875   1      }
- 876          
- 877          /*******************************************************************************************
- 878          **    END
- 879          *******************************************************************************************/
- 880          
+ 850   2              {
+ 851   3                  gs_sys_run.font_fg |= BIT4_FONT_FG_EnyBottom;
+ 852   3              }
+ 853   2      //      gs_emu_run_var.net_flg &= ~REV_N_RACPOWER;
+ 854   2      
+ 855   2             if(val>=0x80000000)
+ 856   2             {
+ 857   3                      val=~val+1; 
+ 858   3      //              gs_emu_run_var.net_flg |= REV_N_RACPOWER;
+ 859   3             }
+ 860   2      
+ 861   2                 val = val*1.669;//2.175f/1.2f*1.086f;
+ 862   2          }
+ 863   1          else
+ 864   1          {
+ 865   2              val = 0;
+ 866   2          }
+ 867   1      
+ 868   1          if(val<REF_START_Pn)
+ 869   1          {
+ 870   2              tmpval =0;    
+ 871   2      //        if(ch==WIRE_L1) gs_emu_run_var.net_flg &= ~REV_L_RACPOWER;
+ 872   2      //        if(ch==WIRE_L2) gs_emu_run_var.net_flg &= ~REV_N_RACPOWER;
+ 873   2          }
+ 874   1          else
+ 875   1          {
+ 876   2              
+ 877   2              if(ch==WIRE_L1) f32_tmp = cst_adj_const.Kim_Prms2*val;
+ 878   2              if(ch==WIRE_L2) f32_tmp = cst_adj_const.Kim_Prms2*val;
+ 879   2              tmpval = (uint32)f32_tmp;               
+ 880   2          }
+ 881   1              
+ 882   1          return (tmpval);
+ 883   1      }
+ 884          
+ 885          /*******************************************************************************************
+ 886          **    END
+ 887          *******************************************************************************************/
+ 888          
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =   4369    ----
+   CODE SIZE        =   4357    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =      3     118
    PDATA SIZE       =   ----    ----

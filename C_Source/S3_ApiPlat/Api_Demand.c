@@ -80,14 +80,14 @@ void api_init_md_data_ram(void)
 
     //获取最大需量计算参数 //
     mem_read(&gs_md_param.u8_period, ADR_METER_PARAM1_MD, 2, MEM_E2P1);
-
+//	CLRWDT();
     if(api_check_Demand_para(&gs_md_param) ==FALSE)
     {
         // 出错后取默认数据 //
         gs_md_param.u8_period =30;
         gs_md_param.u8_slid =30;
     }
-
+	CLRWDT();
     // 清除需量计算相关时时变量 //
     Lib_Set_String(&gs_md_var.min_var[0].cnt_sec,0,sizeof(MD_VAR));
 }

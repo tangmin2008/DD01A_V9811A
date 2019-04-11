@@ -75,6 +75,11 @@ extern uint8 KEY_READ_DELAY;
 extern uint8 IsModeTest ;
 extern uint8 TestDelay ;
 extern uint8 Bar_No;
+
+extern	volatile float p_val;
+extern	volatile float t_val;
+extern	float c;
+extern	float e;
 /***************************************************************
 *    5     其他内容，例如伪指令等       
 ****************************************************************/

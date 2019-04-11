@@ -110,6 +110,7 @@ void  Lib_Set_String(INT8U *s1, INT8U tmp, INT16U len)
         *s1 =tmp;
         s1++;
         len--;
+//		CLRWDT();
     }
 }
 

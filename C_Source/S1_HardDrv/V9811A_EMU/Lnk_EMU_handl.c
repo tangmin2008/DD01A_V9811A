@@ -496,8 +496,9 @@ void lnk_CAL_EMU_constSum_per_second(void)
 	//Lnk_get_EMU_ractive_const();
 
 	//有功功率写入//
+//	gs_measure_var_data.gs_really[PHASE_TT].dw_p_val.u32 = cst_adj_const.Kim_Prms*REF_START_Pn;
     val1.u32 = 0;
-
+	
 	//功率获取 //
 #if meter_type == D_1P3W
 	val1.u32+=ReadMeterParaACK(DATAIP);
@@ -516,10 +517,11 @@ void lnk_CAL_EMU_constSum_per_second(void)
 	if(val1.u32<REF_START_Pn) 
 	{
 		sumval0.u32=0;
-		val1.u32 = 0;
+//		val1.u32 = 0;
 		gs_emu_run_var.net_flg &= (~REV_TT_ACPOWER);//屏蔽反向指示
 	}
    	sumval0.u32 /= 2;
+	val1.u32 = sumval0.u32;
 	SetMeterCfgACK(sumval0.u32,DATACP); 
 	gs_measure_var_data.gs_really[PHASE_TT].dw_p_val.u32 = cst_adj_const.Kim_Prms*val1.u32;
 #endif
@@ -562,10 +564,16 @@ void lnk_CAL_EMU_constSum_per_second(void)
 	}
 	gs_measure_var_data.gs_really[PHASE_TT].dw_q_val.u32 = cst_adj_const.Kim_Prms2*val1.u32/1.568;
 #endif
-   	if(gs_measure_var_data.gs_really[PHASE_TT].dw_q_val.u32 == 0)
-	{
-		Bar_No = 0;
-	}
+//   	if(gs_measure_var_data.gs_really[PHASE_TT].dw_p_val.u32 == 0)
+//	{
+//		Bar_No = 0;
+//	}
+
+	p_val = gs_measure_var_data.gs_really[PHASE_TT].dw_p_val.u32;
+	#if meter_type == D_1P3W
+		  p_val /= 2;
+	#endif
+	t_val = (float)31700/(float)(p_val);
 }
 
 

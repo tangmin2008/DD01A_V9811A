@@ -277,6 +277,7 @@ INT8U id_No;
     id_No = mem_table[index].u8_No;
 
     mem_write(dst, src, len, memType);
+	CLRWDT();
     checkNum.u16 = get_mem_ck_data(adr_dst, lenth, MEM_E2P1);
     mem_write(adr_csck, &checkNum.B08[0], 2, MEM_E2P1);
     if(id_No<100) 

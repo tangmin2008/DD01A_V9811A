@@ -228,18 +228,22 @@ void api_updated_LCDDisplayPixel_per_second(void)
 		gs_dis_pixel_var.dis_buff[9] |= BIT0;
 		EOI_delay_1s --;
 	}
+
 	switch(Bar_No)
 	{
 		case 0:
 			gs_dis_pixel_var.dis_buff[10] &= ~(BIT7+BIT6+BIT5);
 			break;
 		case 1:
+//			gs_dis_pixel_var.dis_buff[10] &= ~(BIT7+BIT6+BIT5);
 			gs_dis_pixel_var.dis_buff[10] |= BIT7;
 			break;
 		case 2:
-			gs_dis_pixel_var.dis_buff[10] |= BIT7+BIT6;
+//			gs_dis_pixel_var.dis_buff[10] &= ~(BIT7+BIT6+BIT5);
+			gs_dis_pixel_var.dis_buff[10] |= BIT6+BIT7;
 			break;
 		case 3:
+//			gs_dis_pixel_var.dis_buff[10] &= ~(BIT7+BIT6+BIT5);
 			gs_dis_pixel_var.dis_buff[10] |= BIT7+BIT6+BIT5;
 			break;
 		default:

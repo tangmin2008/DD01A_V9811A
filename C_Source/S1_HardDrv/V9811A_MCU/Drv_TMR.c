@@ -64,7 +64,8 @@ void Stop_Timer(void)
 *******************************************************************************************/
 void Init_Timer(void)
 {	
-
+//	EIP |= BIT0;
+//	IP &= ~BIT5;
 //    TMOD = 0x01;	     // 工作在模式1
 	TMOD = 0x11;        //Timer0和Timer1工作在模式1
 	CKCON|=BIT3;        // Timer0时钟源clk

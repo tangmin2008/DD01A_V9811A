@@ -38,6 +38,11 @@ uint8 TestDelaySecond = 0;
 uint8 Bar_No = 0;
 float timdelay = 0;
 float t_count =0;
+
+	volatile float p_val;
+	volatile float t_val;
+	float c;
+	float e;
 /*****************************************************************************
 ** Function name    :Proc_get_clock
 **
@@ -139,19 +144,29 @@ void api_handl_button_pre_10ms(void)
 
 void api_handl_bar_display_1ms(void)  //0.8ms
 {
-	volatile float p_val;
-	volatile float t_val;
-	float c;
-	float e;
+//	volatile float p_val;
+//	volatile float t_val;
+//	float c;
+//	float e;
 
-	//获取功率 //0.72kW -> 5S    7.2kW -> 0.5s
+	//获取功率 //0.72kW -> 5S    7.2kW -> 0.5s	   240*200=48kW
 //	pow_val = 72147;
-	p_val = gs_measure_var_data.gs_really[PHASE_TT].dw_p_val.u32;
-	t_val = (float)31680/(float)(p_val);
+
 	if(p_val > 0)
 	{
 		c= (t_count);
-		e=	(t_val*25);
+//		if(gs_measure_var_data.gs_really[PHASE_TT].dw_i_val.u32 > 10000)
+//		{
+//			e = (t_val*200);
+			e=	(t_val*42);	 //5ms
+//		}
+//		else
+//		{
+////			TL2  = LOBYTE(T0_10MS_CNT);         //10ms
+////	    	TH2  = HIBYTE(T0_10MS_CNT);
+//			e=	(t_val*25);	//10ms
+//		}
+	//	
 		if(c >= e)
 		{	
 			Bar_No++;
@@ -159,12 +174,15 @@ void api_handl_bar_display_1ms(void)  //0.8ms
 			switch(Bar_No)
 			{
 				case 1:
+	//				gs_dis_pixel_var.dis_buff[10] &= ~(BIT7+BIT6+BIT5);
 					gs_dis_pixel_var.dis_buff[10] |= BIT7;
 					break;
 				case 2:
-					gs_dis_pixel_var.dis_buff[10] |= BIT7+BIT6;
+//					gs_dis_pixel_var.dis_buff[10] &= ~(BIT7+BIT6+BIT5);
+					gs_dis_pixel_var.dis_buff[10] |= BIT6+BIT7;
 					break;
 				case 3:
+//					gs_dis_pixel_var.dis_buff[10] &= ~(BIT7+BIT6+BIT5);
 					gs_dis_pixel_var.dis_buff[10] |= BIT7+BIT6+BIT5;
 					TR2 = 0;
 					ET2 = 0;
@@ -173,7 +191,14 @@ void api_handl_bar_display_1ms(void)  //0.8ms
 	//				gs_dis_pixel_var.dis_buff[10] &= ~(BIT7+BIT6+BIT5);
 					break;
 			}
-			Write_LCD(&gs_dis_pixel_var.dis_buff[0]);
+			if(MD_dis_delay == 0)
+			{
+				Write_LCD(&gs_dis_pixel_var.dis_buff[0]);
+			}
+			else
+			{
+				Full_SEG(0xFF);
+			}
 		}
 		else
 		{
@@ -309,10 +334,17 @@ void Proc_handl_tou_1s(void)
 		{
 			KEY_READ_DELAY--;	
 		}else{
-			IsModeTest = TRUE;
-			TestDelay = 10;	  //min
-			TestDelaySecond = gs_CurDateTime.Second;
-			//液晶显示test模式  code
+			if(IsModeTest == FALSE)
+			{
+				IsModeTest = TRUE;
+				TestDelay = 10;	  //min
+				TestDelaySecond = gs_CurDateTime.Second;
+				//液晶显示test模式  code
+			}
+			else
+			{
+				IsModeTest = FALSE;
+			}
 		}
 	}else{
 		if(TestDelay > 0)

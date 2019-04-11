@@ -447,6 +447,8 @@ void Proc_display_Power_down_process(void)
 		if(gs_dis_ctl_var.keep_sec[0] == 0)
 		{
 			dis_num_char = 0;
+			Bar_No = 0;//清除进度条显示
+			IsModeTest = FALSE;
 			api_updated_LCDDisplayPixel_per_second();
 		}
 

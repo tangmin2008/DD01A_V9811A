@@ -96,8 +96,17 @@ void Interrupt_Timer2 (void) interrupt 5 using 2
 {
 	T2CON &= ~BIT7;
    //user coding begin
-    TL2  = LOBYTE(T2_01MS_CNT);         //1ms
-    TH2  = HIBYTE(T2_01MS_CNT);
+//   if(gs_measure_var_data.gs_really[PHASE_TT].dw_i_val.u32 > 10000)
+//   {
+   	  	TL2  = LOBYTE(T2_01MS_CNT);         //5ms
+		TH2  = HIBYTE(T2_01MS_CNT);
+//   }
+//   else
+//   {
+//   		TL2  = LOBYTE(T0_10MS_CNT);         //10ms
+//	    TH2  = HIBYTE(T0_10MS_CNT);
+//   }
+	CLRWDT(); 
 	api_handl_bar_display_1ms();
 //	 gs_sys_run.back_fg |= BIT3_FONT_FG_1MS;
 	
@@ -407,7 +416,14 @@ void Interrupt_ExInt3 (void) interrupt 9 using 2
 		}
 		//显示三条扛表示脉冲速率coding	//清空三条杠
 		gs_dis_pixel_var.dis_buff[10] &= ~(BIT7+BIT6+BIT5);
-		Write_LCD(&gs_dis_pixel_var.dis_buff[0]);
+		if(MD_dis_delay == 0)
+		{
+			Write_LCD(&gs_dis_pixel_var.dis_buff[0]);
+		}
+		else
+		{
+			Full_SEG(0xFF);
+		}
 		Bar_No = 0;//进度条等于0说明三条扛是被清空的
 		//t_count = 0;
 		TL2  = LOBYTE(T2_01MS_CNT); 

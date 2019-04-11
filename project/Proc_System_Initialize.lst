@@ -1,4 +1,4 @@
-C51 COMPILER V9.01   PROC_SYSTEM_INITIALIZE                                                04/10/2019 09:17:36 PAGE 1   
+C51 COMPILER V9.01   PROC_SYSTEM_INITIALIZE                                                04/11/2019 18:46:25 PAGE 1   
 
 
 C51 COMPILER V9.01, COMPILATION OF MODULE PROC_SYSTEM_INITIALIZE
@@ -62,7 +62,7 @@ line level    source
   50   2                  }
   51   1                  NOP();
   52   1                #endif
-C51 COMPILER V9.01   PROC_SYSTEM_INITIALIZE                                                04/10/2019 09:17:36 PAGE 2   
+C51 COMPILER V9.01   PROC_SYSTEM_INITIALIZE                                                04/11/2019 18:46:25 PAGE 2   
 
   53   1      
   54   1          SPCFNC=1;           //调整FLASH功耗
@@ -126,7 +126,7 @@ line level    source
  112   1              ////////////////////////////////////////////////
  113   1              //  S0_System 区相关RAM初始化
  114   1              ////////////////////////////////////////////////
-C51 COMPILER V9.01   PROC_SYSTEM_INITIALIZE                                                04/10/2019 09:17:36 PAGE 3   
+C51 COMPILER V9.01   PROC_SYSTEM_INITIALIZE                                                04/11/2019 18:46:25 PAGE 3   
 
  115   1              Proc_sys_data_init();
  116   1              Proc_init_Check_var();
@@ -190,7 +190,7 @@ line level    source
  174   4                      }
  175   3                      CLRWDT();
  176   3                      api_clr_current_MD_data();
-C51 COMPILER V9.01   PROC_SYSTEM_INITIALIZE                                                04/10/2019 09:17:36 PAGE 4   
+C51 COMPILER V9.01   PROC_SYSTEM_INITIALIZE                                                04/11/2019 18:46:25 PAGE 4   
 
  177   3              }
  178   2      }
@@ -254,7 +254,7 @@ line level    source
                  IT20=1;                    //外部中断2下降沿触发
                  IEN1|=Bin(10000000);       //允许LPD中断  
                  IEN1|=Bin(00000010);       //允许外部中断2
-C51 COMPILER V9.01   PROC_SYSTEM_INITIALIZE                                                04/10/2019 09:17:36 PAGE 5   
+C51 COMPILER V9.01   PROC_SYSTEM_INITIALIZE                                                04/11/2019 18:46:25 PAGE 5   
 
                  IEN1|=Bin(00001000);       //允许RTC中断
                  EA=1;
@@ -318,7 +318,7 @@ line level    source
  297   1              Init_LCD();
  298   1              api_handl_dis_sleep();
  299   1              Init_GPIO_sleep();
-C51 COMPILER V9.01   PROC_SYSTEM_INITIALIZE                                                04/10/2019 09:17:36 PAGE 6   
+C51 COMPILER V9.01   PROC_SYSTEM_INITIALIZE                                                04/11/2019 18:46:25 PAGE 6   
 
  300   1              //下翻按键      2019-01-18
  301   1              P14FS = 0x00;
@@ -382,7 +382,7 @@ line level    source
  359   1              Init_Timer();   //定时器
  360   1              api_handl_COMM_FRAME_ERROR(UART_CH0_IR);        //TTL 通讯硬件初始化
  361   1              Init_RTC();
-C51 COMPILER V9.01   PROC_SYSTEM_INITIALIZE                                                04/10/2019 09:17:36 PAGE 7   
+C51 COMPILER V9.01   PROC_SYSTEM_INITIALIZE                                                04/11/2019 18:46:25 PAGE 7   
 
  362   1              Init_EMU(NORMAL_MODE);
  363   1              Check_EMU_AdjParam();
@@ -446,7 +446,7 @@ line level    source
  418   2                              button_flag = 1;
  419   2      //                      button_delay = 1;
  420   2                      //      api_updated_LCDDisplayItem_per_second();
-C51 COMPILER V9.01   PROC_SYSTEM_INITIALIZE                                                04/10/2019 09:17:36 PAGE 8   
+C51 COMPILER V9.01   PROC_SYSTEM_INITIALIZE                                                04/11/2019 18:46:25 PAGE 8   
 
  421   2                      }
  422   1      //              if(Judge_PG_DN_key() == FALSE)
@@ -477,158 +477,160 @@ line level    source
  447   1                      if(gs_dis_ctl_var.keep_sec[0] == 0)
  448   1                      {
  449   2                              dis_num_char = 0;
- 450   2                              api_updated_LCDDisplayPixel_per_second();
- 451   2                      }
- 452   1      
- 453   1      }
- 454          
- 455          /****************************************************************
- 456          Function:           Proc_judge_Power_down_process
- 457          Description:       运行过程中的掉电检查函数
- 458          Input:                  no
- 459          Parameters:             no
- 460          Returns:                        no                        
- 461          Others:         
- 462          ****************************************************************/
- 463          void Proc_judge_Power_down_process(void)
- 464          {
- 465   1              RTC_TYPE rtc_data_tmp;
- 466   1      
- 467   1              if(CheckPOWERUP()==FALSE)
- 468   1              {
- 469   2                      PMG=1;                  //关闭计量时钟
- 470   2                      DisableINT();                                   // disable interrupt function  //
- 471   2                      api_accum_current_energy_data_pre_second();
- 472   2                      mem_db_write(ADR_BLOCK00_EC_L0_E2P,&gs_energy_user_data.us_val[0][0].buf[0],LEN_EC_CURRENT,MEM_E2P1);
- 473   2                      
- 474   2      //              d_flag = 1;
- 475   2      //              api_freeze_energy_pre_day(); //上电时将日冻结EEP区的数据写入EEP
- 476   2                      gs_sys_globaL_var.work_mode = SLEEP_MODE;
- 477   2      //              mem_db_write( ADR_METER_PARAM1_LOAD_PTR, (INT8U*)&LPRunPa.Ptr[0], LP_RunPara_Len,MEM_E2P1); //负荷记录
+ 450   2                              Bar_No = 0;//清除进度条显示
+ 451   2                              IsModeTest = FALSE;
+ 452   2                              api_updated_LCDDisplayPixel_per_second();
+ 453   2                      }
+ 454   1      
+ 455   1      }
+ 456          
+ 457          /****************************************************************
+ 458          Function:           Proc_judge_Power_down_process
+ 459          Description:       运行过程中的掉电检查函数
+ 460          Input:                  no
+ 461          Parameters:             no
+ 462          Returns:                        no                        
+ 463          Others:         
+ 464          ****************************************************************/
+ 465          void Proc_judge_Power_down_process(void)
+ 466          {
+ 467   1              RTC_TYPE rtc_data_tmp;
+ 468   1      
+ 469   1              if(CheckPOWERUP()==FALSE)
+ 470   1              {
+ 471   2                      PMG=1;                  //关闭计量时钟
+ 472   2                      DisableINT();                                   // disable interrupt function  //
+ 473   2                      api_accum_current_energy_data_pre_second();
+ 474   2                      mem_db_write(ADR_BLOCK00_EC_L0_E2P,&gs_energy_user_data.us_val[0][0].buf[0],LEN_EC_CURRENT,MEM_E2P1);
+ 475   2                      
+ 476   2      //              d_flag = 1;
+ 477   2      //              api_freeze_energy_pre_day(); //上电时将日冻结EEP区的数据写入EEP
+ 478   2                      gs_sys_globaL_var.work_mode = SLEEP_MODE;
+ 479   2      //              mem_db_write( ADR_METER_PARAM1_LOAD_PTR, (INT8U*)&LPRunPa.Ptr[0], LP_RunPara_Len,MEM_E2P1); //负荷记录
              -运行参数 
- 478   2                      mem_db_write(ADR_METER_VAR_RTC, &gs_CurDateTime.Week,7,MEM_E2P1);       
- 479   2                      
- 480   2                      gs_even_fun_var.into_cnt[ID_CLASS_II_PWN-ID_CLASS_II_min]=4;  // 事件保持时间传人ID - 0-6
- 481   2                      api_deal_even_class_recode(ID_CLASS_II_PWN,START);      
-C51 COMPILER V9.01   PROC_SYSTEM_INITIALIZE                                                04/10/2019 09:17:36 PAGE 9   
+ 480   2                      mem_db_write(ADR_METER_VAR_RTC, &gs_CurDateTime.Week,7,MEM_E2P1);       
+ 481   2                      
+C51 COMPILER V9.01   PROC_SYSTEM_INITIALIZE                                                04/11/2019 18:46:25 PAGE 9   
 
- 482   2              //电网类事件结束
- 483   2                      //      gs_even_fun_var.into_cnt[ID_CLASS_II_NOL1-ID_CLASS_II_min]=4;  // 事件保持时间 二类事件序号
- 484   2                      //      gs_even_fun_var.esc_cnt[ID_CLASS_II_NOL1-ID_CLASS_II_min]=4;  // 事件保持时间
- 485   2                      //      api_deal_even_class_recode(ID_CLASS_II_NOL1,END);
- 486   2                      //      gs_even_fun_var.into_cnt[ID_CLASS_II_NOL2-ID_CLASS_II_min]=4;  // 事件保持时间 二类事件序号
- 487   2                      //      gs_even_fun_var.esc_cnt[ID_CLASS_II_NOL2-ID_CLASS_II_min]=4;  // 事件保持时间
- 488   2                      //      api_deal_even_class_recode(ID_CLASS_II_NOL2,END);
- 489   2                      gs_even_fun_var.into_cnt[ID_CLASS_II_L1reverse-ID_CLASS_II_min]=4;  // 事件保持时间 二类事件序号
- 490   2                      gs_even_fun_var.esc_cnt[ID_CLASS_II_L1reverse-ID_CLASS_II_min]=4;  // 事件保持时间
- 491   2                      api_deal_even_class_recode(ID_CLASS_II_L1reverse,END);
- 492   2                      //      gs_even_fun_var.into_cnt[ID_CLASS_II_L2reverse-ID_CLASS_II_min]=4;  // 事件保持时间 二类事件序号
- 493   2                      //      gs_even_fun_var.esc_cnt[ID_CLASS_II_L2reverse-ID_CLASS_II_min]=4;  // 事件保持时间
- 494   2                      //      api_deal_even_class_recode(ID_CLASS_II_L2reverse,END);
- 495   2      
- 496   2                      mem_read(&gs_even_fun_var.even_fun_doingflg[ID_CLASS_II_COVER-ID_CLASS_II_min],ADR_CLASS2FLG_START_E2P+ 
+ 482   2                      gs_even_fun_var.into_cnt[ID_CLASS_II_PWN-ID_CLASS_II_min]=4;  // 事件保持时间传人ID - 0-6
+ 483   2                      api_deal_even_class_recode(ID_CLASS_II_PWN,START);      
+ 484   2              //电网类事件结束
+ 485   2                      //      gs_even_fun_var.into_cnt[ID_CLASS_II_NOL1-ID_CLASS_II_min]=4;  // 事件保持时间 二类事件序号
+ 486   2                      //      gs_even_fun_var.esc_cnt[ID_CLASS_II_NOL1-ID_CLASS_II_min]=4;  // 事件保持时间
+ 487   2                      //      api_deal_even_class_recode(ID_CLASS_II_NOL1,END);
+ 488   2                      //      gs_even_fun_var.into_cnt[ID_CLASS_II_NOL2-ID_CLASS_II_min]=4;  // 事件保持时间 二类事件序号
+ 489   2                      //      gs_even_fun_var.esc_cnt[ID_CLASS_II_NOL2-ID_CLASS_II_min]=4;  // 事件保持时间
+ 490   2                      //      api_deal_even_class_recode(ID_CLASS_II_NOL2,END);
+ 491   2                      gs_even_fun_var.into_cnt[ID_CLASS_II_L1reverse-ID_CLASS_II_min]=4;  // 事件保持时间 二类事件序号
+ 492   2                      gs_even_fun_var.esc_cnt[ID_CLASS_II_L1reverse-ID_CLASS_II_min]=4;  // 事件保持时间
+ 493   2                      api_deal_even_class_recode(ID_CLASS_II_L1reverse,END);
+ 494   2                      //      gs_even_fun_var.into_cnt[ID_CLASS_II_L2reverse-ID_CLASS_II_min]=4;  // 事件保持时间 二类事件序号
+ 495   2                      //      gs_even_fun_var.esc_cnt[ID_CLASS_II_L2reverse-ID_CLASS_II_min]=4;  // 事件保持时间
+ 496   2                      //      api_deal_even_class_recode(ID_CLASS_II_L2reverse,END);
+ 497   2      
+ 498   2                      mem_read(&gs_even_fun_var.even_fun_doingflg[ID_CLASS_II_COVER-ID_CLASS_II_min],ADR_CLASS2FLG_START_E2P+ 
              -(ID_CLASS_II_COVER-ID_CLASS_II_min)* LEN_CLASSII_flg,LEN_CLASSII_flg,MEM_E2P1);       
- 497   2      //EEP操作在关闭IIC之前
- 498   2                      api_check_current_energy_data();                //  初始化电量//
- 499   2                      api_handl_dis_sleep();
- 500   2                              
- 501   2                      Init_GPIO_sleep();
- 502   2      
- 503   2                      //下翻按键      2019-01-18
- 504   2                      P14FS = 0x00;
- 505   2                      P1IE |= BIT4;//输入使能
- 506   2                
- 507   2                      E2p_IIC_Initail();
- 508   2                      E2p_Stop_i2c();
- 509   2                      api_Measure_ram_INIT();          //清除瞬时量 //
- 510   2                      
- 511   2      //              KEY_ERR_COVER_INITLIZE() ;              
- 512   2      //              gs_even_fun_var.esc_cnt[ID_CLASS_II_COVER-ID_CLASS_II_min] =0; 
- 513   2      //              gs_even_fun_var.into_cnt[ID_CLASS_II_COVER-ID_CLASS_II_min] =0;
- 514   2      
- 515   2                      gs_dis_ctl_var.keep_sec[0] = 0;//2019-01-18             cxy
- 516   2                      d_flag = 0;
- 517   2                      while(1)
- 518   2                      {
- 519   3                              CLRWDT();
- 520   3                              SetExtRTC(0x01,0x00);//秒唤醒
- 521   3                              IOWK|=BIT0;
- 522   3                              Init_RTC();  
- 523   3                              Set_McuSleep();
- 524   3                              
- 525   3                              //              
- 526   3                              CLRWDT();
- 527   3                              Set_McuClock(FSYSCLK_3M2); 
- 528   3      //                      Proc_get_clock();
- 529   3                              
- 530   3                              //获取当前时间数据数据   //
- 531   3                      Get_RTCTime(&rtc_data_tmp);
- 532   3                              Lib_Copy_Str_TwoArry(&gs_CurDateTime.Week, &rtc_data_tmp.Week, 7);
- 533   3      //                      if(Judge_ERR_COVER_key()==TRUE)
- 534   3      //                              api_pwl_cover_even_class_recode(ID_CLASS_II_COVER-ID_CLASS_II_min,START);
- 535   3      //                      else 
- 536   3      //                              api_pwl_cover_even_class_recode(ID_CLASS_II_COVER-ID_CLASS_II_min,END);
- 537   3                              
- 538   3                              if((Systate&BIT0)==0x01)  
- 539   3                              {
- 540   4                                      Init_GPIO_run();
- 541   4                                      E2p_IIC_Initail();
- 542   4                                      E2p_Start_i2c();
-C51 COMPILER V9.01   PROC_SYSTEM_INITIALIZE                                                04/10/2019 09:17:36 PAGE 10  
+ 499   2      //EEP操作在关闭IIC之前
+ 500   2                      api_check_current_energy_data();                //  初始化电量//
+ 501   2                      api_handl_dis_sleep();
+ 502   2                              
+ 503   2                      Init_GPIO_sleep();
+ 504   2      
+ 505   2                      //下翻按键      2019-01-18
+ 506   2                      P14FS = 0x00;
+ 507   2                      P1IE |= BIT4;//输入使能
+ 508   2                
+ 509   2                      E2p_IIC_Initail();
+ 510   2                      E2p_Stop_i2c();
+ 511   2                      api_Measure_ram_INIT();          //清除瞬时量 //
+ 512   2                      
+ 513   2      //              KEY_ERR_COVER_INITLIZE() ;              
+ 514   2      //              gs_even_fun_var.esc_cnt[ID_CLASS_II_COVER-ID_CLASS_II_min] =0; 
+ 515   2      //              gs_even_fun_var.into_cnt[ID_CLASS_II_COVER-ID_CLASS_II_min] =0;
+ 516   2      
+ 517   2                      gs_dis_ctl_var.keep_sec[0] = 0;//2019-01-18             cxy
+ 518   2                      d_flag = 0;
+ 519   2                      while(1)
+ 520   2                      {
+ 521   3                              CLRWDT();
+ 522   3                              SetExtRTC(0x01,0x00);//秒唤醒
+ 523   3                              IOWK|=BIT0;
+ 524   3                              Init_RTC();  
+ 525   3                              Set_McuSleep();
+ 526   3                              
+ 527   3                              //              
+ 528   3                              CLRWDT();
+ 529   3                              Set_McuClock(FSYSCLK_3M2); 
+ 530   3      //                      Proc_get_clock();
+ 531   3                              
+ 532   3                              //获取当前时间数据数据   //
+ 533   3                      Get_RTCTime(&rtc_data_tmp);
+ 534   3                              Lib_Copy_Str_TwoArry(&gs_CurDateTime.Week, &rtc_data_tmp.Week, 7);
+ 535   3      //                      if(Judge_ERR_COVER_key()==TRUE)
+ 536   3      //                              api_pwl_cover_even_class_recode(ID_CLASS_II_COVER-ID_CLASS_II_min,START);
+ 537   3      //                      else 
+ 538   3      //                              api_pwl_cover_even_class_recode(ID_CLASS_II_COVER-ID_CLASS_II_min,END);
+ 539   3                              
+ 540   3                              if((Systate&BIT0)==0x01)  
+ 541   3                              {
+ 542   4                                      Init_GPIO_run();
+C51 COMPILER V9.01   PROC_SYSTEM_INITIALIZE                                                04/11/2019 18:46:25 PAGE 10  
 
- 543   4                                      ////
- 544   4                                      mem_write(ADR_BLOCK_4Energy_L0_E2P, &energy_data_array[0].buf[0], 5*LEN_EC_UNIT,MEM_E2P1);
- 545   4                                      mem_write(ADR_BLOCK_4MMD_L0_E2P,&st_mmd_unit_array[0].buf[0],5*LEN_NEW_MMD_UNIT,MEM_E2P1);
- 546   4                                      mem_write(ADR_BLOCK_4MMD_sum_L0_E2P,&sum_st_mmd_unit_array[0].buf[0],5*LEN_SUM_MMD_UNIT,MEM_E2P1);              
- 547   4                              
- 548   4      //                              mem_read(&Bill_Data, ADR_BLOCK20_METER_PARAM1_E2P+ST_MB_OFFSET(E2P_METER_PARAM1_MAP,BILL_FLAG), 1, M
+ 543   4                                      E2p_IIC_Initail();
+ 544   4                                      E2p_Start_i2c();
+ 545   4                                      ////
+ 546   4                                      mem_write(ADR_BLOCK_4Energy_L0_E2P, &energy_data_array[0].buf[0], 5*LEN_EC_UNIT,MEM_E2P1);
+ 547   4                                      mem_write(ADR_BLOCK_4MMD_L0_E2P,&st_mmd_unit_array[0].buf[0],5*LEN_NEW_MMD_UNIT,MEM_E2P1);
+ 548   4                                      mem_write(ADR_BLOCK_4MMD_sum_L0_E2P,&sum_st_mmd_unit_array[0].buf[0],5*LEN_SUM_MMD_UNIT,MEM_E2P1);              
+ 549   4                              
+ 550   4      //                              mem_read(&Bill_Data, ADR_BLOCK20_METER_PARAM1_E2P+ST_MB_OFFSET(E2P_METER_PARAM1_MAP,BILL_FLAG), 1, M
              -EM_E2P1);
- 549   4                                      /////
- 550   4                              //      api_freeze_energy_pre_day();  
- 551   4                                      sys_err();        //如果上电 //  
- 552   4                              }
- 553   3                              api_freeze_energy_Ram_pre_day();
- 554   3                              
- 555   3                              Proc_display_Power_down_process();                 
- 556   3              }
- 557   2              }
- 558   1              else
- 559   1              {
- 560   2                      return;
- 561   2              }
- 562   1      }
- 563          
- 564          
- 565          /****************************************************************
- 566          Function:               void sys_err(void)
- 567          Description:            系统错误后的看门狗复位处理
- 568          Input:                  no
- 569          Parameters:             no
- 570          Returns:                        no                        
- 571          Others:         
- 572          ****************************************************************/
- 573          void sys_err(void)
- 574          {  
- 575   1          CLRWDT();
- 576   1      
- 577   1          while(1)
- 578   1          {
- 579   2                      NOP();
- 580   2                      NOP();
+ 551   4                                      /////
+ 552   4                              //      api_freeze_energy_pre_day();  
+ 553   4                                      sys_err();        //如果上电 //  
+ 554   4                              }
+ 555   3                              api_freeze_energy_Ram_pre_day();
+ 556   3                              
+ 557   3                              Proc_display_Power_down_process();                 
+ 558   3              }
+ 559   2              }
+ 560   1              else
+ 561   1              {
+ 562   2                      return;
+ 563   2              }
+ 564   1      }
+ 565          
+ 566          
+ 567          /****************************************************************
+ 568          Function:               void sys_err(void)
+ 569          Description:            系统错误后的看门狗复位处理
+ 570          Input:                  no
+ 571          Parameters:             no
+ 572          Returns:                        no                        
+ 573          Others:         
+ 574          ****************************************************************/
+ 575          void sys_err(void)
+ 576          {  
+ 577   1          CLRWDT();
+ 578   1      
+ 579   1          while(1)
+ 580   1          {
  581   2                      NOP();
- 582   2          }  
- 583   1      }
- 584          
- 585          
+ 582   2                      NOP();
+ 583   2                      NOP();
+ 584   2          }  
+ 585   1      }
  586          
- 587          /***************************************************************
- 588          *    END
- 589          ****************************************************************/
- 590          
+ 587          
+ 588          
+ 589          /***************************************************************
+ 590          *    END
+ 591          ****************************************************************/
+ 592          
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =   1406    ----
+   CODE SIZE        =   1414    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----      29
    PDATA SIZE       =   ----    ----
@@ -636,6 +638,8 @@ MODULE INFORMATION:   STATIC OVERLAYABLE
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
 END OF MODULE INFORMATION.
+
+C51 COMPILER V9.01   PROC_SYSTEM_INITIALIZE                                                04/11/2019 18:46:25 PAGE 11  
 
 
 C51 COMPILATION COMPLETE.  2 WARNING(S),  0 ERROR(S)
