@@ -1,4 +1,4 @@
-C51 COMPILER V9.01   API_MEASURE                                                           04/11/2019 18:46:35 PAGE 1   
+C51 COMPILER V9.01   API_MEASURE                                                           04/16/2019 21:42:10 PAGE 1   
 
 
 C51 COMPILER V9.01, COMPILATION OF MODULE API_MEASURE
@@ -62,7 +62,7 @@ line level    source
   50          ** Returned value   :NONE
   51          **
   52          **----------------------------------------------------------------------------
-C51 COMPILER V9.01   API_MEASURE                                                           04/11/2019 18:46:35 PAGE 2   
+C51 COMPILER V9.01   API_MEASURE                                                           04/16/2019 21:42:10 PAGE 2   
 
   53          ** V01.01  MJ  2016-04-23
   54          ******************************************************************************/
@@ -92,82 +92,85 @@ line level    source
   78   1          u32_P = 1000*gs_measure_var_data.gs_really[PHASE_TT].dw_p_val.u32;
   79   1          u32_UI = ((gs_measure_var_data.gs_really[PHASE_TT].dw_u_val.u32 * gs_measure_var_data.gs_really[PHASE_
              -TT].dw_i_val.u32 )/1000);
-  80   1          if(u32_UI ==0)
-  81   1          {
-  82   2               gs_measure_var_data.gs_really[PHASE_TT].dw_pf_val.u16= 1000;             
-  83   2          }
-  84   1          else
-  85   1          {
-  86   2              u32_PF = u32_P/u32_UI;
-  87   2              if(u32_PF>995)  u32_PF = 1000;
-  88   2              gs_measure_var_data.gs_really[PHASE_TT].dw_pf_val.u16 = (uint16)(u32_PF);        
-  89   2          }    
-  90   1      }         
-  91          /*****************************************************************************
-  92          ** Function name    :api_measure_VBAT_pre_min
-  93          **
-  94          ** Description         :每分钟测试一次电池电压
-  95          **
-  96          ** Parameters         :NONE          
-  97          **
-  98          ** Returned value   :NONE
-  99          **
- 100          **----------------------------------------------------------------------------
- 101          ** V01.01  MJ  2016-04-23
- 102          ******************************************************************************/
- 103          void api_measure_VBAT_pre_min(void)
- 104          {
- 105   1          gs_measure_var_data.w_bat_v.u16= (Samlpe_BatAdc());
- 106   1        
- 107   1              if( gs_measure_var_data.w_bat_v.u16<= 280 ) 
- 108   1              {
- 109   2                      gs_measure_var_data.w_bat_v.u16= (Samlpe_BatAdc());
- 110   2                      if( gs_measure_var_data.w_bat_v.u16<= 280 )  
- 111   2                      {
- 112   3                              gs_measure_status_judge_var.u8_status |=VBAT_LOW;
- 113   3                      
-C51 COMPILER V9.01   API_MEASURE                                                           04/11/2019 18:46:35 PAGE 3   
+  80   1      #if meter_type == D_1P3W
+  81   1              u32_P *= 2;
+  82   1      #endif
+  83   1          if(u32_UI ==0)
+  84   1          {
+  85   2               gs_measure_var_data.gs_really[PHASE_TT].dw_pf_val.u16= 1000;             
+  86   2          }
+  87   1          else
+  88   1          {
+  89   2              u32_PF = u32_P/u32_UI;
+  90   2              if(u32_PF>995)  u32_PF = 1000;
+  91   2              gs_measure_var_data.gs_really[PHASE_TT].dw_pf_val.u16 = (uint16)(u32_PF);        
+  92   2          }    
+  93   1      }         
+  94          /*****************************************************************************
+  95          ** Function name    :api_measure_VBAT_pre_min
+  96          **
+  97          ** Description         :每分钟测试一次电池电压
+  98          **
+  99          ** Parameters         :NONE          
+ 100          **
+ 101          ** Returned value   :NONE
+ 102          **
+ 103          **----------------------------------------------------------------------------
+ 104          ** V01.01  MJ  2016-04-23
+ 105          ******************************************************************************/
+ 106          void api_measure_VBAT_pre_min(void)
+ 107          {
+ 108   1          gs_measure_var_data.w_bat_v.u16= (Samlpe_BatAdc());
+ 109   1        
+ 110   1              if( gs_measure_var_data.w_bat_v.u16<= 280 ) 
+ 111   1              {
+ 112   2                      gs_measure_var_data.w_bat_v.u16= (Samlpe_BatAdc());
+ 113   2                      if( gs_measure_var_data.w_bat_v.u16<= 280 )  
+C51 COMPILER V9.01   API_MEASURE                                                           04/16/2019 21:42:10 PAGE 3   
 
- 114   3                      }
- 115   2              }
- 116   1              else
- 117   1              {
- 118   2                      gs_measure_status_judge_var.u8_status &= (~VBAT_LOW);
- 119   2              }       
- 120   1      }
- 121          
- 122          
- 123          /*****************************************************************************
- 124          ** Function name    :api_measure_VBAT_pre_min
- 125          **
- 126          ** Description         :每分钟测试一次电池电压
- 127          **
- 128          ** Parameters         :NONE          
- 129          **
- 130          ** Returned value   :NONE
- 131          **
- 132          **----------------------------------------------------------------------------
- 133          ** V01.01  MJ  2016-04-23
- 134          ******************************************************************************/
- 135          void api_measure_temperature_pre_min(void)
- 136          {
- 137   1          Enable_M_ADC(M_ADC_CH1_TEMPERATURE);
- 138   1          Lib_Delay_ms(10);
- 139   1      
- 140   1          gs_measure_var_data.w_temp.u16 = Samlpe_temperatureAdc();
- 141   1      
- 142   1          Disable_M_ADC();
- 143   1      }
- 144          
- 145          
- 146          /***************************************************************
- 147          *    END
- 148          ****************************************************************/
- 149          
+ 114   2                      {
+ 115   3                              gs_measure_status_judge_var.u8_status |=VBAT_LOW;
+ 116   3                      
+ 117   3                      }
+ 118   2              }
+ 119   1              else
+ 120   1              {
+ 121   2                      gs_measure_status_judge_var.u8_status &= (~VBAT_LOW);
+ 122   2              }       
+ 123   1      }
+ 124          
+ 125          
+ 126          /*****************************************************************************
+ 127          ** Function name    :api_measure_VBAT_pre_min
+ 128          **
+ 129          ** Description         :每分钟测试一次电池电压
+ 130          **
+ 131          ** Parameters         :NONE          
+ 132          **
+ 133          ** Returned value   :NONE
+ 134          **
+ 135          **----------------------------------------------------------------------------
+ 136          ** V01.01  MJ  2016-04-23
+ 137          ******************************************************************************/
+ 138          void api_measure_temperature_pre_min(void)
+ 139          {
+ 140   1          Enable_M_ADC(M_ADC_CH1_TEMPERATURE);
+ 141   1          Lib_Delay_ms(10);
+ 142   1      
+ 143   1          gs_measure_var_data.w_temp.u16 = Samlpe_temperatureAdc();
+ 144   1      
+ 145   1          Disable_M_ADC();
+ 146   1      }
+ 147          
+ 148          
+ 149          /***************************************************************
+ 150          *    END
+ 151          ****************************************************************/
+ 152          
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    480    ----
+   CODE SIZE        =    509    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =     38      12
    PDATA SIZE       =   ----    ----

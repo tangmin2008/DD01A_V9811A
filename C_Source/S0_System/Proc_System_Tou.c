@@ -155,18 +155,9 @@ void api_handl_bar_display_1ms(void)  //0.8ms
 	if(p_val > 0)
 	{
 		c= (t_count);
-//		if(gs_measure_var_data.gs_really[PHASE_TT].dw_i_val.u32 > 10000)
-//		{
-//			e = (t_val*200);
-			e=	(t_val*42);	 //5ms
-//		}
-//		else
-//		{
-////			TL2  = LOBYTE(T0_10MS_CNT);         //10ms
-////	    	TH2  = HIBYTE(T0_10MS_CNT);
-//			e=	(t_val*25);	//10ms
-//		}
-	//	
+
+		e=	(t_val*42);	 //5ms
+
 		if(c >= e)
 		{	
 			Bar_No++;
@@ -230,6 +221,12 @@ void Proc_handl_tou_10ms(void)
 	    api_handl_COMM_pre_10ms(i);
 	}
 	api_handl_button_pre_10ms();
+
+	if(IsModeTest == FALSE)
+	{	//关闭80ms定时器
+		TR2 = 0;
+		ET2 = 0;
+	}
 	
 //	api_handl_bar_display_10ms();
 //	//48kW -> 0.075S
@@ -341,10 +338,10 @@ void Proc_handl_tou_1s(void)
 				TestDelaySecond = gs_CurDateTime.Second;
 				//液晶显示test模式  code
 			}
-			else
-			{
-				IsModeTest = FALSE;
-			}
+//			else
+//			{
+//				IsModeTest = FALSE;
+//			}
 		}
 	}else{
 		if(TestDelay > 0)
@@ -368,7 +365,7 @@ void Proc_handl_tou_1s(void)
        api_measure_temperature_pre_min();   
 	   CLRWDT();   // 清看门狗//
      } 
-	
+
 }
 
 

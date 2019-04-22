@@ -335,7 +335,7 @@ uint32 Lnk_get_EMU_current(uint8 ch)
         tmpval = 0;
     }
 
-    if( tmpval <20)   tmpval =0;
+    if( tmpval <10)   tmpval =0;
 
     return (tmpval);
 
@@ -514,7 +514,7 @@ void lnk_CAL_EMU_constSum_per_second(void)
 		gs_emu_run_var.net_flg |= REV_TT_ACPOWER;// 合相功率反向
 //	sumval0.u32=REF_START_Pn;
 	sumval0.u32=val1.u32;
-	if(val1.u32<REF_START_Pn) 
+	if(val1.u32<(REF_START_Pn*2)) 
 	{
 		sumval0.u32=0;
 //		val1.u32 = 0;

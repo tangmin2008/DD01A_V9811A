@@ -1,4 +1,4 @@
-C51 COMPILER V9.01   PROC_SYSTEM_INITIALIZE                                                04/11/2019 18:46:25 PAGE 1   
+C51 COMPILER V9.01   PROC_SYSTEM_INITIALIZE                                                04/16/2019 21:42:00 PAGE 1   
 
 
 C51 COMPILER V9.01, COMPILATION OF MODULE PROC_SYSTEM_INITIALIZE
@@ -62,7 +62,7 @@ line level    source
   50   2                  }
   51   1                  NOP();
   52   1                #endif
-C51 COMPILER V9.01   PROC_SYSTEM_INITIALIZE                                                04/11/2019 18:46:25 PAGE 2   
+C51 COMPILER V9.01   PROC_SYSTEM_INITIALIZE                                                04/16/2019 21:42:00 PAGE 2   
 
   53   1      
   54   1          SPCFNC=1;           //调整FLASH功耗
@@ -126,7 +126,7 @@ line level    source
  112   1              ////////////////////////////////////////////////
  113   1              //  S0_System 区相关RAM初始化
  114   1              ////////////////////////////////////////////////
-C51 COMPILER V9.01   PROC_SYSTEM_INITIALIZE                                                04/11/2019 18:46:25 PAGE 3   
+C51 COMPILER V9.01   PROC_SYSTEM_INITIALIZE                                                04/16/2019 21:42:00 PAGE 3   
 
  115   1              Proc_sys_data_init();
  116   1              Proc_init_Check_var();
@@ -166,7 +166,7 @@ line level    source
  150   2      
  151   2              mem_read(&last_rec_dateTime[0],ADR_BLOCK161_EVENII_PWN_E2P+6,5,MEM_E2P1);
  152   2              mem_read(&param_settel[0], ADR_METER_PARAM1_SETL_DDHH, 2, MEM_E2P1);
- 153   2              if(last_rec_dateTime[2]<param_settel[0])
+ 153   2              if(last_rec_dateTime[2]<=param_settel[0])
  154   2              {       
  155   3                      i = 1;  
  156   3              }else{
@@ -190,7 +190,7 @@ line level    source
  174   4                      }
  175   3                      CLRWDT();
  176   3                      api_clr_current_MD_data();
-C51 COMPILER V9.01   PROC_SYSTEM_INITIALIZE                                                04/11/2019 18:46:25 PAGE 4   
+C51 COMPILER V9.01   PROC_SYSTEM_INITIALIZE                                                04/16/2019 21:42:00 PAGE 4   
 
  177   3              }
  178   2      }
@@ -254,7 +254,7 @@ line level    source
                  IT20=1;                    //外部中断2下降沿触发
                  IEN1|=Bin(10000000);       //允许LPD中断  
                  IEN1|=Bin(00000010);       //允许外部中断2
-C51 COMPILER V9.01   PROC_SYSTEM_INITIALIZE                                                04/11/2019 18:46:25 PAGE 5   
+C51 COMPILER V9.01   PROC_SYSTEM_INITIALIZE                                                04/16/2019 21:42:00 PAGE 5   
 
                  IEN1|=Bin(00001000);       //允许RTC中断
                  EA=1;
@@ -318,7 +318,7 @@ line level    source
  297   1              Init_LCD();
  298   1              api_handl_dis_sleep();
  299   1              Init_GPIO_sleep();
-C51 COMPILER V9.01   PROC_SYSTEM_INITIALIZE                                                04/11/2019 18:46:25 PAGE 6   
+C51 COMPILER V9.01   PROC_SYSTEM_INITIALIZE                                                04/16/2019 21:42:00 PAGE 6   
 
  300   1              //下翻按键      2019-01-18
  301   1              P14FS = 0x00;
@@ -382,7 +382,7 @@ line level    source
  359   1              Init_Timer();   //定时器
  360   1              api_handl_COMM_FRAME_ERROR(UART_CH0_IR);        //TTL 通讯硬件初始化
  361   1              Init_RTC();
-C51 COMPILER V9.01   PROC_SYSTEM_INITIALIZE                                                04/11/2019 18:46:25 PAGE 7   
+C51 COMPILER V9.01   PROC_SYSTEM_INITIALIZE                                                04/16/2019 21:42:00 PAGE 7   
 
  362   1              Init_EMU(NORMAL_MODE);
  363   1              Check_EMU_AdjParam();
@@ -446,7 +446,7 @@ line level    source
  418   2                              button_flag = 1;
  419   2      //                      button_delay = 1;
  420   2                      //      api_updated_LCDDisplayItem_per_second();
-C51 COMPILER V9.01   PROC_SYSTEM_INITIALIZE                                                04/11/2019 18:46:25 PAGE 8   
+C51 COMPILER V9.01   PROC_SYSTEM_INITIALIZE                                                04/16/2019 21:42:00 PAGE 8   
 
  421   2                      }
  422   1      //              if(Judge_PG_DN_key() == FALSE)
@@ -510,7 +510,7 @@ line level    source
              -运行参数 
  480   2                      mem_db_write(ADR_METER_VAR_RTC, &gs_CurDateTime.Week,7,MEM_E2P1);       
  481   2                      
-C51 COMPILER V9.01   PROC_SYSTEM_INITIALIZE                                                04/11/2019 18:46:25 PAGE 9   
+C51 COMPILER V9.01   PROC_SYSTEM_INITIALIZE                                                04/16/2019 21:42:00 PAGE 9   
 
  482   2                      gs_even_fun_var.into_cnt[ID_CLASS_II_PWN-ID_CLASS_II_min]=4;  // 事件保持时间传人ID - 0-6
  483   2                      api_deal_even_class_recode(ID_CLASS_II_PWN,START);      
@@ -574,7 +574,7 @@ line level    source
  540   3                              if((Systate&BIT0)==0x01)  
  541   3                              {
  542   4                                      Init_GPIO_run();
-C51 COMPILER V9.01   PROC_SYSTEM_INITIALIZE                                                04/11/2019 18:46:25 PAGE 10  
+C51 COMPILER V9.01   PROC_SYSTEM_INITIALIZE                                                04/16/2019 21:42:00 PAGE 10  
 
  543   4                                      E2p_IIC_Initail();
  544   4                                      E2p_Start_i2c();
@@ -639,7 +639,7 @@ MODULE INFORMATION:   STATIC OVERLAYABLE
    BIT SIZE         =   ----    ----
 END OF MODULE INFORMATION.
 
-C51 COMPILER V9.01   PROC_SYSTEM_INITIALIZE                                                04/11/2019 18:46:25 PAGE 11  
+C51 COMPILER V9.01   PROC_SYSTEM_INITIALIZE                                                04/16/2019 21:42:00 PAGE 11  
 
 
 C51 COMPILATION COMPLETE.  2 WARNING(S),  0 ERROR(S)

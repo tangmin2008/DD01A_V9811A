@@ -29,6 +29,7 @@ UART_COMM_APP_VAR  gs_uart_iec_app_var[UART_CH_NUM];
 COMM_DATA  comm_data;
 uint8 clr_flag = 0;
 uint8 IsClrEvent = 0;
+uint8 IsReset = 0;
 /*******************************************************************************
 * 常量表区code
 *******************************************************************************/
@@ -1116,20 +1117,21 @@ INT8U IEC_Cmd_Write_Deal(INT8U* sptr,INT8U len)
 				mem_db_clr(0);   //数据区校验和全部清零 //
 			   	//2019-01-24  cxy
 				api_clr_freeze_energy();//清除冻结数据
-
-                while(1)
-                {
-                    NOP();          // 复位，等待数据检查回复数据，10秒左右 //
-                }	
+				IsReset = 1;
+//                while(1)
+//                {
+//                    NOP();          // 复位，等待数据检查回复数据，10秒左右 //
+//                }	
 				CLRWDT();
 			}
 			else if((*(sptr+13)=='3')&&(*(sptr+14)=='3')&&(*(sptr+15)=='3')&&(*(sptr+16)=='3'))  
 			 {
 				 mem_db_clr(0xA5);   //包括校准参数全部清零 //
-				 while(1)
-				 {
-					 NOP(); 		 // 复位，等待数据检查回复数据，10秒左右 //
-				 }	 
+//				 while(1)
+//				 {
+//					 NOP(); 		 // 复位，等待数据检查回复数据，10秒左右 //
+//				 }
+				 IsReset = 1;	 
 				 CLRWDT();
 			 }
 			else
@@ -1178,6 +1180,11 @@ INT8U IEC_Cmd_Write_Deal(INT8U* sptr,INT8U len)
 	if((comm_data.di1_di0.u32 == 0x04000302)||(comm_data.di1_di0.u32 == 0x04000303)||(comm_data.di1_di0.u32 == 0x04040100))
 	{
 		mem_read(&gs_dis_param.auto_sec, ADR_BLOCK21_DIS_PARAM_E2P, LEN_BLOCK21_DIS_PARAM_E2P, MEM_E2P1);
+	}
+
+	if(comm_data.di1_di0.u32 == 0x04000B02)	// 更新RAM区的结算方式
+	{
+		mem_read(&Bill_Data, ADR_BLOCK20_METER_PARAM1_E2P+ST_MB_OFFSET(E2P_METER_PARAM1_MAP,BILL_FLAG), 1, MEM_E2P1);
 	}
 //	CLRWDT();  //2019-04-11增加看门狗防止复位	
     // 数据设置成功后的组帧操作 //
@@ -1503,6 +1510,13 @@ void api_handl_COMM_pre_10ms(uint8 ch)
 	{
 		IsClrEvent = 0;
 		api_clr_even_by_comm();
+	}
+	if(IsReset == 1)
+	{
+		while(1)
+		{
+			NOP();
+		}
 	}
 //	if(IsProg == 1)
 //	{

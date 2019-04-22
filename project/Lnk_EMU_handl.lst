@@ -1,4 +1,4 @@
-C51 COMPILER V9.01   LNK_EMU_HANDL                                                         04/11/2019 18:46:28 PAGE 1   
+C51 COMPILER V9.01   LNK_EMU_HANDL                                                         04/16/2019 21:42:03 PAGE 1   
 
 
 C51 COMPILER V9.01, COMPILATION OF MODULE LNK_EMU_HANDL
@@ -62,7 +62,7 @@ line level    source
   50   2              CtrlADC6=0;         //关闭所有AD采样 //  
   51   2              PMG=1;              //关闭计量时钟  //
   52   2              return;
-C51 COMPILER V9.01   LNK_EMU_HANDL                                                         04/11/2019 18:46:28 PAGE 2   
+C51 COMPILER V9.01   LNK_EMU_HANDL                                                         04/16/2019 21:42:03 PAGE 2   
 
   53   2          }
   54   1      
@@ -126,7 +126,7 @@ line level    source
  112   1      
  113   1          // step8// 
  114   1          SetMeterCfgACK(0x57,PMCtrl1);//BIT7= 0  测试位确保为0  ; BIT6=1 使能角差校正  //
-C51 COMPILER V9.01   LNK_EMU_HANDL                                                         04/11/2019 18:46:28 PAGE 3   
+C51 COMPILER V9.01   LNK_EMU_HANDL                                                         04/16/2019 21:42:03 PAGE 3   
 
  115   1                                        //BIT5= 0  IA--I1,IB--I2 ; BIT4=1 使能PM数字信号处理  //
  116   1                                        //BIT3= 0  屏蔽M通道数字信号输入; BIT2=1 使能I2数字信号输入使能  //
@@ -190,7 +190,7 @@ line level    source
                       SetMeterCfgACK(0x00,PMCtrl1);   // 关闭计量通道，并停止功率/有效值计算  //
                       // step2  //
                       CtrlADC5=0x80;   
-C51 COMPILER V9.01   LNK_EMU_HANDL                                                         04/11/2019 18:46:28 PAGE 4   
+C51 COMPILER V9.01   LNK_EMU_HANDL                                                         04/16/2019 21:42:03 PAGE 4   
 
                       CtrlADC6=0;   
                       if(u8_mode==NORMAL_MODE)
@@ -254,7 +254,7 @@ line level    source
                       SetMeterCfgACK(0x00,CFCtrl);           //以E2正反绝对值累加能量为依据产生CF2  以E1正相能量为依据产生CF  //
               
                        // step11// 
-C51 COMPILER V9.01   LNK_EMU_HANDL                                                         04/11/2019 18:46:28 PAGE 5   
+C51 COMPILER V9.01   LNK_EMU_HANDL                                                         04/16/2019 21:42:03 PAGE 5   
 
                       SetMeterCfgACK(0x00,DATACP);//清常数功率寄存器 //
                       P9OE&=(~(BIT5));//打开CF2 IO输出//
@@ -318,7 +318,7 @@ line level    source
  290   2          }
  291   1      
  292   1      
-C51 COMPILER V9.01   LNK_EMU_HANDL                                                         04/11/2019 18:46:28 PAGE 6   
+C51 COMPILER V9.01   LNK_EMU_HANDL                                                         04/16/2019 21:42:03 PAGE 6   
 
  293   1          if( tmpval <50)   tmpval =0;
  294   1      
@@ -365,7 +365,7 @@ line level    source
  335   2              tmpval = 0;
  336   2          }
  337   1      
- 338   1          if( tmpval <20)   tmpval =0;
+ 338   1          if( tmpval <10)   tmpval =0;
  339   1      
  340   1          return (tmpval);
  341   1      
@@ -382,7 +382,7 @@ line level    source
  352   1         uint32 val,val2,tmpval;
  353   1         fp32   f32_tmp;
  354   1         ST_U32_U08 TempValue;
-C51 COMPILER V9.01   LNK_EMU_HANDL                                                         04/11/2019 18:46:28 PAGE 7   
+C51 COMPILER V9.01   LNK_EMU_HANDL                                                         04/16/2019 21:42:03 PAGE 7   
 
  355   1      
  356   1          if(ch==PHASE_TT) 
@@ -446,7 +446,7 @@ line level    source
  414   1          else
  415   1          {
  416   2              if(ch==WIRE_L1) f32_tmp = cst_adj_const.Kim_Prms*val;
-C51 COMPILER V9.01   LNK_EMU_HANDL                                                         04/11/2019 18:46:28 PAGE 8   
+C51 COMPILER V9.01   LNK_EMU_HANDL                                                         04/16/2019 21:42:03 PAGE 8   
 
  417   2              if(ch==WIRE_L2) f32_tmp = cst_adj_const.Kim_Prms*val;
  418   2              tmpval = (uint32)f32_tmp;               
@@ -510,7 +510,7 @@ line level    source
  476          /*******************************************************************************************
  477          ** 函数名称: Lnk_CAL_EMU_constSum
  478          ** 函数描述: 常量计量每秒更新数据
-C51 COMPILER V9.01   LNK_EMU_HANDL                                                         04/11/2019 18:46:28 PAGE 9   
+C51 COMPILER V9.01   LNK_EMU_HANDL                                                         04/16/2019 21:42:03 PAGE 9   
 
  479          ** 输入参数: 
  480          ** 输出参数: 
@@ -550,7 +550,7 @@ line level    source
  514   1                      gs_emu_run_var.net_flg |= REV_TT_ACPOWER;// 合相功率反向
  515   1      //      sumval0.u32=REF_START_Pn;
  516   1              sumval0.u32=val1.u32;
- 517   1              if(val1.u32<REF_START_Pn) 
+ 517   1              if(val1.u32<(REF_START_Pn*2)) 
  518   1              {
  519   2                      sumval0.u32=0;
  520   2      //              val1.u32 = 0;
@@ -574,7 +574,7 @@ line level    source
                       else
                               gs_emu_run_var.net_flg |= REV_TT_ACPOWER;// 合相功率反向
               //      sumval0.u32=REF_START_Pn;
-C51 COMPILER V9.01   LNK_EMU_HANDL                                                         04/11/2019 18:46:28 PAGE 10  
+C51 COMPILER V9.01   LNK_EMU_HANDL                                                         04/16/2019 21:42:03 PAGE 10  
 
                       sumval0.u32=val1.u32;
                       if(val1.u32<REF_START_Pn) 
@@ -638,7 +638,7 @@ line level    source
  600   1              // 读取二次补偿寄存器
  601   1              Temp_paraqc.u32=ReadMeterParaACK(PARAQC);
  602   1              
-C51 COMPILER V9.01   LNK_EMU_HANDL                                                         04/11/2019 18:46:28 PAGE 11  
+C51 COMPILER V9.01   LNK_EMU_HANDL                                                         04/16/2019 21:42:03 PAGE 11  
 
  603   1              //B路功率以及电压电流获取获取9260F  //
  604   1              if(ReadRaccoon(RegAAQ,1,BPhy)==TRUE)     // 最大 200ms读取等待    //  理论时间76ms  RegIAP
@@ -702,7 +702,7 @@ line level    source
  662   1      //                 }
  663   1      //                 else 
  664   1      //                 {
-C51 COMPILER V9.01   LNK_EMU_HANDL                                                         04/11/2019 18:46:28 PAGE 12  
+C51 COMPILER V9.01   LNK_EMU_HANDL                                                         04/16/2019 21:42:03 PAGE 12  
 
  665   1      //               if(gs_sys_globaL_var.Rac_energy[0]==0x55) //代数和
  666   1      //               {
@@ -766,7 +766,7 @@ line level    source
  723   2                         else //无功B路正
  724   2                         {
  725   3                                 if(val1.u32 >= val2.u32)
-C51 COMPILER V9.01   LNK_EMU_HANDL                                                         04/11/2019 18:46:28 PAGE 13  
+C51 COMPILER V9.01   LNK_EMU_HANDL                                                         04/16/2019 21:42:03 PAGE 13  
 
  726   3                                 {
  727   4                                   TempValue.u32 = val1.u32 - val2.u32 ;        //A路功率值
@@ -830,7 +830,7 @@ line level    source
  785   1                       {
  786   2                    val2.u32=~val2.u32+1;  // 取反丢入
  787   2                        val2.u32 =  val2.u32*err_ec ;
-C51 COMPILER V9.01   LNK_EMU_HANDL                                                         04/11/2019 18:46:28 PAGE 14  
+C51 COMPILER V9.01   LNK_EMU_HANDL                                                         04/16/2019 21:42:03 PAGE 14  
 
  788   2                    val2.u32=~val2.u32+1;  // 取反丢入
  789   2                       }
@@ -894,7 +894,7 @@ line level    source
  847   3             val = TempValue.u32;
  848   3              }
  849   2              else // 读取失败，刷新串口// 
-C51 COMPILER V9.01   LNK_EMU_HANDL                                                         04/11/2019 18:46:28 PAGE 15  
+C51 COMPILER V9.01   LNK_EMU_HANDL                                                         04/16/2019 21:42:03 PAGE 15  
 
  850   2              {
  851   3                  gs_sys_run.font_fg |= BIT4_FONT_FG_EnyBottom;

@@ -31,10 +31,6 @@ void Start_Timer(void)
 {
    	TR0 = 1;	          //开启TIMER0  //
 	ET0 = 1;
-
-	TR2 = 1;
-	ET2 = 1;
-
 }
 void Start_Timer1(void)
 {
@@ -69,14 +65,14 @@ void Init_Timer(void)
 //    TMOD = 0x01;	     // 工作在模式1
 	TMOD = 0x11;        //Timer0和Timer1工作在模式1
 	CKCON|=BIT3;        // Timer0时钟源clk
-	CKCON&=~BIT4; 		//Timer1时钟源clk/12
-	CKCON|=BIT5;        // Timer2时钟源clk 
+	CKCON&=~BIT5; 		//Timer2时钟源clk/12
+	CKCON|=BIT4;        // Timer1时钟源clk 
 	TL0  = LOBYTE(T0_10MS_CNT);         //10ms Timer0
 	TH0  = HIBYTE(T0_10MS_CNT);
-	TL1	 = LOBYTE(T1_80MS_CNT);	   //80ms  Timer1
-	TH1	 = HIBYTE(T1_80MS_CNT);
-	TL2  = LOBYTE(T2_01MS_CNT); 
-	TH2	 = HIBYTE(T2_01MS_CNT);	   //10ms  Timer2
+	TL2	 = LOBYTE(T2_80MS_CNT);	   //80ms  Timer1
+	TH2	 = HIBYTE(T2_80MS_CNT);
+	TL1  = LOBYTE(T1_05MS_CNT); 
+	TH1	 = HIBYTE(T1_05MS_CNT);	   //5ms  Timer2
     Start_Timer();
 }
 

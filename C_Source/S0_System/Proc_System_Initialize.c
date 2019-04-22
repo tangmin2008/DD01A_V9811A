@@ -150,7 +150,7 @@ if (Bill_Data == 0x30)
 
 	mem_read(&last_rec_dateTime[0],ADR_BLOCK161_EVENII_PWN_E2P+6,5,MEM_E2P1);
 	mem_read(&param_settel[0], ADR_METER_PARAM1_SETL_DDHH, 2, MEM_E2P1);
-	if(last_rec_dateTime[2]<param_settel[0])
+	if(last_rec_dateTime[2]<=param_settel[0])
 	{	
 		i = 1;	
 	}else{
@@ -540,8 +540,8 @@ void Proc_judge_Power_down_process(void)
 			if((Systate&BIT0)==0x01)  
 			{
 				Init_GPIO_run();
-    				E2p_IIC_Initail();
-    				E2p_Start_i2c();
+    			E2p_IIC_Initail();
+    			E2p_Start_i2c();
 				////
 				mem_write(ADR_BLOCK_4Energy_L0_E2P, &energy_data_array[0].buf[0], 5*LEN_EC_UNIT,MEM_E2P1);
 				mem_write(ADR_BLOCK_4MMD_L0_E2P,&st_mmd_unit_array[0].buf[0],5*LEN_NEW_MMD_UNIT,MEM_E2P1);

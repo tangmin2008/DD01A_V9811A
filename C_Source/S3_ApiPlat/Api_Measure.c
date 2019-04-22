@@ -77,6 +77,9 @@ void api_measure_deal_pre_second(void)
     //计算功率因数，量纲0.001 格式X.XXX //
     u32_P = 1000*gs_measure_var_data.gs_really[PHASE_TT].dw_p_val.u32;
     u32_UI = ((gs_measure_var_data.gs_really[PHASE_TT].dw_u_val.u32 * gs_measure_var_data.gs_really[PHASE_TT].dw_i_val.u32 )/1000);
+#if meter_type == D_1P3W
+	u32_P *= 2;
+#endif
     if(u32_UI ==0)
     {
          gs_measure_var_data.gs_really[PHASE_TT].dw_pf_val.u16= 1000;             

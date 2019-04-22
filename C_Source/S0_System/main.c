@@ -33,9 +33,12 @@ void main(void)
     NOP();
     CLRWDT();     
     DisableINT();    				// disable interrupt function  //
+  
     Proc_Initialize_systerm_reset();  
     EnableINT();
-    NOP();    	
+
+    NOP();
+  	
     while(1)
     {
 	    CLRWDT();   // 清看门狗//
@@ -79,7 +82,7 @@ void main(void)
 			CLRWDT();	// 清看门狗//
 	    }
 		// 上电状态下的电源管理处理  //   
-	    Proc_judge_Power_down_process();     
+	    Proc_judge_Power_down_process();  
 	}
 }
 

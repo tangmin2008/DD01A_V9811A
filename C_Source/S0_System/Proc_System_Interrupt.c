@@ -72,17 +72,15 @@ void Interrupt_Timer1 (void) interrupt 3 using 2
 {
     TCON &= ~BIT7;
 	
-	TL1  = LOBYTE(T1_80MS_CNT);         //10ms
-    TH1  = HIBYTE(T1_80MS_CNT);
-//	P9DO |= BIT2;
-////	UART4_INITLIZE_OFF();
-////	UART4_TX_DIR_OUT();
-////	P21FS = 0;
-	UART4_TX_HIGH();		//出脉冲将近红外灯置低
-////	P2OD &= ~PIN_UART4_TX;
-	TR1 = 0;
-	ET1 = 0;
+   	TL1  = LOBYTE(T1_05MS_CNT);         //5ms
+	TH1  = HIBYTE(T1_05MS_CNT);
 
+//	CLRWDT(); 
+	api_handl_bar_display_1ms();
+//	UART4_TX_HIGH();		//出脉冲将近红外灯置低
+//
+//	TR1 = 0;
+//	ET1 = 0;
 
 // user coding begin
 
@@ -95,20 +93,16 @@ void Interrupt_Timer1 (void) interrupt 3 using 2
 void Interrupt_Timer2 (void) interrupt 5 using 2
 {
 	T2CON &= ~BIT7;
-   //user coding begin
-//   if(gs_measure_var_data.gs_really[PHASE_TT].dw_i_val.u32 > 10000)
-//   {
-   	  	TL2  = LOBYTE(T2_01MS_CNT);         //5ms
-		TH2  = HIBYTE(T2_01MS_CNT);
-//   }
-//   else
-//   {
-//   		TL2  = LOBYTE(T0_10MS_CNT);         //10ms
-//	    TH2  = HIBYTE(T0_10MS_CNT);
-//   }
-	CLRWDT(); 
-	api_handl_bar_display_1ms();
+
+	TL2  = LOBYTE(T2_80MS_CNT);         //10ms
+    TH2  = HIBYTE(T2_80MS_CNT);
+
+	UART4_TX_HIGH();		//出脉冲将近红外灯置低
+
+	TR2 = 0;
+	ET2 = 0;
 //	 gs_sys_run.back_fg |= BIT3_FONT_FG_1MS;
+//	api_handl_bar_display_1ms();
 	
 }
 
@@ -405,15 +399,12 @@ void Interrupt_ExInt3 (void) interrupt 9 using 2
 //			//出脉冲将近红外灯置高 
 //			P9DO &= ~BIT2;//置高关闭报警灯
 //			//开启80ms定时器
-			TL1	 = LOBYTE(T1_80MS_CNT);	   //80ms  Timer1
-			TH1	 = HIBYTE(T1_80MS_CNT);
-			Start_Timer1();
+			TL2	 = LOBYTE(T2_80MS_CNT);	   //80ms  Timer1
+			TH2	 = HIBYTE(T2_80MS_CNT);
+			TR2 = 1;
+			ET2 = 1;
 		}
-		else
-		{	//关闭80ms定时器
-			TR1 = 0;
-			ET1 = 0;
-		}
+
 		//显示三条扛表示脉冲速率coding	//清空三条杠
 		gs_dis_pixel_var.dis_buff[10] &= ~(BIT7+BIT6+BIT5);
 		if(MD_dis_delay == 0)
@@ -426,10 +417,10 @@ void Interrupt_ExInt3 (void) interrupt 9 using 2
 		}
 		Bar_No = 0;//进度条等于0说明三条扛是被清空的
 		//t_count = 0;
-		TL2  = LOBYTE(T2_01MS_CNT); 
-		TH2	 = HIBYTE(T2_01MS_CNT);
-		TR2 = 1;
-		ET2 = 1;
+		TL1  = LOBYTE(T1_05MS_CNT); 
+		TH1	 = HIBYTE(T1_05MS_CNT);
+		TR1 = 1;
+		ET1 = 1;
 		//开启定时器
       	//////////////////////////////////////////////////
     }

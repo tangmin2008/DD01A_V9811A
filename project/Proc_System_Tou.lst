@@ -1,4 +1,4 @@
-C51 COMPILER V9.01   PROC_SYSTEM_TOU                                                       04/11/2019 20:39:24 PAGE 1   
+C51 COMPILER V9.01   PROC_SYSTEM_TOU                                                       04/16/2019 21:42:01 PAGE 1   
 
 
 C51 COMPILER V9.01, COMPILATION OF MODULE PROC_SYSTEM_TOU
@@ -62,7 +62,7 @@ line level    source
   49          ** Description         :获取当前RTC 时间全局变量数据  
   50          **
   51          ** Parameters         :NONE          
-C51 COMPILER V9.01   PROC_SYSTEM_TOU                                                       04/11/2019 20:39:24 PAGE 2   
+C51 COMPILER V9.01   PROC_SYSTEM_TOU                                                       04/16/2019 21:42:01 PAGE 2   
 
   52          **
   53          ** Returned value   :NONE
@@ -126,7 +126,7 @@ line level    source
  111   2                      KEY_READ_FLAG = 0;
  112   2                      KEY_READ_DELAY = 0;
  113   2              }
-C51 COMPILER V9.01   PROC_SYSTEM_TOU                                                       04/11/2019 20:39:24 PAGE 3   
+C51 COMPILER V9.01   PROC_SYSTEM_TOU                                                       04/16/2019 21:42:01 PAGE 3   
 
  114   1              if(Judge_PG_DN_key() == TRUE && button_delay == 0)
 *** WARNING C206 IN LINE 114 OF ..\C_SOURCE\S0_SYSTEM\PROC_SYSTEM_TOU.C: 'Judge_PG_DN_key': missing function-prototype
@@ -177,280 +177,277 @@ line level    source
  155   1              if(p_val > 0)
  156   1              {
  157   2                      c= (t_count);
- 158   2      //              if(gs_measure_var_data.gs_really[PHASE_TT].dw_i_val.u32 > 10000)
- 159   2      //              {
- 160   2      //                      e = (t_val*200);
- 161   2                              e=      (t_val*42);      //5ms
- 162   2      //              }
- 163   2      //              else
- 164   2      //              {
- 165   2      ////                    TL2  = LOBYTE(T0_10MS_CNT);         //10ms
- 166   2      ////            TH2  = HIBYTE(T0_10MS_CNT);
- 167   2      //                      e=      (t_val*25);     //10ms
- 168   2      //              }
- 169   2              //      
- 170   2                      if(c >= e)
-C51 COMPILER V9.01   PROC_SYSTEM_TOU                                                       04/11/2019 20:39:24 PAGE 4   
+ 158   2      
+ 159   2                      e=      (t_val*42);      //5ms
+ 160   2      
+ 161   2                      if(c >= e)
+ 162   2                      {       
+ 163   3                              Bar_No++;
+ 164   3                              t_count = 0;
+ 165   3                              switch(Bar_No)
+ 166   3                              {
+ 167   4                                      case 1:
+ 168   4              //                              gs_dis_pixel_var.dis_buff[10] &= ~(BIT7+BIT6+BIT5);
+ 169   4                                              gs_dis_pixel_var.dis_buff[10] |= BIT7;
+ 170   4                                              break;
+C51 COMPILER V9.01   PROC_SYSTEM_TOU                                                       04/16/2019 21:42:01 PAGE 4   
 
- 171   2                      {       
- 172   3                              Bar_No++;
- 173   3                              t_count = 0;
- 174   3                              switch(Bar_No)
- 175   3                              {
- 176   4                                      case 1:
- 177   4              //                              gs_dis_pixel_var.dis_buff[10] &= ~(BIT7+BIT6+BIT5);
- 178   4                                              gs_dis_pixel_var.dis_buff[10] |= BIT7;
- 179   4                                              break;
- 180   4                                      case 2:
- 181   4      //                                      gs_dis_pixel_var.dis_buff[10] &= ~(BIT7+BIT6+BIT5);
- 182   4                                              gs_dis_pixel_var.dis_buff[10] |= BIT6+BIT7;
+ 171   4                                      case 2:
+ 172   4      //                                      gs_dis_pixel_var.dis_buff[10] &= ~(BIT7+BIT6+BIT5);
+ 173   4                                              gs_dis_pixel_var.dis_buff[10] |= BIT6+BIT7;
+ 174   4                                              break;
+ 175   4                                      case 3:
+ 176   4      //                                      gs_dis_pixel_var.dis_buff[10] &= ~(BIT7+BIT6+BIT5);
+ 177   4                                              gs_dis_pixel_var.dis_buff[10] |= BIT7+BIT6+BIT5;
+ 178   4                                              TR2 = 0;
+ 179   4                                              ET2 = 0;
+ 180   4                                              break;
+ 181   4                                      default:
+ 182   4              //                              gs_dis_pixel_var.dis_buff[10] &= ~(BIT7+BIT6+BIT5);
  183   4                                              break;
- 184   4                                      case 3:
- 185   4      //                                      gs_dis_pixel_var.dis_buff[10] &= ~(BIT7+BIT6+BIT5);
- 186   4                                              gs_dis_pixel_var.dis_buff[10] |= BIT7+BIT6+BIT5;
- 187   4                                              TR2 = 0;
- 188   4                                              ET2 = 0;
- 189   4                                              break;
- 190   4                                      default:
- 191   4              //                              gs_dis_pixel_var.dis_buff[10] &= ~(BIT7+BIT6+BIT5);
- 192   4                                              break;
- 193   4                              }
- 194   3                              if(MD_dis_delay == 0)
- 195   3                              {
- 196   4                                      Write_LCD(&gs_dis_pixel_var.dis_buff[0]);
- 197   4                              }
- 198   3                              else
- 199   3                              {
- 200   4                                      Full_SEG(0xFF);
- 201   4                              }
- 202   3                      }
- 203   2                      else
- 204   2                      {
- 205   3                              t_count++;
- 206   3                      }
- 207   2              }
- 208   1      }
- 209          
- 210          /*****************************************************************************
- 211          ** Function name    :Proc_handl_tou_10ms
- 212          **
- 213          ** Description         :10ms中断产生后的程序处理        
- 214          **
- 215          ** Parameters         :NONE          
- 216          **
- 217          ** Returned value   :NONE
- 218          **
- 219          **----------------------------------------------------------------------------
- 220          ** V01.01  MJ  2016-04-23
- 221          ******************************************************************************/
- 222          void Proc_handl_tou_10ms(void)
- 223          {
- 224   1              uint8 i;
- 225   1      
- 226   1              //通讯串口10ms 处理 //
- 227   1              for(i=0;i<UART_CH_NUM;i++)
- 228   1              {
- 229   2                  Hdl_UART_10ms_run(i);
- 230   2                  api_handl_COMM_pre_10ms(i);
- 231   2              }
- 232   1              api_handl_button_pre_10ms();
-C51 COMPILER V9.01   PROC_SYSTEM_TOU                                                       04/11/2019 20:39:24 PAGE 5   
+ 184   4                              }
+ 185   3                              if(MD_dis_delay == 0)
+ 186   3                              {
+ 187   4                                      Write_LCD(&gs_dis_pixel_var.dis_buff[0]);
+ 188   4                              }
+ 189   3                              else
+ 190   3                              {
+ 191   4                                      Full_SEG(0xFF);
+ 192   4                              }
+ 193   3                      }
+ 194   2                      else
+ 195   2                      {
+ 196   3                              t_count++;
+ 197   3                      }
+ 198   2              }
+ 199   1      }
+ 200          
+ 201          /*****************************************************************************
+ 202          ** Function name    :Proc_handl_tou_10ms
+ 203          **
+ 204          ** Description         :10ms中断产生后的程序处理        
+ 205          **
+ 206          ** Parameters         :NONE          
+ 207          **
+ 208          ** Returned value   :NONE
+ 209          **
+ 210          **----------------------------------------------------------------------------
+ 211          ** V01.01  MJ  2016-04-23
+ 212          ******************************************************************************/
+ 213          void Proc_handl_tou_10ms(void)
+ 214          {
+ 215   1              uint8 i;
+ 216   1      
+ 217   1              //通讯串口10ms 处理 //
+ 218   1              for(i=0;i<UART_CH_NUM;i++)
+ 219   1              {
+ 220   2                  Hdl_UART_10ms_run(i);
+ 221   2                  api_handl_COMM_pre_10ms(i);
+ 222   2              }
+ 223   1              api_handl_button_pre_10ms();
+ 224   1      
+ 225   1              if(IsModeTest == FALSE)
+ 226   1              {       //关闭80ms定时器
+ 227   2                      TR2 = 0;
+ 228   2                      ET2 = 0;
+ 229   2              }
+ 230   1              
+ 231   1      //      api_handl_bar_display_10ms();
+ 232   1      //      //48kW -> 0.075S
+C51 COMPILER V9.01   PROC_SYSTEM_TOU                                                       04/16/2019 21:42:01 PAGE 5   
 
- 233   1              
- 234   1      //      api_handl_bar_display_10ms();
- 235   1      //      //48kW -> 0.075S
- 236   1      }
- 237          
- 238          
- 239          
- 240          /*****************************************************************************
- 241          ** Function name    :Proc_handl_tou_10ms
- 242          **
- 243          ** Description         :10ms中断产生后的程序处理        
- 244          **
- 245          ** Parameters         :NONE          
- 246          **
- 247          ** Returned value   :NONE
- 248          **
- 249          **----------------------------------------------------------------------------
- 250          ** V01.01  MJ  2016-04-23
- 251          ******************************************************************************/
- 252          void Proc_handl_tou_1s(void)
- 253          {
- 254   1      //      INT8U Bill_Data;
- 255   1      
- 256   1      //      NEW_MMD_DATA_UNIT st_mmd_unit;
- 257   1      //      SUM_MMD_DATA_UNIT sum_st_mmd_unit;
- 258   1              Proc_get_clock();
- 259   1      //      mem_db_check();
- 260   1              CLRWDT();       // 清看门狗//
- 261   1              if(gs_emu_run_var.delay_emu>0)
- 262   1              {
- 263   2                       gs_emu_run_var.delay_emu--;//emu稳定时间为3秒
- 264   2                       api_Measure_ram_INIT();
- 265   2              }
- 266   1              //计量稳定后扫描事件
- 267   1              if(gs_emu_run_var.delay_emu==0)
- 268   1              {
- 269   2                      // 瞬时量获取//
- 270   2                      // OpenCF();
- 271   2                      api_measure_deal_pre_second();
- 272   2                      CLRWDT();       // 清看门狗//
- 273   2                      //电能脉冲秒处理 //
- 274   2                      api_accum_current_energy_data_pre_second();
- 275   2                      CLRWDT();   // 清看门狗//
- 276   2                      api_even_Detect_sec();
- 277   2                      //需量秒计算处理 //
- 278   2                      api_updata_md_var_min_per_second(); 
- 279   2                      CLRWDT();       // 清看门狗//
- 280   2                      //硬件短接清零检测秒处理//   
- 281   2                      Proc_Check_PROKEY_Pre_sec();
- 282   2                      //LED灯状态刷新//
- 283   2                      api_updated_LED_per_second();
- 284   2                      api_measure_VBAT_pre_min();   
- 285   2              }
- 286   1      
- 287   1              if(MD_dis_delay == 0)//按键需量清零以后3秒全屏
- 288   1              {
- 289   2                      // 显示项目每秒改变处理//        
- 290   2              api_updated_LCDDisplayItem_per_second();    
- 291   2              // 显示内容每秒更新处理//                
- 292   2              api_updated_LCDDisplayPixel_per_second();
- 293   2              }
- 294   1              else
-C51 COMPILER V9.01   PROC_SYSTEM_TOU                                                       04/11/2019 20:39:24 PAGE 6   
+ 233   1      }
+ 234          
+ 235          
+ 236          
+ 237          /*****************************************************************************
+ 238          ** Function name    :Proc_handl_tou_10ms
+ 239          **
+ 240          ** Description         :10ms中断产生后的程序处理        
+ 241          **
+ 242          ** Parameters         :NONE          
+ 243          **
+ 244          ** Returned value   :NONE
+ 245          **
+ 246          **----------------------------------------------------------------------------
+ 247          ** V01.01  MJ  2016-04-23
+ 248          ******************************************************************************/
+ 249          void Proc_handl_tou_1s(void)
+ 250          {
+ 251   1      //      INT8U Bill_Data;
+ 252   1      
+ 253   1      //      NEW_MMD_DATA_UNIT st_mmd_unit;
+ 254   1      //      SUM_MMD_DATA_UNIT sum_st_mmd_unit;
+ 255   1              Proc_get_clock();
+ 256   1      //      mem_db_check();
+ 257   1              CLRWDT();       // 清看门狗//
+ 258   1              if(gs_emu_run_var.delay_emu>0)
+ 259   1              {
+ 260   2                       gs_emu_run_var.delay_emu--;//emu稳定时间为3秒
+ 261   2                       api_Measure_ram_INIT();
+ 262   2              }
+ 263   1              //计量稳定后扫描事件
+ 264   1              if(gs_emu_run_var.delay_emu==0)
+ 265   1              {
+ 266   2                      // 瞬时量获取//
+ 267   2                      // OpenCF();
+ 268   2                      api_measure_deal_pre_second();
+ 269   2                      CLRWDT();       // 清看门狗//
+ 270   2                      //电能脉冲秒处理 //
+ 271   2                      api_accum_current_energy_data_pre_second();
+ 272   2                      CLRWDT();   // 清看门狗//
+ 273   2                      api_even_Detect_sec();
+ 274   2                      //需量秒计算处理 //
+ 275   2                      api_updata_md_var_min_per_second(); 
+ 276   2                      CLRWDT();       // 清看门狗//
+ 277   2                      //硬件短接清零检测秒处理//   
+ 278   2                      Proc_Check_PROKEY_Pre_sec();
+ 279   2                      //LED灯状态刷新//
+ 280   2                      api_updated_LED_per_second();
+ 281   2                      api_measure_VBAT_pre_min();   
+ 282   2              }
+ 283   1      
+ 284   1              if(MD_dis_delay == 0)//按键需量清零以后3秒全屏
+ 285   1              {
+ 286   2                      // 显示项目每秒改变处理//        
+ 287   2              api_updated_LCDDisplayItem_per_second();    
+ 288   2              // 显示内容每秒更新处理//                
+ 289   2              api_updated_LCDDisplayPixel_per_second();
+ 290   2              }
+ 291   1              else
+ 292   1              {
+ 293   2                      MD_dis_delay -- ;
+ 294   2              }
+C51 COMPILER V9.01   PROC_SYSTEM_TOU                                                       04/16/2019 21:42:01 PAGE 6   
 
- 295   1              {
- 296   2                      MD_dis_delay -- ;
- 297   2              }
- 298   1           //分钟级处理  //
- 299   1      #if meter_type == D_1P2W
+ 295   1           //分钟级处理  //
+ 296   1      #if meter_type == D_1P2W
               
                        //无功补偿
                        TimeEventProc();
               #endif
- 304   1          if(gs_CurDateTime.Second == 0)
- 305   1          {
- 306   2                      Check_EMU_AdjParam();
- 307   2                      CLRWDT();       // 清看门狗//
- 308   2                      api_updata_md_var_slid_per_minute();   
- 309   2                      CLRWDT();       // 清看门狗//
- 310   2                      //日冻结
- 311   2                      api_freeze_energy_Ram_pre_day();
- 312   2                      api_freeze_energy_pre_day(); 
- 313   2      //              mem_read(&Bill_Data, ADR_BLOCK20_METER_PARAM1_E2P+ST_MB_OFFSET(E2P_METER_PARAM1_MAP,BILL_FLAG), 1, MEM
+ 301   1          if(gs_CurDateTime.Second == 0)
+ 302   1          {
+ 303   2                      Check_EMU_AdjParam();
+ 304   2                      CLRWDT();       // 清看门狗//
+ 305   2                      api_updata_md_var_slid_per_minute();   
+ 306   2                      CLRWDT();       // 清看门狗//
+ 307   2                      //日冻结
+ 308   2                      api_freeze_energy_Ram_pre_day();
+ 309   2                      api_freeze_energy_pre_day(); 
+ 310   2      //              mem_read(&Bill_Data, ADR_BLOCK20_METER_PARAM1_E2P+ST_MB_OFFSET(E2P_METER_PARAM1_MAP,BILL_FLAG), 1, MEM
              -_E2P1);
- 314   2                      #if (BILL_MAX_NUM>0)
- 315   2                      if(Bill_Data == 0x30)
- 316   2                      {
- 317   3                              CLRWDT();
- 318   3                              api_handl_settle_per_minute();
- 319   3                      }
+ 311   2                      #if (BILL_MAX_NUM>0)
+ 312   2                      if(Bill_Data == 0x30)
+ 313   2                      {
+ 314   3                              CLRWDT();
+ 315   3                              api_handl_settle_per_minute();
+ 316   3                      }
+ 317   2                      CLRWDT();       // 清看门狗//
+ 318   2                      #endif
+ 319   2                      LoadPro_Rec();         
  320   2                      CLRWDT();       // 清看门狗//
- 321   2                      #endif
- 322   2                      LoadPro_Rec();         
- 323   2                      CLRWDT();       // 清看门狗//
- 324   2                      #if (TARIFF_MAX_NUM>1)
- 325   2                      api_update_triffNo_pre_minute();
- 326   2                      #endif  
- 327   2                               
- 328   2          }
- 329   1              ///////////////////////////////////////////////////////////////////////////////////////////////
- 330   1              //按键切换模式
- 331   1              if(Judge_ERR_COVER_key() == FALSE)
- 332   1              {
- 333   2                      if(KEY_READ_DELAY > 0)
- 334   2                      {
- 335   3                              KEY_READ_DELAY--;       
- 336   3                      }else{
- 337   3                              if(IsModeTest == FALSE)
- 338   3                              {
- 339   4                                      IsModeTest = TRUE;
- 340   4                                      TestDelay = 10;   //min
- 341   4                                      TestDelaySecond = gs_CurDateTime.Second;
- 342   4                                      //液晶显示test模式  code
- 343   4                              }
- 344   3                              else
- 345   3                              {
- 346   4                                      IsModeTest = FALSE;
- 347   4                              }
- 348   3                      }
- 349   2              }else{
- 350   2                      if(TestDelay > 0)
- 351   2                      {
- 352   3                              if(gs_CurDateTime.Second == TestDelaySecond)
- 353   3                                      TestDelay --;
- 354   3                      }else{
- 355   3                              IsModeTest = FALSE;
-C51 COMPILER V9.01   PROC_SYSTEM_TOU                                                       04/11/2019 20:39:24 PAGE 7   
+ 321   2                      #if (TARIFF_MAX_NUM>1)
+ 322   2                      api_update_triffNo_pre_minute();
+ 323   2                      #endif  
+ 324   2                               
+ 325   2          }
+ 326   1              ///////////////////////////////////////////////////////////////////////////////////////////////
+ 327   1              //按键切换模式
+ 328   1              if(Judge_ERR_COVER_key() == FALSE)
+ 329   1              {
+ 330   2                      if(KEY_READ_DELAY > 0)
+ 331   2                      {
+ 332   3                              KEY_READ_DELAY--;       
+ 333   3                      }else{
+ 334   3                              if(IsModeTest == FALSE)
+ 335   3                              {
+ 336   4                                      IsModeTest = TRUE;
+ 337   4                                      TestDelay = 10;   //min
+ 338   4                                      TestDelaySecond = gs_CurDateTime.Second;
+ 339   4                                      //液晶显示test模式  code
+ 340   4                              }
+ 341   3      //                      else
+ 342   3      //                      {
+ 343   3      //                              IsModeTest = FALSE;
+ 344   3      //                      }
+ 345   3                      }
+ 346   2              }else{
+ 347   2                      if(TestDelay > 0)
+ 348   2                      {
+ 349   3                              if(gs_CurDateTime.Second == TestDelaySecond)
+ 350   3                                      TestDelay --;
+ 351   3                      }else{
+ 352   3                              IsModeTest = FALSE;
+ 353   3                      }
+ 354   2              }
+ 355   1              ////////////////////////////////////////////////////////////////////////////////////////////////
+C51 COMPILER V9.01   PROC_SYSTEM_TOU                                                       04/16/2019 21:42:01 PAGE 7   
 
- 356   3                      }
- 357   2              }
- 358   1              ////////////////////////////////////////////////////////////////////////////////////////////////
- 359   1           if(gs_CurDateTime.Second == 0x25)
- 360   1           {
- 361   2              Handl_RTC_Adj_per_minu();   
- 362   2                      CLRWDT();       // 清看门狗//
- 363   2           }  
- 364   1      
- 365   1        
- 366   1          if(gs_CurDateTime.Second == 0x31)
- 367   1           {
- 368   2             api_measure_temperature_pre_min();   
- 369   2                 CLRWDT();   // 清看门狗//
- 370   2           } 
- 371   1              
- 372   1      }
- 373          
- 374          
- 375          //-------------------------------------------------------------------------------//
- 376          //  Function:      void get_default_mem_data(INT8U index)     
- 377          //  Description:  
- 378          //  Parameters:   无  
- 379          //  Returns:        无                          
- 380          //  Others:         
- 381          //-------------------------------------------------------------------------------//
- 382          void  Proc_Auto_ClrMeter_Pre_sec(void)
- 383          {
- 384   1      
- 385   1         ;
- 386   1      }
- 387          
- 388          //-------------------------------------------------------------------------------//
- 389          //  Function:      void get_default_mem_data(INT8U index)     
- 390          //  Description:  
- 391          //  Parameters:   无  
- 392          //  Returns:        无                          
- 393          //  Others:         
- 394          //-------------------------------------------------------------------------------//
- 395          
- 396          
- 397          void  Initlize_Auto_ClrMeter_Var(void)
- 398          {
+ 356   1           if(gs_CurDateTime.Second == 0x25)
+ 357   1           {
+ 358   2              Handl_RTC_Adj_per_minu();   
+ 359   2                      CLRWDT();       // 清看门狗//
+ 360   2           }  
+ 361   1      
+ 362   1        
+ 363   1          if(gs_CurDateTime.Second == 0x31)
+ 364   1           {
+ 365   2             api_measure_temperature_pre_min();   
+ 366   2                 CLRWDT();   // 清看门狗//
+ 367   2           } 
+ 368   1      
+ 369   1      }
+ 370          
+ 371          
+ 372          //-------------------------------------------------------------------------------//
+ 373          //  Function:      void get_default_mem_data(INT8U index)     
+ 374          //  Description:  
+ 375          //  Parameters:   无  
+ 376          //  Returns:        无                          
+ 377          //  Others:         
+ 378          //-------------------------------------------------------------------------------//
+ 379          void  Proc_Auto_ClrMeter_Pre_sec(void)
+ 380          {
+ 381   1      
+ 382   1         ;
+ 383   1      }
+ 384          
+ 385          //-------------------------------------------------------------------------------//
+ 386          //  Function:      void get_default_mem_data(INT8U index)     
+ 387          //  Description:  
+ 388          //  Parameters:   无  
+ 389          //  Returns:        无                          
+ 390          //  Others:         
+ 391          //-------------------------------------------------------------------------------//
+ 392          
+ 393          
+ 394          void  Initlize_Auto_ClrMeter_Var(void)
+ 395          {
+ 396   1      
+ 397   1              gs_auto_clrMeter_var.u8_sec_cnt=0;
+ 398   1              gs_auto_clrMeter_var.u8_flg = 0;
  399   1      
- 400   1              gs_auto_clrMeter_var.u8_sec_cnt=0;
- 401   1              gs_auto_clrMeter_var.u8_flg = 0;
- 402   1      
- 403   1      }
+ 400   1      }
+ 401          
+ 402          
+ 403          
  404          
  405          
- 406          
- 407          
- 408          
- 409          /***************************************************************
- 410          *    END
- 411          ****************************************************************/
- 412          
+ 406          /***************************************************************
+ 407          *    END
+ 408          ****************************************************************/
+ 409          
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    913    ----
+   CODE SIZE        =    924    ----
    CONSTANT SIZE    =   ----    ----
-C51 COMPILER V9.01   PROC_SYSTEM_TOU                                                       04/11/2019 20:39:24 PAGE 8   
-
    XDATA SIZE       =     55       8
    PDATA SIZE       =   ----    ----
    DATA SIZE        =   ----    ----
+C51 COMPILER V9.01   PROC_SYSTEM_TOU                                                       04/16/2019 21:42:01 PAGE 8   
+
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
 END OF MODULE INFORMATION.

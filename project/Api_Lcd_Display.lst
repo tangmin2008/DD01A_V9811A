@@ -1,4 +1,4 @@
-C51 COMPILER V9.01   API_LCD_DISPLAY                                                       04/11/2019 19:11:53 PAGE 1   
+C51 COMPILER V9.01   API_LCD_DISPLAY                                                       04/16/2019 21:42:11 PAGE 1   
 
 
 C51 COMPILER V9.01, COMPILATION OF MODULE API_LCD_DISPLAY
@@ -62,7 +62,7 @@ line level    source
   50          
   51          //  ³£Á¿×Ö·û±í¶¨Òå x  // D C B A - E G F 
   52          const INT8U code  NumSegD1_D6[DS_Chr_All_NUM] = 
-C51 COMPILER V9.01   API_LCD_DISPLAY                                                       04/11/2019 19:11:53 PAGE 2   
+C51 COMPILER V9.01   API_LCD_DISPLAY                                                       04/16/2019 21:42:11 PAGE 2   
 
   53          {       DS_Chr_0,DS_Chr_1,DS_Chr_2,
   54                  DS_Chr_3,DS_Chr_4,DS_Chr_5,
@@ -126,7 +126,7 @@ line level    source
  105          void api_init_display(void)
  106          {
  107   1          mem_read(&gs_dis_param.auto_sec, ADR_BLOCK21_DIS_PARAM_E2P, LEN_BLOCK21_DIS_PARAM_E2P, MEM_E2P1);    // 
-C51 COMPILER V9.01   API_LCD_DISPLAY                                                       04/11/2019 19:11:53 PAGE 3   
+C51 COMPILER V9.01   API_LCD_DISPLAY                                                       04/16/2019 21:42:11 PAGE 3   
 
              -    
  108   1          gs_dis_ctl_var.mode = DIS_MODE_RESET;
@@ -190,7 +190,7 @@ line level    source
  165          
  166          
  167          /*****************************************************************************
-C51 COMPILER V9.01   API_LCD_DISPLAY                                                       04/11/2019 19:11:53 PAGE 4   
+C51 COMPILER V9.01   API_LCD_DISPLAY                                                       04/16/2019 21:42:11 PAGE 4   
 
  168          ** Function name    :api_updata_LCDDisplay_per_second
  169          **
@@ -254,1008 +254,1008 @@ line level    source
  227   2                      gs_dis_pixel_var.dis_char_buff[0] |= CHAR_DATA_EOI;
  228   2                      gs_dis_pixel_var.dis_buff[9] |= BIT0;
  229   2                      EOI_delay_1s --;
-C51 COMPILER V9.01   API_LCD_DISPLAY                                                       04/11/2019 19:11:53 PAGE 5   
+C51 COMPILER V9.01   API_LCD_DISPLAY                                                       04/16/2019 21:42:11 PAGE 5   
 
  230   2              }
  231   1      
  232   1              switch(Bar_No)
  233   1              {
  234   2                      case 0:
- 235   2                              gs_dis_pixel_var.dis_buff[10] &= ~(BIT7+BIT6+BIT5);
- 236   2                              break;
- 237   2                      case 1:
- 238   2      //                      gs_dis_pixel_var.dis_buff[10] &= ~(BIT7+BIT6+BIT5);
- 239   2                              gs_dis_pixel_var.dis_buff[10] |= BIT7;
- 240   2                              break;
- 241   2                      case 2:
- 242   2      //                      gs_dis_pixel_var.dis_buff[10] &= ~(BIT7+BIT6+BIT5);
- 243   2                              gs_dis_pixel_var.dis_buff[10] |= BIT6+BIT7;
- 244   2                              break;
- 245   2                      case 3:
- 246   2      //                      gs_dis_pixel_var.dis_buff[10] &= ~(BIT7+BIT6+BIT5);
- 247   2                              gs_dis_pixel_var.dis_buff[10] |= BIT7+BIT6+BIT5;
- 248   2                              break;
- 249   2                      default:
- 250   2                              break;
- 251   2              }
- 252   1          Write_LCD(&gs_dis_pixel_var.dis_buff[0]);         //½«Êý¾ÝÐ´ÈëÒº¾§Çý¶¯
- 253   1      }
- 254          
+ 235   2      //                      if(CheckPOWERUP()!=TRUE)
+ 236   2                                      gs_dis_pixel_var.dis_buff[10] &= ~(BIT7+BIT6+BIT5);
+ 237   2                              break;
+ 238   2                      case 1:
+ 239   2      //                      gs_dis_pixel_var.dis_buff[10] &= ~(BIT7+BIT6+BIT5);
+ 240   2                              gs_dis_pixel_var.dis_buff[10] |= BIT7;
+ 241   2                              break;
+ 242   2                      case 2:
+ 243   2      //                      gs_dis_pixel_var.dis_buff[10] &= ~(BIT7+BIT6+BIT5);
+ 244   2                              gs_dis_pixel_var.dis_buff[10] |= BIT6+BIT7;
+ 245   2                              break;
+ 246   2                      case 3:
+ 247   2      //                      gs_dis_pixel_var.dis_buff[10] &= ~(BIT7+BIT6+BIT5);
+ 248   2                              gs_dis_pixel_var.dis_buff[10] |= BIT7+BIT6+BIT5;
+ 249   2                              break;
+ 250   2                      default:
+ 251   2                              break;
+ 252   2              }
+ 253   1          Write_LCD(&gs_dis_pixel_var.dis_buff[0]);         //½«Êý¾ÝÐ´ÈëÒº¾§Çý¶¯
+ 254   1      }
  255          
- 256          /*****************************************************************************
- 257          ** Function name    :api_updata_LCDDisplay_per_second
- 258          **
- 259          ** Description         :Ã¿Ãë¸üÐÂÒº¾§ÏÔÊ¾ÄÚÈÝ      
- 260          **
- 261          ** Parameters         :NONE          
- 262          **
- 263          ** Returned value   :NONE
- 264          **
- 265          **----------------------------------------------------------------------------
- 266          ** V01.01  MJ  2016-04-23
- 267          ******************************************************************************/
- 268          void api_updated_LED_per_second(void)
- 269          {
- 270   1         // ·´ÏòÖ¸Ê¾  ÈÎÒâÒ»Ïà·´ÏòÔòµÆÁÁ//      
- 271   1         if(gs_emu_run_var.net_flg&REV_TT_ACPOWER)// ÓÐ¹¦ºÏÏà¹¦ÂÊ·´Ïò
- 272   1         {
- 273   2              //LED_L2_REV_ON();
- 274   2         }
- 275   1         else 
- 276   1         {
- 277   2              //LED_L2_REV_OFF();
- 278   2         }
- 279   1      }
- 280          
+ 256          
+ 257          /*****************************************************************************
+ 258          ** Function name    :api_updata_LCDDisplay_per_second
+ 259          **
+ 260          ** Description         :Ã¿Ãë¸üÐÂÒº¾§ÏÔÊ¾ÄÚÈÝ      
+ 261          **
+ 262          ** Parameters         :NONE          
+ 263          **
+ 264          ** Returned value   :NONE
+ 265          **
+ 266          **----------------------------------------------------------------------------
+ 267          ** V01.01  MJ  2016-04-23
+ 268          ******************************************************************************/
+ 269          void api_updated_LED_per_second(void)
+ 270          {
+ 271   1         // ·´ÏòÖ¸Ê¾  ÈÎÒâÒ»Ïà·´ÏòÔòµÆÁÁ//      
+ 272   1         if(gs_emu_run_var.net_flg&REV_TT_ACPOWER)// ÓÐ¹¦ºÏÏà¹¦ÂÊ·´Ïò
+ 273   1         {
+ 274   2              //LED_L2_REV_ON();
+ 275   2         }
+ 276   1         else 
+ 277   1         {
+ 278   2              //LED_L2_REV_OFF();
+ 279   2         }
+ 280   1      }
  281          
- 282          /*****************************************************************************
- 283          ** Function name    :api_init_md_data_ram
- 284          **
- 285          ** Description         :Ã¿Ãë¸üÐÂÒº¾§ÏÔÊ¾ÏîÄ¿       
- 286          **
- 287          ** Parameters         :NONE          
- 288          **
- 289          ** Returned value   :NONE
- 290          **
- 291          **----------------------------------------------------------------------------
-C51 COMPILER V9.01   API_LCD_DISPLAY                                                       04/11/2019 19:11:53 PAGE 6   
+ 282          
+ 283          /*****************************************************************************
+ 284          ** Function name    :api_init_md_data_ram
+ 285          **
+ 286          ** Description         :Ã¿Ãë¸üÐÂÒº¾§ÏÔÊ¾ÏîÄ¿       
+ 287          **
+ 288          ** Parameters         :NONE          
+ 289          **
+ 290          ** Returned value   :NONE
+ 291          **
+C51 COMPILER V9.01   API_LCD_DISPLAY                                                       04/16/2019 21:42:11 PAGE 6   
 
- 292          ** V01.01  MJ  2016-04-23
- 293          ******************************************************************************/
- 294          void api_updated_LCDDisplayItem_per_second(void)
- 295          {
- 296   1          switch (gs_dis_ctl_var.mode )
- 297   1          {
- 298   2              case DIS_MODE_RESET:                     
- 299   2                  gs_dis_ctl_var.keep_sec[3]--;
- 300   2                  if(gs_dis_ctl_var.keep_sec[3]==0)  
- 301   2                  {
- 302   3                      gs_dis_ctl_var.mode = DIS_MODE_NOMAL;
- 303   3                      gs_dis_ctl_var.keep_sec[0] = gs_dis_param.auto_sec;
- 304   3                      gs_dis_ctl_var.ptr[0] = 0;
- 305   3                      gs_dis_ctl_var.item = gs_dis_param.auto_item[gs_dis_ctl_var.ptr[0]+1];  //  0Î»ÖÃÎªÏÔÊ¾ÏîÄ
+ 292          **----------------------------------------------------------------------------
+ 293          ** V01.01  MJ  2016-04-23
+ 294          ******************************************************************************/
+ 295          void api_updated_LCDDisplayItem_per_second(void)
+ 296          {
+ 297   1          switch (gs_dis_ctl_var.mode )
+ 298   1          {
+ 299   2              case DIS_MODE_RESET:                     
+ 300   2                  gs_dis_ctl_var.keep_sec[3]--;
+ 301   2                  if(gs_dis_ctl_var.keep_sec[3]==0)  
+ 302   2                  {
+ 303   3                      gs_dis_ctl_var.mode = DIS_MODE_NOMAL;
+ 304   3                      gs_dis_ctl_var.keep_sec[0] = gs_dis_param.auto_sec;
+ 305   3                      gs_dis_ctl_var.ptr[0] = 0;
+ 306   3                      gs_dis_ctl_var.item = gs_dis_param.auto_item[gs_dis_ctl_var.ptr[0]+1];  //  0Î»ÖÃÎªÏÔÊ¾ÏîÄ
              -¿¸öÊý£¬1Î»ÖÃ¿ªÊ¼ÎªÏîÄ¿ //                
- 306   3                                      dis_num_char = 0;//ÏÔÊ¾µ±Ç°µçÁ¿
- 307   3                              }
- 308   2              break;
- 309   2      
- 310   2              case DIS_MODE_NOMAL:
- 311   2                              if(button_flag  == 1)
- 312   2                              {
- 313   3                                      //button_flag &= (~BIT1);
- 314   3                                      button_flag = 0;
- 315   3                                      if(dis_num_char < 3)
- 316   3                                      {
- 317   4                                              dis_num_char = 2;
- 318   4                                      }
- 319   3                                      if(dis_num_char == 5)
- 320   3                                      {
- 321   4                                              dis_num_char = 3;
- 322   4                                      }
- 323   3                                      else
- 324   3                                      {
- 325   4                                              dis_num_char ++;
- 326   4                                      }
- 327   3      
- 328   3                                      gs_dis_ctl_var.keep_sec[0] = gs_dis_param.auto_sec; //ÂÖÏÔ³ÖÐøÊ±¼ä//
- 329   3                                      gs_dis_ctl_var.item = api_get_next_dis_item();
- 330   3                              }
- 331   2                              else if(MAGN_flag == 1)
- 332   2                              {
- 333   3                                      MAGN_flag = 0;
- 334   3                                      if(dis_num_char < 3)
- 335   3                                      {
- 336   4                                              dis_num_char = 2;
- 337   4                                      }
- 338   3                                      if(dis_num_char == 5)
- 339   3                                      {
- 340   4                                              dis_num_char = 3;
- 341   4                                      }
- 342   3                                      else
- 343   3                                      {
- 344   4                                              dis_num_char ++;
- 345   4                                      }
- 346   3      
- 347   3                                      gs_dis_ctl_var.keep_sec[0] = gs_dis_param.auto_sec; //ÂÖÏÔ³ÖÐøÊ±¼ä//
- 348   3                                      gs_dis_ctl_var.item = api_get_next_dis_item();
- 349   3                              }
- 350   2                              else
- 351   2                              {
- 352   3                                      if( gs_dis_ctl_var.keep_sec[0] > gs_dis_param.auto_sec)
-C51 COMPILER V9.01   API_LCD_DISPLAY                                                       04/11/2019 19:11:53 PAGE 7   
+ 307   3                                      dis_num_char = 0;//ÏÔÊ¾µ±Ç°µçÁ¿
+ 308   3                              }
+ 309   2              break;
+ 310   2      
+ 311   2              case DIS_MODE_NOMAL:
+ 312   2                              if(button_flag  == 1)
+ 313   2                              {
+ 314   3                                      //button_flag &= (~BIT1);
+ 315   3                                      button_flag = 0;
+ 316   3                                      if(dis_num_char < 3)
+ 317   3                                      {
+ 318   4                                              dis_num_char = 2;
+ 319   4                                      }
+ 320   3                                      if(dis_num_char == 5)
+ 321   3                                      {
+ 322   4                                              dis_num_char = 3;
+ 323   4                                      }
+ 324   3                                      else
+ 325   3                                      {
+ 326   4                                              dis_num_char ++;
+ 327   4                                      }
+ 328   3      
+ 329   3                                      gs_dis_ctl_var.keep_sec[0] = gs_dis_param.auto_sec; //ÂÖÏÔ³ÖÐøÊ±¼ä//
+ 330   3                                      gs_dis_ctl_var.item = api_get_next_dis_item();
+ 331   3                              }
+ 332   2                              else if(MAGN_flag == 1)
+ 333   2                              {
+ 334   3                                      MAGN_flag = 0;
+ 335   3                                      if(dis_num_char < 3)
+ 336   3                                      {
+ 337   4                                              dis_num_char = 2;
+ 338   4                                      }
+ 339   3                                      if(dis_num_char == 5)
+ 340   3                                      {
+ 341   4                                              dis_num_char = 3;
+ 342   4                                      }
+ 343   3                                      else
+ 344   3                                      {
+ 345   4                                              dis_num_char ++;
+ 346   4                                      }
+ 347   3      
+ 348   3                                      gs_dis_ctl_var.keep_sec[0] = gs_dis_param.auto_sec; //ÂÖÏÔ³ÖÐøÊ±¼ä//
+ 349   3                                      gs_dis_ctl_var.item = api_get_next_dis_item();
+ 350   3                              }
+ 351   2                              else
+ 352   2                              {
+C51 COMPILER V9.01   API_LCD_DISPLAY                                                       04/16/2019 21:42:11 PAGE 7   
 
- 353   3                                      {
- 354   4                                              gs_dis_ctl_var.keep_sec[0] = gs_dis_param.auto_sec; //ÂÖÏÔ³ÖÐøÊ±¼ä//
- 355   4                                      }
- 356   3                                      else
- 357   3                                      {
- 358   4                                              gs_dis_ctl_var.keep_sec[0]--;
- 359   4                                              if( gs_dis_ctl_var.keep_sec[0] == 0)
- 360   4                                              {
- 361   5                                                      gs_dis_ctl_var.keep_sec[0] = gs_dis_param.auto_sec; //ÂÖÏÔ³ÖÐøÊ±¼ä//
- 362   5                                                      gs_dis_ctl_var.item = api_get_next_dis_item();
- 363   5      
- 364   5                                                      if(dis_num_char >= 2)
- 365   5                                                      {
- 366   6                                                              dis_num_char = 0;
- 367   6                                                      }
- 368   5                                                      else
- 369   5                                                      {
- 370   6                                                              dis_num_char++;//ÂÖÏÔ
- 371   6                                                      }
- 372   5                                              }
- 373   4                                      }
- 374   3                              }
- 375   2              break;
- 376   2      
- 377   2              default:
- 378   2                  gs_dis_ctl_var.mode = DIS_MODE_NOMAL;
- 379   2              break;
- 380   2      
- 381   2          }   
- 382   1      }
- 383                     
- 384          /*****************************************************************************
- 385          ** Function name    :api_get_next_dis_item
- 386          **
- 387          ** Description         :·µ»ØÏÂÒ»¸öÏÔÊ¾ÏîÄ¿     
- 388          **
- 389          ** Parameters         :NONE          
- 390          **
- 391          ** Returned value   :NONE
- 392          **
- 393          **----------------------------------------------------------------------------
- 394          ** V01.01  MJ  2016-04-23
- 395          ******************************************************************************/
- 396          INT8U api_get_next_dis_item(void)
- 397          {
- 398   1       //INT8U vaild_len;
- 399   1       INT8U item;
- 400   1      
- 401   1          item = DIS_DEFAULT_ITEM;
- 402   1          if((gs_dis_ctl_var.mode  ==DIS_MODE_NOMAL))
- 403   1          {
- 404   2              gs_dis_ctl_var.ptr[0]++;
- 405   2              if((gs_dis_ctl_var.ptr[0]>=(gs_dis_param.auto_item[0]))||(gs_dis_ctl_var.ptr[0]>DIS_MAX_ITEM))  //
+ 353   3                                      if( gs_dis_ctl_var.keep_sec[0] > gs_dis_param.auto_sec)
+ 354   3                                      {
+ 355   4                                              gs_dis_ctl_var.keep_sec[0] = gs_dis_param.auto_sec; //ÂÖÏÔ³ÖÐøÊ±¼ä//
+ 356   4                                      }
+ 357   3                                      else
+ 358   3                                      {
+ 359   4                                              gs_dis_ctl_var.keep_sec[0]--;
+ 360   4                                              if( gs_dis_ctl_var.keep_sec[0] == 0)
+ 361   4                                              {
+ 362   5                                                      gs_dis_ctl_var.keep_sec[0] = gs_dis_param.auto_sec; //ÂÖÏÔ³ÖÐøÊ±¼ä//
+ 363   5                                                      gs_dis_ctl_var.item = api_get_next_dis_item();
+ 364   5      
+ 365   5                                                      if(dis_num_char >= 2)
+ 366   5                                                      {
+ 367   6                                                              dis_num_char = 0;
+ 368   6                                                      }
+ 369   5                                                      else
+ 370   5                                                      {
+ 371   6                                                              dis_num_char++;//ÂÖÏÔ
+ 372   6                                                      }
+ 373   5                                              }
+ 374   4                                      }
+ 375   3                              }
+ 376   2              break;
+ 377   2      
+ 378   2              default:
+ 379   2                  gs_dis_ctl_var.mode = DIS_MODE_NOMAL;
+ 380   2              break;
+ 381   2      
+ 382   2          }   
+ 383   1      }
+ 384                     
+ 385          /*****************************************************************************
+ 386          ** Function name    :api_get_next_dis_item
+ 387          **
+ 388          ** Description         :·µ»ØÏÂÒ»¸öÏÔÊ¾ÏîÄ¿     
+ 389          **
+ 390          ** Parameters         :NONE          
+ 391          **
+ 392          ** Returned value   :NONE
+ 393          **
+ 394          **----------------------------------------------------------------------------
+ 395          ** V01.01  MJ  2016-04-23
+ 396          ******************************************************************************/
+ 397          INT8U api_get_next_dis_item(void)
+ 398          {
+ 399   1       //INT8U vaild_len;
+ 400   1       INT8U item;
+ 401   1      
+ 402   1          item = DIS_DEFAULT_ITEM;
+ 403   1          if((gs_dis_ctl_var.mode  ==DIS_MODE_NOMAL))
+ 404   1          {
+ 405   2              gs_dis_ctl_var.ptr[0]++;
+ 406   2              if((gs_dis_ctl_var.ptr[0]>=(gs_dis_param.auto_item[0]))||(gs_dis_ctl_var.ptr[0]>DIS_MAX_ITEM))  //
              -ÏîÄ¿Îª0~6,¹²7Ïî //
- 406   2              {
- 407   3                  gs_dis_ctl_var.ptr[0]=0;
- 408   3              }
- 409   2      
- 410   2              item = gs_dis_param.auto_item[gs_dis_ctl_var.ptr[0]+1];  //  0Î»ÖÃÎªÏÔÊ¾ÏîÄ¿¸öÊý£¬1Î»ÖÃ¿ªÊ¼ÎªÏîÄ¿ 
+ 407   2              {
+ 408   3                  gs_dis_ctl_var.ptr[0]=0;
+ 409   3              }
+ 410   2      
+ 411   2              item = gs_dis_param.auto_item[gs_dis_ctl_var.ptr[0]+1];  //  0Î»ÖÃÎªÏÔÊ¾ÏîÄ¿¸öÊý£¬1Î»ÖÃ¿ªÊ¼ÎªÏîÄ¿ 
              -//
- 411   2              if(item>DIS_MAX_ITEM)   
- 412   2              {
-C51 COMPILER V9.01   API_LCD_DISPLAY                                                       04/11/2019 19:11:53 PAGE 8   
+ 412   2              if(item>DIS_MAX_ITEM)   
+C51 COMPILER V9.01   API_LCD_DISPLAY                                                       04/16/2019 21:42:11 PAGE 8   
 
- 413   3                  item =     DIS_DEFAULT_ITEM;
- 414   3              }
- 415   2          }
- 416   1          return (item);
- 417   1      }
- 418          
- 419          //*****************************************************************
- 420          //  Function:       INT8U Link_Get_DisIndex(u8_dis_itm)        
- 421          //  Description:    »ñÈ¡ÏÔÊ¾ÏîÄ¿ÐÅÏ¢                                        
- 422          //  Input:                                                                            
- 423          //  Output:         no                              
- 424          //  Return:         no                              
- 425          //  Others:         
- 426          //***************************************************************/
- 427          INT8U Link_Get_DisTab_Var(INT8U u8_dis_itm)
- 428          {
- 429   1       INT8U i;
- 430   1       INT8U u8_result=FALSE;
- 431   1      
- 432   1              if(u8_dis_itm>DIS_MAX_ITEM)
- 433   1              {
- 434   2                      u8_dis_itm = DIS_DEFAULT_ITEM;    // ÏµÍ³ÏÔÊ¾ÏîÄ¿Òì³£ºóµÄÄ¬ÈÏÎªÏÔÊ¾ÏµÍ³´íÎóÆÁ  //
- 435   2              }
- 436   1      
+ 413   2              {
+ 414   3                  item =     DIS_DEFAULT_ITEM;
+ 415   3              }
+ 416   2          }
+ 417   1          return (item);
+ 418   1      }
+ 419          
+ 420          //*****************************************************************
+ 421          //  Function:       INT8U Link_Get_DisIndex(u8_dis_itm)        
+ 422          //  Description:    »ñÈ¡ÏÔÊ¾ÏîÄ¿ÐÅÏ¢                                        
+ 423          //  Input:                                                                            
+ 424          //  Output:         no                              
+ 425          //  Return:         no                              
+ 426          //  Others:         
+ 427          //***************************************************************/
+ 428          INT8U Link_Get_DisTab_Var(INT8U u8_dis_itm)
+ 429          {
+ 430   1       INT8U i;
+ 431   1       INT8U u8_result=FALSE;
+ 432   1      
+ 433   1              if(u8_dis_itm>DIS_MAX_ITEM)
+ 434   1              {
+ 435   2                      u8_dis_itm = DIS_DEFAULT_ITEM;    // ÏµÍ³ÏÔÊ¾ÏîÄ¿Òì³£ºóµÄÄ¬ÈÏÎªÏÔÊ¾ÏµÍ³´íÎóÆÁ  //
+ 436   2              }
  437   1      
- 438   1              for( i = 0 ; i <=DIS_MAX_ITEM ; i++ )
- 439   1              {
- 440   2                      if( u8_dis_itm== LcdDisTab[i].DisID)
- 441   2                      {
- 442   3                              gs_LCDDISTAB_var.DisID = u8_dis_itm;
- 443   3                              gs_LCDDISTAB_var.ObisNum= LcdDisTab[i].ObisNum;
- 444   3                              gs_LCDDISTAB_var.Addr =LcdDisTab[i].Addr;
- 445   3                              gs_LCDDISTAB_var.DisInfo = LcdDisTab[i].DisInfo;
- 446   3                              gs_LCDDISTAB_var.chartype = LcdDisTab[i].chartype;
- 447   3                              gs_LCDDISTAB_var.obis_digit= LcdDisTab[i].obis_digit;
- 448   3                              u8_result = TRUE;
- 449   3                              return (u8_result);
- 450   3                      }
- 451   2              }
- 452   1      
- 453   1              if(u8_result == FALSE )
- 454   1              {
- 455   2                      gs_LCDDISTAB_var.DisID = DIS_DEFAULT_ITEM;  // Ä¬ÈÏÏÔÊ¾µ±Ç°ÓÐ¹¦×Ü 
- 456   2                      gs_LCDDISTAB_var.ObisNum = LcdDisTab[0x01].ObisNum;
- 457   2                      gs_LCDDISTAB_var.Addr =LcdDisTab[0x01].Addr;
- 458   2                      gs_LCDDISTAB_var.DisInfo = LcdDisTab[0x01].DisInfo;
- 459   2                      gs_LCDDISTAB_var.chartype = LcdDisTab[0x01].chartype;           
- 460   2              }
- 461   1              return (u8_result);
- 462   1                              
- 463   1      }
- 464          
+ 438   1      
+ 439   1              for( i = 0 ; i <=DIS_MAX_ITEM ; i++ )
+ 440   1              {
+ 441   2                      if( u8_dis_itm== LcdDisTab[i].DisID)
+ 442   2                      {
+ 443   3                              gs_LCDDISTAB_var.DisID = u8_dis_itm;
+ 444   3                              gs_LCDDISTAB_var.ObisNum= LcdDisTab[i].ObisNum;
+ 445   3                              gs_LCDDISTAB_var.Addr =LcdDisTab[i].Addr;
+ 446   3                              gs_LCDDISTAB_var.DisInfo = LcdDisTab[i].DisInfo;
+ 447   3                              gs_LCDDISTAB_var.chartype = LcdDisTab[i].chartype;
+ 448   3                              gs_LCDDISTAB_var.obis_digit= LcdDisTab[i].obis_digit;
+ 449   3                              u8_result = TRUE;
+ 450   3                              return (u8_result);
+ 451   3                      }
+ 452   2              }
+ 453   1      
+ 454   1              if(u8_result == FALSE )
+ 455   1              {
+ 456   2                      gs_LCDDISTAB_var.DisID = DIS_DEFAULT_ITEM;  // Ä¬ÈÏÏÔÊ¾µ±Ç°ÓÐ¹¦×Ü 
+ 457   2                      gs_LCDDISTAB_var.ObisNum = LcdDisTab[0x01].ObisNum;
+ 458   2                      gs_LCDDISTAB_var.Addr =LcdDisTab[0x01].Addr;
+ 459   2                      gs_LCDDISTAB_var.DisInfo = LcdDisTab[0x01].DisInfo;
+ 460   2                      gs_LCDDISTAB_var.chartype = LcdDisTab[0x01].chartype;           
+ 461   2              }
+ 462   1              return (u8_result);
+ 463   1                              
+ 464   1      }
  465          
- 466          //*****************************************************************
- 467          //  Function:      void Link_Get_Dis_OBIS_Num_buff(void)      
- 468          //  Description:    »ñÈ¡OBISÇøµÄÏÔÊ¾ÄÚÈÝ£¬ 2¸ö8×ÖÇø                                       
- 469          //  Input:                                                                            
- 470          //  Output:         no                              
- 471          //  Return:         no                              
- 472          //  Others:         dis_obis_buff[0] ¶ÔÓ¦OBISÇøÏÔÊ¾µÄ×î×ó±ß1Î»(¸ßÎ»)
- 473          //***************************************************************/
- 474          void Link_Get_Dis_OBIS_Num_buff(void)
-C51 COMPILER V9.01   API_LCD_DISPLAY                                                       04/11/2019 19:11:53 PAGE 9   
+ 466          
+ 467          //*****************************************************************
+ 468          //  Function:      void Link_Get_Dis_OBIS_Num_buff(void)      
+ 469          //  Description:    »ñÈ¡OBISÇøµÄÏÔÊ¾ÄÚÈÝ£¬ 2¸ö8×ÖÇø                                       
+ 470          //  Input:                                                                            
+ 471          //  Output:         no                              
+ 472          //  Return:         no                              
+ 473          //  Others:         dis_obis_buff[0] ¶ÔÓ¦OBISÇøÏÔÊ¾µÄ×î×ó±ß1Î»(¸ßÎ»)
+ 474          //***************************************************************/
+C51 COMPILER V9.01   API_LCD_DISPLAY                                                       04/16/2019 21:42:11 PAGE 9   
 
- 475          { 
- 476   1              INT8U   u8_len,u8_mem_type,lib_len;
- 477   1              ST_U32_U08      u32_tmp,buffer;
- 478   1              
- 479   1              u8_len = (INT8U)gs_LCDDISTAB_var.DisInfo;
- 480   1              
- 481   1              if(u8_len>2) u8_len= 2;
- 482   1              u8_mem_type =  (INT8U)(gs_LCDDISTAB_var.DisInfo>>8);
- 483   1              //¼ì²âµ½À­Õ¢ºó £¬OBISÇø¹Ì¶¨ÏÔÊ¾oFF yang 2017-12-27// 
- 484   1              if(gs_relay_manage_var.u8_STA== CMD_RELAY_ON)
- 485   1              {
- 486   2                      gs_dis_pixel_var.dis_obis_buff[0] = 0x36 ;      //o
- 487   2                      gs_dis_pixel_var.dis_obis_buff[1] = NumSegD7_D8[0x0F]; //F
- 488   2                      gs_dis_pixel_var.dis_obis_buff[2] = NumSegD7_D8[0x0F];//F
- 489   2                      return;
- 490   2              }
- 491   1              // Êý¾Ý»ñÈ¡´¦Àí  //
- 492   1              switch (gs_LCDDISTAB_var.chartype)
- 493   1              {
- 494   2                      case CHAR_V://Êý¾ÝÇ°ÒÆ1Î»
- 495   2                                              mem_read(&u32_tmp.B08[2],gs_LCDDISTAB_var.Addr, 2, u8_mem_type);                //»ñÈ¡µ±Ç°Êý¾Ý //
- 496   2                                              Lib_word_bcd2(&buffer.B08[0],u32_tmp.W16[1]);              //  16½øÖÆ×ª10½øÖÆ// 
- 497   2                              break;
- 498   2                              
- 499   2                      case CHAR_HZ:
- 500   2                                      mem_read(&u32_tmp.B08[2],gs_LCDDISTAB_var.Addr, 2, u8_mem_type);                //»ñÈ¡µ±Ç°Êý¾Ý //
- 501   2                                      Lib_word_bcd2(&buffer.B08[0],u32_tmp.W16[1]);              //  16½øÖÆ×ª10½øÖÆ// 
- 502   2      //                              gs_dis_pixel_var.dis_char_buff[0] |= CHAR_DATA_P9; 
- 503   2                              break;
- 504   2                              
- 505   2                      case CHAR_PF:
- 506   2                                              mem_read(&u32_tmp.B08[2],gs_LCDDISTAB_var.Addr, 2, u8_mem_type);                //»ñÈ¡µ±Ç°Êý¾Ý //
- 507   2                                              Lib_word_bcd2(&buffer.B08[0],u32_tmp.W16[1]);              //  16½øÖÆ×ª10½øÖÆ// 
- 508   2                                              gs_dis_pixel_var.dis_char_buff[0] |= CHAR_DATA_P8; 
- 509   2                              break;
- 510   2      
- 511   2                      case CHAR_A: //xxx.xxx A
- 512   2                                              mem_read(&u32_tmp.B08[0],gs_LCDDISTAB_var.Addr, 4, u8_mem_type);                //»ñÈ¡µ±Ç°Êý¾Ý //
- 513   2                                              Lib_long_bcd4(&buffer.B08[0],u32_tmp.u32);                      //      16½øÖÆ×ª10½øÖÆ// 
- 514   2                                              lib_len=Lib_ENOB_Get(&buffer.B08[0],4,1);
- 515   2                                              if(lib_len<=4)
- 516   2                                              {
- 517   3                                                      buffer.u32 =((buffer.u32&0x0000FFFF)<<16);
- 518   3                                                      gs_dis_pixel_var.dis_char_buff[0] |= CHAR_DATA_P8; 
- 519   3                                              }
- 520   2                                              else if(lib_len==5)
- 521   2                                              {
- 522   3                                                      buffer.u32 =((buffer.u32&0x000FFFFF)<<12);
- 523   3      //                                              gs_dis_pixel_var.dis_char_buff[0] |= CHAR_DATA_P9; 
- 524   3                                              }
- 525   2                                              else if(lib_len==6)
- 526   2                                              {
- 527   3                                                      buffer.u32 =((buffer.u32&0x00FFFFFF)<<8);
- 528   3                                              }
- 529   2                                              else if(lib_len==7)
- 530   2                                              {
- 531   3                                                      buffer.u32 =((buffer.u32&0x0FFFFFFF)<<4);
- 532   3                                              }
- 533   2                                              else 
- 534   2                                              {
- 535   3                                                      buffer.u32 =(buffer.u32&0xFFFFFFFF);
- 536   3                                              }
-C51 COMPILER V9.01   API_LCD_DISPLAY                                                       04/11/2019 19:11:53 PAGE 10  
+ 475          void Link_Get_Dis_OBIS_Num_buff(void)
+ 476          { 
+ 477   1              INT8U   u8_len,u8_mem_type,lib_len;
+ 478   1              ST_U32_U08      u32_tmp,buffer;
+ 479   1              
+ 480   1              u8_len = (INT8U)gs_LCDDISTAB_var.DisInfo;
+ 481   1              
+ 482   1              if(u8_len>2) u8_len= 2;
+ 483   1              u8_mem_type =  (INT8U)(gs_LCDDISTAB_var.DisInfo>>8);
+ 484   1              //¼ì²âµ½À­Õ¢ºó £¬OBISÇø¹Ì¶¨ÏÔÊ¾oFF yang 2017-12-27// 
+ 485   1              if(gs_relay_manage_var.u8_STA== CMD_RELAY_ON)
+ 486   1              {
+ 487   2                      gs_dis_pixel_var.dis_obis_buff[0] = 0x36 ;      //o
+ 488   2                      gs_dis_pixel_var.dis_obis_buff[1] = NumSegD7_D8[0x0F]; //F
+ 489   2                      gs_dis_pixel_var.dis_obis_buff[2] = NumSegD7_D8[0x0F];//F
+ 490   2                      return;
+ 491   2              }
+ 492   1              // Êý¾Ý»ñÈ¡´¦Àí  //
+ 493   1              switch (gs_LCDDISTAB_var.chartype)
+ 494   1              {
+ 495   2                      case CHAR_V://Êý¾ÝÇ°ÒÆ1Î»
+ 496   2                                              mem_read(&u32_tmp.B08[2],gs_LCDDISTAB_var.Addr, 2, u8_mem_type);                //»ñÈ¡µ±Ç°Êý¾Ý //
+ 497   2                                              Lib_word_bcd2(&buffer.B08[0],u32_tmp.W16[1]);              //  16½øÖÆ×ª10½øÖÆ// 
+ 498   2                              break;
+ 499   2                              
+ 500   2                      case CHAR_HZ:
+ 501   2                                      mem_read(&u32_tmp.B08[2],gs_LCDDISTAB_var.Addr, 2, u8_mem_type);                //»ñÈ¡µ±Ç°Êý¾Ý //
+ 502   2                                      Lib_word_bcd2(&buffer.B08[0],u32_tmp.W16[1]);              //  16½øÖÆ×ª10½øÖÆ// 
+ 503   2      //                              gs_dis_pixel_var.dis_char_buff[0] |= CHAR_DATA_P9; 
+ 504   2                              break;
+ 505   2                              
+ 506   2                      case CHAR_PF:
+ 507   2                                              mem_read(&u32_tmp.B08[2],gs_LCDDISTAB_var.Addr, 2, u8_mem_type);                //»ñÈ¡µ±Ç°Êý¾Ý //
+ 508   2                                              Lib_word_bcd2(&buffer.B08[0],u32_tmp.W16[1]);              //  16½øÖÆ×ª10½øÖÆ// 
+ 509   2                                              gs_dis_pixel_var.dis_char_buff[0] |= CHAR_DATA_P8; 
+ 510   2                              break;
+ 511   2      
+ 512   2                      case CHAR_A: //xxx.xxx A
+ 513   2                                              mem_read(&u32_tmp.B08[0],gs_LCDDISTAB_var.Addr, 4, u8_mem_type);                //»ñÈ¡µ±Ç°Êý¾Ý //
+ 514   2                                              Lib_long_bcd4(&buffer.B08[0],u32_tmp.u32);                      //      16½øÖÆ×ª10½øÖÆ// 
+ 515   2                                              lib_len=Lib_ENOB_Get(&buffer.B08[0],4,1);
+ 516   2                                              if(lib_len<=4)
+ 517   2                                              {
+ 518   3                                                      buffer.u32 =((buffer.u32&0x0000FFFF)<<16);
+ 519   3                                                      gs_dis_pixel_var.dis_char_buff[0] |= CHAR_DATA_P8; 
+ 520   3                                              }
+ 521   2                                              else if(lib_len==5)
+ 522   2                                              {
+ 523   3                                                      buffer.u32 =((buffer.u32&0x000FFFFF)<<12);
+ 524   3      //                                              gs_dis_pixel_var.dis_char_buff[0] |= CHAR_DATA_P9; 
+ 525   3                                              }
+ 526   2                                              else if(lib_len==6)
+ 527   2                                              {
+ 528   3                                                      buffer.u32 =((buffer.u32&0x00FFFFFF)<<8);
+ 529   3                                              }
+ 530   2                                              else if(lib_len==7)
+ 531   2                                              {
+ 532   3                                                      buffer.u32 =((buffer.u32&0x0FFFFFFF)<<4);
+ 533   3                                              }
+ 534   2                                              else 
+ 535   2                                              {
+ 536   3                                                      buffer.u32 =(buffer.u32&0xFFFFFFFF);
+C51 COMPILER V9.01   API_LCD_DISPLAY                                                       04/16/2019 21:42:11 PAGE 10  
 
- 537   2                              break;                  
- 538   2                      case CHAR_KW:// xx.xxxx kW
- 539   2                                              mem_read(&u32_tmp.B08[0],gs_LCDDISTAB_var.Addr, 4, u8_mem_type);                //»ñÈ¡µ±Ç°Êý¾Ý //
- 540   2                                              Lib_long_bcd4(&buffer.B08[0],u32_tmp.u32);                      //      16½øÖÆ×ª10½øÖÆ// 
- 541   2                                              lib_len=Lib_ENOB_Get(&buffer.B08[0],4,1);
- 542   2                                              if(lib_len<=5)
- 543   2                                              {
- 544   3                                                      buffer.u32 =((buffer.u32&0x000FFFFF)<<12);
- 545   3                                                      gs_dis_pixel_var.dis_char_buff[0] |= CHAR_DATA_P8; 
- 546   3                                              }
- 547   2                                              else if(lib_len==6)
- 548   2                                              {
- 549   3                                                      buffer.u32 =((buffer.u32&0x00FFFFFF)<<8);
- 550   3      //                                              gs_dis_pixel_var.dis_char_buff[0] |= CHAR_DATA_P9; 
- 551   3                                              }
- 552   2                                              else if(lib_len==7)
- 553   2                                              {
- 554   3                                                      buffer.u32 =((buffer.u32&0x0FFFFFFF)<<4);
- 555   3                                              }
- 556   2                                              else 
- 557   2                                              {
- 558   3                                                      buffer.u32 =(buffer.u32&0xFFFFFFFF);
- 559   3                                              }
- 560   2                              break;                  
- 561   2      
- 562   2                                              
- 563   2                      default:
- 564   2                              mem_read(&buffer.B08[0],gs_LCDDISTAB_var.Addr, u8_len, u8_mem_type);            //»ñÈ¡µ±Ç°Êý¾Ý //
- 565   2                              break;
- 566   2              }
- 567   1              // ²âÊÔ/// 0XE6
- 568   1              //      buffer.B08[3] = 0XE6;
- 569   1              //      buffer.B08[2] = 0x07;
- 570   1              //      buffer.B08[1] = 0x42;
- 571   1              //      buffer.B08[0] = 0x48;
- 572   1              //////////////
- 573   1              
- 574   1                      switch(u8_len)
- 575   1                      {
- 576   2                              case 2:
- 577   2                                      gs_dis_pixel_var.dis_obis_buff[0] = NumSegD7_D8[(buffer.B08[0]&0xF0)>>4] ;  
- 578   2                                      gs_dis_pixel_var.dis_obis_buff[1] = NumSegD7_D8[(buffer.B08[0]&0x0F)]; 
- 579   2                                      gs_dis_pixel_var.dis_obis_buff[2] = NumSegD7_D8[(buffer.B08[1]&0xF0)>>4] ;  
- 580   2                                      break;
- 581   2                              case 1:
- 582   2                                      gs_dis_pixel_var.dis_obis_buff[1] = NumSegD7_D8[(buffer.B08[1]&0xF0)>>4] ;  
- 583   2                                      gs_dis_pixel_var.dis_obis_buff[2] = NumSegD7_D8[(buffer.B08[1]&0x0F)]; 
- 584   2                                      break;
- 585   2                              default:          // ³¤¶ÈÎª0 ÏÔÊ¾¿Õ
- 586   2                                         break;
- 587   2                      }
- 588   1                      
- 589   1      
- 590   1      }               
- 591                          
- 592          
+ 537   3                                              }
+ 538   2                              break;                  
+ 539   2                      case CHAR_KW:// xx.xxxx kW
+ 540   2                                              mem_read(&u32_tmp.B08[0],gs_LCDDISTAB_var.Addr, 4, u8_mem_type);                //»ñÈ¡µ±Ç°Êý¾Ý //
+ 541   2                                              Lib_long_bcd4(&buffer.B08[0],u32_tmp.u32);                      //      16½øÖÆ×ª10½øÖÆ// 
+ 542   2                                              lib_len=Lib_ENOB_Get(&buffer.B08[0],4,1);
+ 543   2                                              if(lib_len<=5)
+ 544   2                                              {
+ 545   3                                                      buffer.u32 =((buffer.u32&0x000FFFFF)<<12);
+ 546   3                                                      gs_dis_pixel_var.dis_char_buff[0] |= CHAR_DATA_P8; 
+ 547   3                                              }
+ 548   2                                              else if(lib_len==6)
+ 549   2                                              {
+ 550   3                                                      buffer.u32 =((buffer.u32&0x00FFFFFF)<<8);
+ 551   3      //                                              gs_dis_pixel_var.dis_char_buff[0] |= CHAR_DATA_P9; 
+ 552   3                                              }
+ 553   2                                              else if(lib_len==7)
+ 554   2                                              {
+ 555   3                                                      buffer.u32 =((buffer.u32&0x0FFFFFFF)<<4);
+ 556   3                                              }
+ 557   2                                              else 
+ 558   2                                              {
+ 559   3                                                      buffer.u32 =(buffer.u32&0xFFFFFFFF);
+ 560   3                                              }
+ 561   2                              break;                  
+ 562   2      
+ 563   2                                              
+ 564   2                      default:
+ 565   2                              mem_read(&buffer.B08[0],gs_LCDDISTAB_var.Addr, u8_len, u8_mem_type);            //»ñÈ¡µ±Ç°Êý¾Ý //
+ 566   2                              break;
+ 567   2              }
+ 568   1              // ²âÊÔ/// 0XE6
+ 569   1              //      buffer.B08[3] = 0XE6;
+ 570   1              //      buffer.B08[2] = 0x07;
+ 571   1              //      buffer.B08[1] = 0x42;
+ 572   1              //      buffer.B08[0] = 0x48;
+ 573   1              //////////////
+ 574   1              
+ 575   1                      switch(u8_len)
+ 576   1                      {
+ 577   2                              case 2:
+ 578   2                                      gs_dis_pixel_var.dis_obis_buff[0] = NumSegD7_D8[(buffer.B08[0]&0xF0)>>4] ;  
+ 579   2                                      gs_dis_pixel_var.dis_obis_buff[1] = NumSegD7_D8[(buffer.B08[0]&0x0F)]; 
+ 580   2                                      gs_dis_pixel_var.dis_obis_buff[2] = NumSegD7_D8[(buffer.B08[1]&0xF0)>>4] ;  
+ 581   2                                      break;
+ 582   2                              case 1:
+ 583   2                                      gs_dis_pixel_var.dis_obis_buff[1] = NumSegD7_D8[(buffer.B08[1]&0xF0)>>4] ;  
+ 584   2                                      gs_dis_pixel_var.dis_obis_buff[2] = NumSegD7_D8[(buffer.B08[1]&0x0F)]; 
+ 585   2                                      break;
+ 586   2                              default:          // ³¤¶ÈÎª0 ÏÔÊ¾¿Õ
+ 587   2                                         break;
+ 588   2                      }
+ 589   1                      
+ 590   1      
+ 591   1      }               
+ 592                          
  593          
- 594          //*****************************************************************
- 595          //  Function:      void Link_Get_Dis_OBIS_Num_buff(void)      
- 596          //  Description:    »ñÈ¡DATAÇøµÄÏÔÊ¾ÄÚÈÝ£¬ 8¸ö8×ÖÇø                                       
- 597          //  Input:                                                                            
- 598          //  Output:         no                              
-C51 COMPILER V9.01   API_LCD_DISPLAY                                                       04/11/2019 19:11:53 PAGE 11  
+ 594          
+ 595          //*****************************************************************
+ 596          //  Function:      void Link_Get_Dis_OBIS_Num_buff(void)      
+ 597          //  Description:    »ñÈ¡DATAÇøµÄÏÔÊ¾ÄÚÈÝ£¬ 8¸ö8×ÖÇø                                       
+ 598          //  Input:                                                                            
+C51 COMPILER V9.01   API_LCD_DISPLAY                                                       04/16/2019 21:42:11 PAGE 11  
 
- 599          //  Return:         no                              
- 600          //  Others:         dis_data_buff[0] ¶ÔÓ¦NUMÇøÏÔÊ¾µÄ×î×ó±ß1Î»(¸ßÎ»)
- 601          //***************************************************************/
- 602          void Link_Get_Dis_Data_Num_buff(void)
- 603          {
- 604   1              ST_U32_U08   buffer;
- 605   1              INT8U  temp[6];
- 606   1              NEW_MMD_DATA_UNIT t;
- 607   1              RTC_TYPE rtc_data_tmp;
- 608   1              ////ÉÏÅÅ¹Ì¶¨ÏÔÊ¾µ±Ç°×ÜµçÁ¿ yana 2017-12-15////  2018-11-20¸ÄÎªÉÏÅÅÏÔÊ¾¿É±äcxy
- 609   1      
- 610   1              if(dis_data_type == CHAR_TIME && dis_data_sec != 0)
- 611   1              {       //ÏÔÊ¾Ê±¼ä
- 612   2                      Get_RTCTime(&rtc_data_tmp);
- 613   2      
- 614   2                      gs_dis_pixel_var.dis_data_buff[0] = NumSegD1_D6[rtc_data_tmp.Hour>>4];
- 615   2                      gs_dis_pixel_var.dis_data_buff[1] = NumSegD1_D6[rtc_data_tmp.Hour&0x0F];
- 616   2                      gs_dis_pixel_var.dis_data_buff[2] = NumSegD1_D6[rtc_data_tmp.Minute>>4];
- 617   2                      gs_dis_pixel_var.dis_data_buff[3] = NumSegD1_D6[rtc_data_tmp.Minute&0x0F];
- 618   2                      gs_dis_pixel_var.dis_data_buff[4] = NumSegD1_D6[rtc_data_tmp.Second>>4];
- 619   2                      gs_dis_pixel_var.dis_data_buff[5] = NumSegD1_D6[rtc_data_tmp.Second&0x0F];
- 620   2                      dis_data_sec --;
- 621   2                      if(dis_data_sec == 0){dis_data_type = 0;}
- 622   2              }
- 623   1              else
- 624   1              {       
- 625   2                      if(dis_num_char == 0)
- 626   2                      {
- 627   3                              //ÏÔÊ¾µ±Ç°µçÁ¿ kwh
- 628   3                              mem_read(&temp[0], (INT16U)&gs_energy_user_data.us_val[EC_CH_AC_PT_TT][0].buf[0], LEN_EC_UNIT, MEM_RAM)
+ 599          //  Output:         no                              
+ 600          //  Return:         no                              
+ 601          //  Others:         dis_data_buff[0] ¶ÔÓ¦NUMÇøÏÔÊ¾µÄ×î×ó±ß1Î»(¸ßÎ»)
+ 602          //***************************************************************/
+ 603          void Link_Get_Dis_Data_Num_buff(void)
+ 604          {
+ 605   1              ST_U32_U08   buffer;
+ 606   1              INT8U  temp[6];
+ 607   1              NEW_MMD_DATA_UNIT t;
+ 608   1              RTC_TYPE rtc_data_tmp;
+ 609   1              ////ÉÏÅÅ¹Ì¶¨ÏÔÊ¾µ±Ç°×ÜµçÁ¿ yana 2017-12-15////  2018-11-20¸ÄÎªÉÏÅÅÏÔÊ¾¿É±äcxy
+ 610   1      
+ 611   1              if(dis_data_type == CHAR_TIME && dis_data_sec != 0)
+ 612   1              {       //ÏÔÊ¾Ê±¼ä
+ 613   2                      Get_RTCTime(&rtc_data_tmp);
+ 614   2      
+ 615   2                      gs_dis_pixel_var.dis_data_buff[0] = NumSegD1_D6[rtc_data_tmp.Hour>>4];
+ 616   2                      gs_dis_pixel_var.dis_data_buff[1] = NumSegD1_D6[rtc_data_tmp.Hour&0x0F];
+ 617   2                      gs_dis_pixel_var.dis_data_buff[2] = NumSegD1_D6[rtc_data_tmp.Minute>>4];
+ 618   2                      gs_dis_pixel_var.dis_data_buff[3] = NumSegD1_D6[rtc_data_tmp.Minute&0x0F];
+ 619   2                      gs_dis_pixel_var.dis_data_buff[4] = NumSegD1_D6[rtc_data_tmp.Second>>4];
+ 620   2                      gs_dis_pixel_var.dis_data_buff[5] = NumSegD1_D6[rtc_data_tmp.Second&0x0F];
+ 621   2                      dis_data_sec --;
+ 622   2                      if(dis_data_sec == 0){dis_data_type = 0;}
+ 623   2              }
+ 624   1              else
+ 625   1              {       
+ 626   2                      if(dis_num_char == 0)
+ 627   2                      {
+ 628   3                              //ÏÔÊ¾µ±Ç°µçÁ¿ kwh
+ 629   3                              mem_read(&temp[0], (INT16U)&gs_energy_user_data.us_val[EC_CH_AC_PT_TT][0].buf[0], LEN_EC_UNIT, MEM_RAM)
              -;          //»ñÈ¡µ±Ç°Êý¾Ý //
- 629   3                              //mem_read(&temp[0], ADR_BLOCK00_EC_L0_E2P, 6, MEM_E2P1);
- 630   3                              api_get_energy_LCD(&temp[0], gs_dis_param.ec_form,&buffer.B08[0]);
- 631   3                              //debug////
- 632   3                              //buffer.B08[1]=0x12;
- 633   3                              //buffer.B08[2]=0x34;
- 634   3                              //buffer.B08[3]=0x56;
- 635   3                              gs_dis_pixel_var.dis_data_buff[0] = NumSegD1_D6[(buffer.B08[1]&0xF0)>>4] ;  
- 636   3                              gs_dis_pixel_var.dis_data_buff[1] = NumSegD1_D6[(buffer.B08[1]&0x0F)];
- 637   3                              gs_dis_pixel_var.dis_data_buff[2] = NumSegD1_D6[(buffer.B08[2]&0xF0)>>4] ;  
- 638   3                              gs_dis_pixel_var.dis_data_buff[3] = NumSegD1_D6[(buffer.B08[2]&0x0F)]; 
- 639   3                              gs_dis_pixel_var.dis_data_buff[4] = NumSegD1_D6[(buffer.B08[3]&0xF0)>>4] ;  
- 640   3                              if(gs_dis_param.ec_form!=0x50)
- 641   3                              {
- 642   4                                      gs_dis_pixel_var.dis_data_buff[5] = NumSegD1_D6[(buffer.B08[3]&0x0F)]; 
- 643   4                              }
- 644   3                              //ÏÂÅÅÏÔÊ¾  2019-01-11
- 645   3                              //gs_dis_pixel_var.dis_obis_buff[0] = NumSegD7_D9[(buffer.B08[0]&0xF0)>>4] ;  
- 646   3                              gs_dis_pixel_var.dis_obis_buff[0] = NumSegD7_D8[0]; 
- 647   3                              gs_dis_pixel_var.dis_obis_buff[1] = NumSegD7_D8[1] ;
- 648   3                      }
- 649   2                      if(dis_num_char == 1)
- 650   2                      {
- 651   3                              //ÏÔÊ¾µ±Ç°ÐèÁ¿kw
- 652   3                              //mem_read(&temp[0], (INT16U)&gs_energy_user_data.us_val[EC_CH_AC_PT_TT][0].buf[0], LEN_EC_UNIT, MEM_RA
+ 630   3                              //mem_read(&temp[0], ADR_BLOCK00_EC_L0_E2P, 6, MEM_E2P1);
+ 631   3                              api_get_energy_LCD(&temp[0], gs_dis_param.ec_form,&buffer.B08[0]);
+ 632   3                              //debug////
+ 633   3                              //buffer.B08[1]=0x12;
+ 634   3                              //buffer.B08[2]=0x34;
+ 635   3                              //buffer.B08[3]=0x56;
+ 636   3                              gs_dis_pixel_var.dis_data_buff[0] = NumSegD1_D6[(buffer.B08[1]&0xF0)>>4] ;  
+ 637   3                              gs_dis_pixel_var.dis_data_buff[1] = NumSegD1_D6[(buffer.B08[1]&0x0F)];
+ 638   3                              gs_dis_pixel_var.dis_data_buff[2] = NumSegD1_D6[(buffer.B08[2]&0xF0)>>4] ;  
+ 639   3                              gs_dis_pixel_var.dis_data_buff[3] = NumSegD1_D6[(buffer.B08[2]&0x0F)]; 
+ 640   3                              gs_dis_pixel_var.dis_data_buff[4] = NumSegD1_D6[(buffer.B08[3]&0xF0)>>4] ;  
+ 641   3                              if(gs_dis_param.ec_form!=0x50)
+ 642   3                              {
+ 643   4                                      gs_dis_pixel_var.dis_data_buff[5] = NumSegD1_D6[(buffer.B08[3]&0x0F)]; 
+ 644   4                              }
+ 645   3                              //ÏÂÅÅÏÔÊ¾  2019-01-11
+ 646   3                              //gs_dis_pixel_var.dis_obis_buff[0] = NumSegD7_D9[(buffer.B08[0]&0xF0)>>4] ;  
+ 647   3                              gs_dis_pixel_var.dis_obis_buff[0] = NumSegD7_D8[0]; 
+ 648   3                              gs_dis_pixel_var.dis_obis_buff[1] = NumSegD7_D8[1] ;
+ 649   3                      }
+ 650   2                      if(dis_num_char == 1)
+ 651   2                      {
+ 652   3                              //ÏÔÊ¾µ±Ç°ÐèÁ¿kw
+ 653   3                              //mem_read(&temp[0], (INT16U)&gs_energy_user_data.us_val[EC_CH_AC_PT_TT][0].buf[0], LEN_EC_UNIT, MEM_RA
              -M);          //»ñÈ¡µ±Ç°Êý¾Ý //
- 653   3      //                      mem_read(&t, ADR_BLOCK_4MMD_L0_E2P, 4, MEM_E2P1);
- 654   3                              mem_read(&t, &st_mmd_unit_array[0].buf[0],4,MEM_RAM);                               
-*** WARNING C182 IN LINE 654 OF ..\C_SOURCE\S4_APIUSER\API_LCD_DISPLAY.C: pointer to different objects
-*** WARNING C214 IN LINE 654 OF ..\C_SOURCE\S4_APIUSER\API_LCD_DISPLAY.C: 'Argument': conversion: pointer to non-pointer
- 655   3                              Lib_long_bcd4(&buffer.B08[0],t.val.val_hex32);
- 656   3      //                      mem_read(&buffer.B08[0], ADR_BLOCK_4MMD_L0_E2P, 4, MEM_E2P1);
-C51 COMPILER V9.01   API_LCD_DISPLAY                                                       04/11/2019 19:11:53 PAGE 12  
+ 654   3      //                      mem_read(&t, ADR_BLOCK_4MMD_L0_E2P, 4, MEM_E2P1);
+ 655   3                              mem_read(&t, &st_mmd_unit_array[0].buf[0],4,MEM_RAM);                               
+*** WARNING C182 IN LINE 655 OF ..\C_SOURCE\S4_APIUSER\API_LCD_DISPLAY.C: pointer to different objects
+*** WARNING C214 IN LINE 655 OF ..\C_SOURCE\S4_APIUSER\API_LCD_DISPLAY.C: 'Argument': conversion: pointer to non-pointer
+ 656   3                              Lib_long_bcd4(&buffer.B08[0],t.val.val_hex32);
+C51 COMPILER V9.01   API_LCD_DISPLAY                                                       04/16/2019 21:42:11 PAGE 12  
 
- 657   3      //                      api_get_energy_LCD(&temp[0], gs_dis_param.ec_form,&buffer.B08[0]);
- 658   3                              //debug////
- 659   3                              //buffer.B08[1]=0x12;
- 660   3                              //buffer.B08[2]=0x34;
- 661   3                              //buffer.B08[3]=0x56;
- 662   3                              gs_dis_pixel_var.dis_data_buff[0] = NumSegD1_D6[(buffer.B08[0]&0x0F)] ;  
- 663   3                              gs_dis_pixel_var.dis_data_buff[1] = NumSegD1_D6[(buffer.B08[1]&0xF0)>>4];
- 664   3                              gs_dis_pixel_var.dis_data_buff[2] = NumSegD1_D6[(buffer.B08[1]&0x0F)] ;  
- 665   3                              gs_dis_pixel_var.dis_data_buff[3] = NumSegD1_D6[(buffer.B08[2]&0xF0)>>4]; 
- 666   3                              gs_dis_pixel_var.dis_data_buff[4] = NumSegD1_D6[(buffer.B08[2]&0x0F)] ;  
- 667   3      //                      if(gs_dis_param.ec_form!=0x50)
- 668   3      //                      {
- 669   3                                      gs_dis_pixel_var.dis_data_buff[5] = NumSegD1_D6[(buffer.B08[3]&0xF0)>>4]; 
- 670   3      //                      }
- 671   3      
- 672   3                              //ÏÂÅÅÏÔÊ¾  2019-01-11
- 673   3                              //gs_dis_pixel_var.dis_obis_buff[0] = NumSegD7_D9[(buffer.B08[0]&0xF0)>>4] ;  
- 674   3                              gs_dis_pixel_var.dis_obis_buff[0] = NumSegD7_D8[0]; 
- 675   3                              gs_dis_pixel_var.dis_obis_buff[1] = NumSegD7_D8[2] ;
- 676   3                      }
- 677   2                      if(dis_num_char == 2)
- 678   2                      {
- 679   3                              //ÏÔÊ¾µ±Ç°ÀÛ¼ÆÐèÁ¿kw
- 680   3      //                      mem_read(&temp[0], (INT16U)&gs_energy_user_data.us_val[EC_CH_AC_PT_TT][0].buf[0], LEN_EC_UNIT, MEM_RA
+ 657   3      //                      mem_read(&buffer.B08[0], ADR_BLOCK_4MMD_L0_E2P, 4, MEM_E2P1);
+ 658   3      //                      api_get_energy_LCD(&temp[0], gs_dis_param.ec_form,&buffer.B08[0]);
+ 659   3                              //debug////
+ 660   3                              //buffer.B08[1]=0x12;
+ 661   3                              //buffer.B08[2]=0x34;
+ 662   3                              //buffer.B08[3]=0x56;
+ 663   3                              gs_dis_pixel_var.dis_data_buff[0] = NumSegD1_D6[(buffer.B08[0]&0x0F)] ;  
+ 664   3                              gs_dis_pixel_var.dis_data_buff[1] = NumSegD1_D6[(buffer.B08[1]&0xF0)>>4];
+ 665   3                              gs_dis_pixel_var.dis_data_buff[2] = NumSegD1_D6[(buffer.B08[1]&0x0F)] ;  
+ 666   3                              gs_dis_pixel_var.dis_data_buff[3] = NumSegD1_D6[(buffer.B08[2]&0xF0)>>4]; 
+ 667   3                              gs_dis_pixel_var.dis_data_buff[4] = NumSegD1_D6[(buffer.B08[2]&0x0F)] ;  
+ 668   3      //                      if(gs_dis_param.ec_form!=0x50)
+ 669   3      //                      {
+ 670   3                                      gs_dis_pixel_var.dis_data_buff[5] = NumSegD1_D6[(buffer.B08[3]&0xF0)>>4]; 
+ 671   3      //                      }
+ 672   3      
+ 673   3                              //ÏÂÅÅÏÔÊ¾  2019-01-11
+ 674   3                              //gs_dis_pixel_var.dis_obis_buff[0] = NumSegD7_D9[(buffer.B08[0]&0xF0)>>4] ;  
+ 675   3                              gs_dis_pixel_var.dis_obis_buff[0] = NumSegD7_D8[0]; 
+ 676   3                              gs_dis_pixel_var.dis_obis_buff[1] = NumSegD7_D8[2] ;
+ 677   3                      }
+ 678   2                      if(dis_num_char == 2)
+ 679   2                      {
+ 680   3                              //ÏÔÊ¾µ±Ç°ÀÛ¼ÆÐèÁ¿kw
+ 681   3      //                      mem_read(&temp[0], (INT16U)&gs_energy_user_data.us_val[EC_CH_AC_PT_TT][0].buf[0], LEN_EC_UNIT, MEM_RA
              -M);          //»ñÈ¡µ±Ç°Êý¾Ý //
- 681   3      //                      mem_read(&t, ADR_BLOCK_4MMD_sum_L0_E2P, 4, MEM_E2P1);
- 682   3                              mem_read(&t, &sum_st_mmd_unit_array[0].buf[0],4,MEM_RAM);
-*** WARNING C182 IN LINE 682 OF ..\C_SOURCE\S4_APIUSER\API_LCD_DISPLAY.C: pointer to different objects
-*** WARNING C214 IN LINE 682 OF ..\C_SOURCE\S4_APIUSER\API_LCD_DISPLAY.C: 'Argument': conversion: pointer to non-pointer
- 683   3                              Lib_long_bcd4(&buffer.B08[0],t.val.val_hex32);
- 684   3      //                      api_get_energy_LCD(&temp[0], gs_dis_param.ec_form,&buffer.B08[0]);
- 685   3                              //debug////
- 686   3                              //buffer.B08[1]=0x12;
- 687   3                              //buffer.B08[2]=0x34;
- 688   3                              //buffer.B08[3]=0x56;
- 689   3                              gs_dis_pixel_var.dis_data_buff[0] = NumSegD1_D6[(buffer.B08[0]&0x0F)] ;  
- 690   3                              gs_dis_pixel_var.dis_data_buff[1] = NumSegD1_D6[(buffer.B08[1]&0xF0)>>4];
- 691   3                              gs_dis_pixel_var.dis_data_buff[2] = NumSegD1_D6[(buffer.B08[1]&0x0F)] ;  
- 692   3                              gs_dis_pixel_var.dis_data_buff[3] = NumSegD1_D6[(buffer.B08[2]&0xF0)>>4]; 
- 693   3                              gs_dis_pixel_var.dis_data_buff[4] = NumSegD1_D6[(buffer.B08[2]&0x0F)] ;  
- 694   3      //                      if(gs_dis_param.ec_form!=0x50)
- 695   3      //                      {
- 696   3                                      gs_dis_pixel_var.dis_data_buff[5] = NumSegD1_D6[(buffer.B08[3]&0xF0)>>4]; 
- 697   3      //                      }
- 698   3      
- 699   3                              //ÏÂÅÅÏÔÊ¾  2019-01-11
- 700   3                              //gs_dis_pixel_var.dis_obis_buff[0] = NumSegD7_D9[(buffer.B08[0]&0xF0)>>4] ;  
- 701   3                              gs_dis_pixel_var.dis_obis_buff[0] = NumSegD7_D8[0]; 
- 702   3                              gs_dis_pixel_var.dis_obis_buff[1] = NumSegD7_D8[4] ;
- 703   3                      }
- 704   2                      if(dis_num_char == 3)
- 705   2                      {
- 706   3                              //ÏÔÊ¾Ç°Ò»ÌìµçÁ¿kwh
- 707   3      //                      mem_read(&temp[0], ADR_BLOCK_4Energy_L0_E2P+LEN_BLOCK_4Energy_E2P/4, LEN_BLOCK_4Energy_E2P/4, MEM_E2P
+ 682   3      //                      mem_read(&t, ADR_BLOCK_4MMD_sum_L0_E2P, 4, MEM_E2P1);
+ 683   3                              mem_read(&t, &sum_st_mmd_unit_array[0].buf[0],4,MEM_RAM);
+*** WARNING C182 IN LINE 683 OF ..\C_SOURCE\S4_APIUSER\API_LCD_DISPLAY.C: pointer to different objects
+*** WARNING C214 IN LINE 683 OF ..\C_SOURCE\S4_APIUSER\API_LCD_DISPLAY.C: 'Argument': conversion: pointer to non-pointer
+ 684   3                              Lib_long_bcd4(&buffer.B08[0],t.val.val_hex32);
+ 685   3      //                      api_get_energy_LCD(&temp[0], gs_dis_param.ec_form,&buffer.B08[0]);
+ 686   3                              //debug////
+ 687   3                              //buffer.B08[1]=0x12;
+ 688   3                              //buffer.B08[2]=0x34;
+ 689   3                              //buffer.B08[3]=0x56;
+ 690   3                              gs_dis_pixel_var.dis_data_buff[0] = NumSegD1_D6[(buffer.B08[0]&0x0F)] ;  
+ 691   3                              gs_dis_pixel_var.dis_data_buff[1] = NumSegD1_D6[(buffer.B08[1]&0xF0)>>4];
+ 692   3                              gs_dis_pixel_var.dis_data_buff[2] = NumSegD1_D6[(buffer.B08[1]&0x0F)] ;  
+ 693   3                              gs_dis_pixel_var.dis_data_buff[3] = NumSegD1_D6[(buffer.B08[2]&0xF0)>>4]; 
+ 694   3                              gs_dis_pixel_var.dis_data_buff[4] = NumSegD1_D6[(buffer.B08[2]&0x0F)] ;  
+ 695   3      //                      if(gs_dis_param.ec_form!=0x50)
+ 696   3      //                      {
+ 697   3                                      gs_dis_pixel_var.dis_data_buff[5] = NumSegD1_D6[(buffer.B08[3]&0xF0)>>4]; 
+ 698   3      //                      }
+ 699   3      
+ 700   3                              //ÏÂÅÅÏÔÊ¾  2019-01-11
+ 701   3                              //gs_dis_pixel_var.dis_obis_buff[0] = NumSegD7_D9[(buffer.B08[0]&0xF0)>>4] ;  
+ 702   3                              gs_dis_pixel_var.dis_obis_buff[0] = NumSegD7_D8[0]; 
+ 703   3                              gs_dis_pixel_var.dis_obis_buff[1] = NumSegD7_D8[4] ;
+ 704   3                      }
+ 705   2                      if(dis_num_char == 3)
+ 706   2                      {
+ 707   3                              //ÏÔÊ¾Ç°Ò»ÌìµçÁ¿kwh
+ 708   3      //                      mem_read(&temp[0], ADR_BLOCK_4Energy_L0_E2P+LEN_BLOCK_4Energy_E2P/4, LEN_BLOCK_4Energy_E2P/4, MEM_E2P
              -1);          //»ñÈ¡µ±Ç°Êý¾Ý //
- 708   3                              mem_read(&temp[0], &energy_data_array[1].buf[0], LEN_BLOCK_4Energy_E2P/4,MEM_RAM);
-*** WARNING C214 IN LINE 708 OF ..\C_SOURCE\S4_APIUSER\API_LCD_DISPLAY.C: 'Argument': conversion: pointer to non-pointer
- 709   3                              api_get_energy_LCD(&temp[0], gs_dis_param.ec_form,&buffer.B08[0]);
- 710   3                              //debug////
- 711   3                              //buffer.B08[1]=0x12;
- 712   3                              //buffer.B08[2]=0x34;
- 713   3                              //buffer.B08[3]=0x56;
-C51 COMPILER V9.01   API_LCD_DISPLAY                                                       04/11/2019 19:11:53 PAGE 13  
+ 709   3                              mem_read(&temp[0], &energy_data_array[1].buf[0], LEN_BLOCK_4Energy_E2P/4,MEM_RAM);
+*** WARNING C214 IN LINE 709 OF ..\C_SOURCE\S4_APIUSER\API_LCD_DISPLAY.C: 'Argument': conversion: pointer to non-pointer
+ 710   3                              api_get_energy_LCD(&temp[0], gs_dis_param.ec_form,&buffer.B08[0]);
+ 711   3                              //debug////
+ 712   3                              //buffer.B08[1]=0x12;
+ 713   3                              //buffer.B08[2]=0x34;
+C51 COMPILER V9.01   API_LCD_DISPLAY                                                       04/16/2019 21:42:11 PAGE 13  
 
- 714   3                              gs_dis_pixel_var.dis_data_buff[0] = NumSegD1_D6[(buffer.B08[1]&0xF0)>>4] ;  
- 715   3                              gs_dis_pixel_var.dis_data_buff[1] = NumSegD1_D6[(buffer.B08[1]&0x0F)];
- 716   3                              gs_dis_pixel_var.dis_data_buff[2] = NumSegD1_D6[(buffer.B08[2]&0xF0)>>4] ;  
- 717   3                              gs_dis_pixel_var.dis_data_buff[3] = NumSegD1_D6[(buffer.B08[2]&0x0F)]; 
- 718   3                              gs_dis_pixel_var.dis_data_buff[4] = NumSegD1_D6[(buffer.B08[3]&0xF0)>>4] ;  
- 719   3                              if(gs_dis_param.ec_form!=0x50)
- 720   3                              {
- 721   4                                      gs_dis_pixel_var.dis_data_buff[5] = NumSegD1_D6[(buffer.B08[3]&0x0F)]; 
- 722   4                              }
- 723   3      
- 724   3                              //ÏÂÅÅÏÔÊ¾  2019-01-11
- 725   3                              //gs_dis_pixel_var.dis_obis_buff[0] = NumSegD7_D9[(buffer.B08[0]&0xF0)>>4] ;  
- 726   3                              gs_dis_pixel_var.dis_obis_buff[0] = NumSegD7_D8[2]; 
- 727   3                              gs_dis_pixel_var.dis_obis_buff[1] = NumSegD7_D8[1] ;
- 728   3                      }
- 729   2                      if(dis_num_char == 4)
- 730   2                      {
- 731   3                              //ÏÔÊ¾Ç°Ò»ÌìÐèÁ¿kw
- 732   3      //                      mem_read(&temp[0], (INT16U)&gs_energy_user_data.us_val[EC_CH_AC_PT_TT][0].buf[0], LEN_EC_UNIT, MEM_RA
+ 714   3                              //buffer.B08[3]=0x56;
+ 715   3                              gs_dis_pixel_var.dis_data_buff[0] = NumSegD1_D6[(buffer.B08[1]&0xF0)>>4] ;  
+ 716   3                              gs_dis_pixel_var.dis_data_buff[1] = NumSegD1_D6[(buffer.B08[1]&0x0F)];
+ 717   3                              gs_dis_pixel_var.dis_data_buff[2] = NumSegD1_D6[(buffer.B08[2]&0xF0)>>4] ;  
+ 718   3                              gs_dis_pixel_var.dis_data_buff[3] = NumSegD1_D6[(buffer.B08[2]&0x0F)]; 
+ 719   3                              gs_dis_pixel_var.dis_data_buff[4] = NumSegD1_D6[(buffer.B08[3]&0xF0)>>4] ;  
+ 720   3                              if(gs_dis_param.ec_form!=0x50)
+ 721   3                              {
+ 722   4                                      gs_dis_pixel_var.dis_data_buff[5] = NumSegD1_D6[(buffer.B08[3]&0x0F)]; 
+ 723   4                              }
+ 724   3      
+ 725   3                              //ÏÂÅÅÏÔÊ¾  2019-01-11
+ 726   3                              //gs_dis_pixel_var.dis_obis_buff[0] = NumSegD7_D9[(buffer.B08[0]&0xF0)>>4] ;  
+ 727   3                              gs_dis_pixel_var.dis_obis_buff[0] = NumSegD7_D8[2]; 
+ 728   3                              gs_dis_pixel_var.dis_obis_buff[1] = NumSegD7_D8[1] ;
+ 729   3                      }
+ 730   2                      if(dis_num_char == 4)
+ 731   2                      {
+ 732   3                              //ÏÔÊ¾Ç°Ò»ÌìÐèÁ¿kw
+ 733   3      //                      mem_read(&temp[0], (INT16U)&gs_energy_user_data.us_val[EC_CH_AC_PT_TT][0].buf[0], LEN_EC_UNIT, MEM_RA
              -M);          //»ñÈ¡µ±Ç°Êý¾Ý //
- 733   3      //                      mem_read(&t, ADR_BLOCK_4MMD_L0_E2P+LEN_NEW_MMD_UNIT, 4, MEM_E2P1);
- 734   3                              mem_read(&t, &st_mmd_unit_array[0].buf[0]+LEN_NEW_MMD_UNIT,4,MEM_RAM);
-*** WARNING C182 IN LINE 734 OF ..\C_SOURCE\S4_APIUSER\API_LCD_DISPLAY.C: pointer to different objects
-*** WARNING C214 IN LINE 734 OF ..\C_SOURCE\S4_APIUSER\API_LCD_DISPLAY.C: 'Argument': conversion: pointer to non-pointer
- 735   3                              Lib_long_bcd4(&buffer.B08[0],t.val.val_hex32);
- 736   3      //                      api_get_energy_LCD(&temp[0], gs_dis_param.ec_form,&buffer.B08[0]);
- 737   3                              //debug////
- 738   3                              //buffer.B08[1]=0x12;
- 739   3                              //buffer.B08[2]=0x34;
- 740   3                              //buffer.B08[3]=0x56;
- 741   3                              gs_dis_pixel_var.dis_data_buff[0] = NumSegD1_D6[(buffer.B08[0]&0x0F)] ;  
- 742   3                              gs_dis_pixel_var.dis_data_buff[1] = NumSegD1_D6[(buffer.B08[1]&0xF0)>>4];
- 743   3                              gs_dis_pixel_var.dis_data_buff[2] = NumSegD1_D6[(buffer.B08[1]&0x0F)] ;  
- 744   3                              gs_dis_pixel_var.dis_data_buff[3] = NumSegD1_D6[(buffer.B08[2]&0xF0)>>4]; 
- 745   3                              gs_dis_pixel_var.dis_data_buff[4] = NumSegD1_D6[(buffer.B08[2]&0x0F)] ;  
- 746   3      //                      if(gs_dis_param.ec_form!=0x50)
- 747   3      //                      {
- 748   3                                      gs_dis_pixel_var.dis_data_buff[5] = NumSegD1_D6[(buffer.B08[3]&0xF0)>>4]; 
- 749   3      //                      }
- 750   3      
- 751   3                              //ÏÂÅÅÏÔÊ¾  2019-01-11
- 752   3                              //gs_dis_pixel_var.dis_obis_buff[0] = NumSegD7_D9[(buffer.B08[0]&0xF0)>>4] ;  
- 753   3                              gs_dis_pixel_var.dis_obis_buff[0] = NumSegD7_D8[2]; 
- 754   3                              gs_dis_pixel_var.dis_obis_buff[1] = NumSegD7_D8[2] ;
- 755   3                      }
- 756   2                      if(dis_num_char == 5)
- 757   2                      {
- 758   3                              //ÏÔÊ¾Ç°Ò»ÌìÀÛ¼ÆÐèÁ¿kw
- 759   3      //                      mem_read(&temp[0], (INT16U)&gs_energy_user_data.us_val[EC_CH_AC_PT_TT][0].buf[0], LEN_EC_UNIT, MEM_RA
+ 734   3      //                      mem_read(&t, ADR_BLOCK_4MMD_L0_E2P+LEN_NEW_MMD_UNIT, 4, MEM_E2P1);
+ 735   3                              mem_read(&t, &st_mmd_unit_array[0].buf[0]+LEN_NEW_MMD_UNIT,4,MEM_RAM);
+*** WARNING C182 IN LINE 735 OF ..\C_SOURCE\S4_APIUSER\API_LCD_DISPLAY.C: pointer to different objects
+*** WARNING C214 IN LINE 735 OF ..\C_SOURCE\S4_APIUSER\API_LCD_DISPLAY.C: 'Argument': conversion: pointer to non-pointer
+ 736   3                              Lib_long_bcd4(&buffer.B08[0],t.val.val_hex32);
+ 737   3      //                      api_get_energy_LCD(&temp[0], gs_dis_param.ec_form,&buffer.B08[0]);
+ 738   3                              //debug////
+ 739   3                              //buffer.B08[1]=0x12;
+ 740   3                              //buffer.B08[2]=0x34;
+ 741   3                              //buffer.B08[3]=0x56;
+ 742   3                              gs_dis_pixel_var.dis_data_buff[0] = NumSegD1_D6[(buffer.B08[0]&0x0F)] ;  
+ 743   3                              gs_dis_pixel_var.dis_data_buff[1] = NumSegD1_D6[(buffer.B08[1]&0xF0)>>4];
+ 744   3                              gs_dis_pixel_var.dis_data_buff[2] = NumSegD1_D6[(buffer.B08[1]&0x0F)] ;  
+ 745   3                              gs_dis_pixel_var.dis_data_buff[3] = NumSegD1_D6[(buffer.B08[2]&0xF0)>>4]; 
+ 746   3                              gs_dis_pixel_var.dis_data_buff[4] = NumSegD1_D6[(buffer.B08[2]&0x0F)] ;  
+ 747   3      //                      if(gs_dis_param.ec_form!=0x50)
+ 748   3      //                      {
+ 749   3                                      gs_dis_pixel_var.dis_data_buff[5] = NumSegD1_D6[(buffer.B08[3]&0xF0)>>4]; 
+ 750   3      //                      }
+ 751   3      
+ 752   3                              //ÏÂÅÅÏÔÊ¾  2019-01-11
+ 753   3                              //gs_dis_pixel_var.dis_obis_buff[0] = NumSegD7_D9[(buffer.B08[0]&0xF0)>>4] ;  
+ 754   3                              gs_dis_pixel_var.dis_obis_buff[0] = NumSegD7_D8[2]; 
+ 755   3                              gs_dis_pixel_var.dis_obis_buff[1] = NumSegD7_D8[2] ;
+ 756   3                      }
+ 757   2                      if(dis_num_char == 5)
+ 758   2                      {
+ 759   3                              //ÏÔÊ¾Ç°Ò»ÌìÀÛ¼ÆÐèÁ¿kw
+ 760   3      //                      mem_read(&temp[0], (INT16U)&gs_energy_user_data.us_val[EC_CH_AC_PT_TT][0].buf[0], LEN_EC_UNIT, MEM_RA
              -M);          //»ñÈ¡µ±Ç°Êý¾Ý //
- 760   3                              mem_read(&t, ADR_BLOCK_4MMD_sum_L0_E2P+LEN_SUM_MMD_UNIT, 4, MEM_E2P1);
-*** WARNING C182 IN LINE 760 OF ..\C_SOURCE\S4_APIUSER\API_LCD_DISPLAY.C: pointer to different objects
- 761   3                              mem_read(&t, &sum_st_mmd_unit_array[0].buf[0]+LEN_SUM_MMD_UNIT,4,MEM_RAM);
+ 761   3                              mem_read(&t, ADR_BLOCK_4MMD_sum_L0_E2P+LEN_SUM_MMD_UNIT, 4, MEM_E2P1);
 *** WARNING C182 IN LINE 761 OF ..\C_SOURCE\S4_APIUSER\API_LCD_DISPLAY.C: pointer to different objects
-*** WARNING C214 IN LINE 761 OF ..\C_SOURCE\S4_APIUSER\API_LCD_DISPLAY.C: 'Argument': conversion: pointer to non-pointer
- 762   3                              Lib_long_bcd4(&buffer.B08[0],t.val.val_hex32);
- 763   3      //                      api_get_energy_LCD(&temp[0], gs_dis_param.ec_form,&buffer.B08[0]);
- 764   3                              //debug////
- 765   3                              //buffer.B08[1]=0x12;
- 766   3                              //buffer.B08[2]=0x34;
- 767   3                              //buffer.B08[3]=0x56;
- 768   3                              gs_dis_pixel_var.dis_data_buff[0] = NumSegD1_D6[(buffer.B08[0]&0x0F)] ;  
-C51 COMPILER V9.01   API_LCD_DISPLAY                                                       04/11/2019 19:11:53 PAGE 14  
+ 762   3                              mem_read(&t, &sum_st_mmd_unit_array[0].buf[0]+LEN_SUM_MMD_UNIT,4,MEM_RAM);
+*** WARNING C182 IN LINE 762 OF ..\C_SOURCE\S4_APIUSER\API_LCD_DISPLAY.C: pointer to different objects
+*** WARNING C214 IN LINE 762 OF ..\C_SOURCE\S4_APIUSER\API_LCD_DISPLAY.C: 'Argument': conversion: pointer to non-pointer
+ 763   3                              Lib_long_bcd4(&buffer.B08[0],t.val.val_hex32);
+ 764   3      //                      api_get_energy_LCD(&temp[0], gs_dis_param.ec_form,&buffer.B08[0]);
+ 765   3                              //debug////
+ 766   3                              //buffer.B08[1]=0x12;
+ 767   3                              //buffer.B08[2]=0x34;
+ 768   3                              //buffer.B08[3]=0x56;
+C51 COMPILER V9.01   API_LCD_DISPLAY                                                       04/16/2019 21:42:11 PAGE 14  
 
- 769   3                              gs_dis_pixel_var.dis_data_buff[1] = NumSegD1_D6[(buffer.B08[1]&0xF0)>>4];
- 770   3                              gs_dis_pixel_var.dis_data_buff[2] = NumSegD1_D6[(buffer.B08[1]&0x0F)] ;  
- 771   3                              gs_dis_pixel_var.dis_data_buff[3] = NumSegD1_D6[(buffer.B08[2]&0xF0)>>4]; 
- 772   3                              gs_dis_pixel_var.dis_data_buff[4] = NumSegD1_D6[(buffer.B08[2]&0x0F)] ;  
- 773   3      //                      if(gs_dis_param.ec_form!=0x50)
- 774   3      //                      {
- 775   3                                      gs_dis_pixel_var.dis_data_buff[5] = NumSegD1_D6[(buffer.B08[3]&0xF0)>>4]; 
- 776   3      //                      }
- 777   3      
- 778   3                              //ÏÂÅÅÏÔÊ¾  2019-01-11
- 779   3                              //gs_dis_pixel_var.dis_obis_buff[0] = NumSegD7_D9[(buffer.B08[0]&0xF0)>>4] ;  
- 780   3                              gs_dis_pixel_var.dis_obis_buff[0] = NumSegD7_D8[2]; 
- 781   3                              gs_dis_pixel_var.dis_obis_buff[1] = NumSegD7_D8[4] ;
- 782   3                      }
- 783   2              }
- 784   1      }
- 785          //*****************************************************************
- 786          //  Function:       void Link_Get_Dis_Char_buff(void) 
- 787          //  Description:    »ñÈ¡ÏÔÊ¾µÄÅäºÏ×Ö·ûÐÅÏ¢                                      
- 788          //  Input:                                                                            
- 789          //  Output:         no                              
- 790          //  Return:         no                              
- 791          //  Others:         
- 792          //***************************************************************/
- 793          void Link_Get_Dis_Char_buff(void)
- 794          {
- 795   1      //      RTC_TYPE rtc_data_tmp;
- 796   1      //      Get_RTCTime(&rtc_data_tmp);//»ñÈ¡Ê±¼äÏÔÊ¾·ÑÂÊ
- 797   1      //      if(rtc_data_tmp.Hour)
- 798   1              //2019-01-25 cxy ÏÂµç²»ÏÔÊ¾·ÑÂÊºÅ
- 799   1              if(gs_sys_globaL_var.work_mode != SLEEP_MODE)
- 800   1              {
- 801   2                      switch (gs_current_triff_var.triff_No)//ÏÔÊ¾·ÑÂÊ
- 802   2                      {
- 803   3                              case 1:
- 804   3                                      gs_dis_pixel_var.dis_char_buff[1] |= CHAR_DATA_S1;
- 805   3                                      break;
- 806   3                              case 2:
- 807   3                                      gs_dis_pixel_var.dis_char_buff[1] |= CHAR_DATA_S2;
- 808   3                                      break;
- 809   3                              case 3:
- 810   3                                      gs_dis_pixel_var.dis_char_buff[1] |= CHAR_DATA_S3;
- 811   3                                      break;
- 812   3                              case 4:
- 813   3                                      gs_dis_pixel_var.dis_char_buff[1] |= CHAR_DATA_S4;
- 814   3                                      break;
- 815   3                      }
- 816   2              }
- 817   1              if(dis_data_type == CHAR_TIME)
- 818   1              {
- 819   2                      gs_dis_pixel_var.dis_char_buff[0] |= CHAR_DATA_P1P2;
- 820   2                      gs_dis_pixel_var.dis_char_buff[0] |= CHAR_DATA_P4P5;
- 821   2              }
- 822   1              else
- 823   1              {       
- 824   2                      if(dis_num_char == 0 || dis_num_char == 3)
- 825   2                      {
- 826   3                              if(gs_dis_param.ec_form!=0x50)
- 827   3                              {
- 828   4                                      gs_dis_pixel_var.dis_char_buff[0] |= CHAR_DATA_P6;  //
- 829   4                              }
- 830   3                              gs_dis_pixel_var.dis_char_buff[1] |= CHAR_DATA_kWh;  //kWh
-C51 COMPILER V9.01   API_LCD_DISPLAY                                                       04/11/2019 19:11:53 PAGE 15  
+ 769   3                              gs_dis_pixel_var.dis_data_buff[0] = NumSegD1_D6[(buffer.B08[0]&0x0F)] ;  
+ 770   3                              gs_dis_pixel_var.dis_data_buff[1] = NumSegD1_D6[(buffer.B08[1]&0xF0)>>4];
+ 771   3                              gs_dis_pixel_var.dis_data_buff[2] = NumSegD1_D6[(buffer.B08[1]&0x0F)] ;  
+ 772   3                              gs_dis_pixel_var.dis_data_buff[3] = NumSegD1_D6[(buffer.B08[2]&0xF0)>>4]; 
+ 773   3                              gs_dis_pixel_var.dis_data_buff[4] = NumSegD1_D6[(buffer.B08[2]&0x0F)] ;  
+ 774   3      //                      if(gs_dis_param.ec_form!=0x50)
+ 775   3      //                      {
+ 776   3                                      gs_dis_pixel_var.dis_data_buff[5] = NumSegD1_D6[(buffer.B08[3]&0xF0)>>4]; 
+ 777   3      //                      }
+ 778   3      
+ 779   3                              //ÏÂÅÅÏÔÊ¾  2019-01-11
+ 780   3                              //gs_dis_pixel_var.dis_obis_buff[0] = NumSegD7_D9[(buffer.B08[0]&0xF0)>>4] ;  
+ 781   3                              gs_dis_pixel_var.dis_obis_buff[0] = NumSegD7_D8[2]; 
+ 782   3                              gs_dis_pixel_var.dis_obis_buff[1] = NumSegD7_D8[4] ;
+ 783   3                      }
+ 784   2              }
+ 785   1      }
+ 786          //*****************************************************************
+ 787          //  Function:       void Link_Get_Dis_Char_buff(void) 
+ 788          //  Description:    »ñÈ¡ÏÔÊ¾µÄÅäºÏ×Ö·ûÐÅÏ¢                                      
+ 789          //  Input:                                                                            
+ 790          //  Output:         no                              
+ 791          //  Return:         no                              
+ 792          //  Others:         
+ 793          //***************************************************************/
+ 794          void Link_Get_Dis_Char_buff(void)
+ 795          {
+ 796   1      //      RTC_TYPE rtc_data_tmp;
+ 797   1      //      Get_RTCTime(&rtc_data_tmp);//»ñÈ¡Ê±¼äÏÔÊ¾·ÑÂÊ
+ 798   1      //      if(rtc_data_tmp.Hour)
+ 799   1              //2019-01-25 cxy ÏÂµç²»ÏÔÊ¾·ÑÂÊºÅ
+ 800   1              if(gs_sys_globaL_var.work_mode != SLEEP_MODE)
+ 801   1              {
+ 802   2                      switch (gs_current_triff_var.triff_No)//ÏÔÊ¾·ÑÂÊ
+ 803   2                      {
+ 804   3                              case 1:
+ 805   3                                      gs_dis_pixel_var.dis_char_buff[1] |= CHAR_DATA_S1;
+ 806   3                                      break;
+ 807   3                              case 2:
+ 808   3                                      gs_dis_pixel_var.dis_char_buff[1] |= CHAR_DATA_S2;
+ 809   3                                      break;
+ 810   3                              case 3:
+ 811   3                                      gs_dis_pixel_var.dis_char_buff[1] |= CHAR_DATA_S3;
+ 812   3                                      break;
+ 813   3                              case 4:
+ 814   3                                      gs_dis_pixel_var.dis_char_buff[1] |= CHAR_DATA_S4;
+ 815   3                                      break;
+ 816   3                      }
+ 817   2              }
+ 818   1              if(dis_data_type == CHAR_TIME)
+ 819   1              {
+ 820   2                      gs_dis_pixel_var.dis_char_buff[0] |= CHAR_DATA_P1P2;
+ 821   2                      gs_dis_pixel_var.dis_char_buff[0] |= CHAR_DATA_P4P5;
+ 822   2              }
+ 823   1              else
+ 824   1              {       
+ 825   2                      if(dis_num_char == 0 || dis_num_char == 3)
+ 826   2                      {
+ 827   3                              if(gs_dis_param.ec_form!=0x50)
+ 828   3                              {
+ 829   4                                      gs_dis_pixel_var.dis_char_buff[0] |= CHAR_DATA_P6;  //
+ 830   4                              }
+C51 COMPILER V9.01   API_LCD_DISPLAY                                                       04/16/2019 21:42:11 PAGE 15  
 
- 831   3                      }
- 832   2                      else
- 833   2                      {
- 834   3      //                      if(gs_dis_param.ec_form!=0x50)
- 835   3      //                      {
- 836   3      //                              gs_dis_pixel_var.dis_char_buff[0] |= CHAR_DATA_P6;  //
- 837   3      //                      }
- 838   3                              gs_dis_pixel_var.dis_char_buff[0] |= CHAR_DATA_P3;
- 839   3                              gs_dis_pixel_var.dis_char_buff[1] |= CHAR_DATA_kW;  //kW
- 840   3                              gs_dis_pixel_var.dis_char_buff[2] |= CHAR_DATA_MD;
- 841   3                      }
- 842   2              }
- 843   1              if(gs_relay_manage_var.u8_STA== CMD_RELAY_ON)
- 844   1              {
- 845   2                      return;
- 846   2              }
- 847   1              if(gs_dis_ctl_var.item== DIS_DATA_CLR)
- 848   1              {
- 849   2                      return;
- 850   2              }
- 851   1      
- 852   1              // DATA ÇøµÄÐ¡ÊýµãºÍµ¥Î»×Ö·û»ñÈ¡ //
- 853   1      //      switch(gs_LCDDISTAB_var.chartype)
- 854   1              switch(gs_LCDDISTAB_var.chartype = 10)
-*** WARNING C276 IN LINE 854 OF ..\C_SOURCE\S4_APIUSER\API_LCD_DISPLAY.C: constant in condition expression
- 855   1              {
- 856   2                      case CHAR_V:    // µçÑ¹ÏÔÊ¾ xxx V //
- 857   2                              gs_dis_pixel_var.dis_char_buff[2] |= CHAR_DATA_V; 
- 858   2                              break;
- 859   2                      case CHAR_A:    // µçÁ÷ÏÔÊ¾ xx.x A//
- 860   2                              gs_dis_pixel_var.dis_char_buff[2] |= CHAR_DATA_A; 
- 861   2                              break;
- 862   2                      case CHAR_KW:    // ¹¦ÂÊÏÔÊ¾ xx.x kw//
- 863   2      //                  gs_dis_pixel_var.dis_char_buff[2] |= (CHAR_DATA_k+CHAR_DATA_W);  //kW
- 864   2                              break;
- 865   2                      case CHAR_HZ:   // ÆµÂÊÏÔÊ¾ xx.x HZ//
- 866   2                          gs_dis_pixel_var.dis_char_buff[2] |= CHAR_DATA_Hz;  //Hz
- 867   2                              break;
- 868   2                      default:
- 869   2                              break;
- 870   2              }       
- 871   1      
- 872   1              //////////////////////////////////////////////////////////////////////////////////////////////
- 873   1      
- 874   1              if(IsModeTest == TRUE)  gs_dis_pixel_var.dis_char_buff[0] |= CHAR_DATA_TEST ;
- 875   1              ///////////////////////////////////////////////////////////////////////////////////////////////         
- 876   1      }
- 877          
- 878          //*****************************************************************
- 879          //  Function:       INT8U Link_Get_DisIndex(u8_dis_itm)        
- 880          //  Description:    »ñÈ¡ÏÔÊ¾ÏîÄ¿ÐÅÏ¢                                        
- 881          //  Input:                                                                            
- 882          //  Output:         no                              
- 883          //  Return:         no                              
- 884          //  Others:         
- 885          //***************************************************************/
- 886          void Link_Get_Dis_RealChar_buff(void)
- 887          {
- 888   1      
- 889   1               if(gs_measure_status_judge_var.u8_status & VBAT_LOW)           gs_dis_pixel_var.dis_char_buff[2] |=CHAR_
+ 831   3                              gs_dis_pixel_var.dis_char_buff[1] |= CHAR_DATA_kWh;  //kWh
+ 832   3                      }
+ 833   2                      else
+ 834   2                      {
+ 835   3      //                      if(gs_dis_param.ec_form!=0x50)
+ 836   3      //                      {
+ 837   3      //                              gs_dis_pixel_var.dis_char_buff[0] |= CHAR_DATA_P6;  //
+ 838   3      //                      }
+ 839   3                              gs_dis_pixel_var.dis_char_buff[0] |= CHAR_DATA_P3;
+ 840   3                              gs_dis_pixel_var.dis_char_buff[1] |= CHAR_DATA_kW;  //kW
+ 841   3                              gs_dis_pixel_var.dis_char_buff[2] |= CHAR_DATA_MD;
+ 842   3                      }
+ 843   2              }
+ 844   1              if(gs_relay_manage_var.u8_STA== CMD_RELAY_ON)
+ 845   1              {
+ 846   2                      return;
+ 847   2              }
+ 848   1              if(gs_dis_ctl_var.item== DIS_DATA_CLR)
+ 849   1              {
+ 850   2                      return;
+ 851   2              }
+ 852   1      
+ 853   1              // DATA ÇøµÄÐ¡ÊýµãºÍµ¥Î»×Ö·û»ñÈ¡ //
+ 854   1      //      switch(gs_LCDDISTAB_var.chartype)
+ 855   1              switch(gs_LCDDISTAB_var.chartype = 10)
+*** WARNING C276 IN LINE 855 OF ..\C_SOURCE\S4_APIUSER\API_LCD_DISPLAY.C: constant in condition expression
+ 856   1              {
+ 857   2                      case CHAR_V:    // µçÑ¹ÏÔÊ¾ xxx V //
+ 858   2                              gs_dis_pixel_var.dis_char_buff[2] |= CHAR_DATA_V; 
+ 859   2                              break;
+ 860   2                      case CHAR_A:    // µçÁ÷ÏÔÊ¾ xx.x A//
+ 861   2                              gs_dis_pixel_var.dis_char_buff[2] |= CHAR_DATA_A; 
+ 862   2                              break;
+ 863   2                      case CHAR_KW:    // ¹¦ÂÊÏÔÊ¾ xx.x kw//
+ 864   2      //                  gs_dis_pixel_var.dis_char_buff[2] |= (CHAR_DATA_k+CHAR_DATA_W);  //kW
+ 865   2                              break;
+ 866   2                      case CHAR_HZ:   // ÆµÂÊÏÔÊ¾ xx.x HZ//
+ 867   2                          gs_dis_pixel_var.dis_char_buff[2] |= CHAR_DATA_Hz;  //Hz
+ 868   2                              break;
+ 869   2                      default:
+ 870   2                              break;
+ 871   2              }       
+ 872   1      
+ 873   1              //////////////////////////////////////////////////////////////////////////////////////////////
+ 874   1      
+ 875   1              if(IsModeTest == TRUE)  gs_dis_pixel_var.dis_char_buff[0] |= CHAR_DATA_TEST ;
+ 876   1              ///////////////////////////////////////////////////////////////////////////////////////////////         
+ 877   1      }
+ 878          
+ 879          //*****************************************************************
+ 880          //  Function:       INT8U Link_Get_DisIndex(u8_dis_itm)        
+ 881          //  Description:    »ñÈ¡ÏÔÊ¾ÏîÄ¿ÐÅÏ¢                                        
+ 882          //  Input:                                                                            
+ 883          //  Output:         no                              
+ 884          //  Return:         no                              
+ 885          //  Others:         
+ 886          //***************************************************************/
+ 887          void Link_Get_Dis_RealChar_buff(void)
+ 888          {
+ 889   1      
+ 890   1               if(gs_measure_status_judge_var.u8_status & VBAT_LOW)           gs_dis_pixel_var.dis_char_buff[2] |=CHAR_
              -DATA_S9;        //µç³ØÇ·Ñ¹
- 890   1               if(gs_emu_run_var.net_flg&REV_TT_ACPOWER)
-C51 COMPILER V9.01   API_LCD_DISPLAY                                                       04/11/2019 19:11:53 PAGE 16  
+C51 COMPILER V9.01   API_LCD_DISPLAY                                                       04/16/2019 21:42:11 PAGE 16  
 
- 891   1              {
- 892   2                      gs_dis_pixel_var.dis_char_buff[1] |=CHAR_DATA_Received;//·´ÏòÌáÊ¾
- 893   2              }
- 894   1               else
- 895   1              {
- 896   2                       gs_dis_pixel_var.dis_char_buff[1] |=CHAR_DATA_Delivered;// Ä¬ÈÏÕýÏòÏÔÊ¾
- 897   2              }
- 898   1      }
- 899          
+ 891   1               if(gs_emu_run_var.net_flg&REV_TT_ACPOWER)
+ 892   1              {
+ 893   2                      gs_dis_pixel_var.dis_char_buff[1] |=CHAR_DATA_Received;//·´ÏòÌáÊ¾
+ 894   2              }
+ 895   1               else
+ 896   1              {
+ 897   2                       gs_dis_pixel_var.dis_char_buff[1] |=CHAR_DATA_Delivered;// Ä¬ÈÏÕýÏòÏÔÊ¾
+ 898   2              }
+ 899   1      }
  900          
- 901          //*****************************************************************
- 902          //  Function:      void Link_Get_Dis_Drv_buff(void)   
- 903          //  Description:    »ñÈ¡ÏÔÊ¾»º³åbuffµÄÊý¾Ý                                    
- 904          //  Input:                                                                            
- 905          //  Output:         no                              
- 906          //  Return:         no                              
- 907          //  Others:         
- 908          //***************************************************************/
- 909          void Link_Get_Dis_Drv_buff(void)
- 910          {
- 911   1              gs_dis_pixel_var.dis_buff[0] |= (gs_dis_pixel_var.dis_data_buff[0] &0x7F);
- 912   1              gs_dis_pixel_var.dis_buff[1] |= (gs_dis_pixel_var.dis_data_buff[1] &0x7F);
- 913   1              gs_dis_pixel_var.dis_buff[2] |= (gs_dis_pixel_var.dis_data_buff[2] &0x7F);
- 914   1              gs_dis_pixel_var.dis_buff[3] |= (gs_dis_pixel_var.dis_data_buff[3] &0x7F);
- 915   1              gs_dis_pixel_var.dis_buff[4] |= (gs_dis_pixel_var.dis_data_buff[4] &0x7F);
- 916   1              gs_dis_pixel_var.dis_buff[5] |= (gs_dis_pixel_var.dis_data_buff[5] &0x7F);
- 917   1      
- 918   1              gs_dis_pixel_var.dis_buff[6] |= (gs_dis_pixel_var.dis_obis_buff[0] &0xEF);
- 919   1              gs_dis_pixel_var.dis_buff[7] |= (gs_dis_pixel_var.dis_obis_buff[1] &0xEF);
- 920   1      //      gs_dis_pixel_var.dis_buff[8] |= (gs_dis_pixel_var.dis_obis_buff[2] &0xEF);
- 921   1      
- 922   1              
- 923   1               //  dis_var.dis_char_buff[0:2] µÄ×ª»»//
- 924   1              if(gs_dis_pixel_var.dis_char_buff[0] &CHAR_DATA_P1P2)   {gs_dis_pixel_var.dis_buff[1] |= BIT7;gs_dis_pixel_
+ 901          
+ 902          //*****************************************************************
+ 903          //  Function:      void Link_Get_Dis_Drv_buff(void)   
+ 904          //  Description:    »ñÈ¡ÏÔÊ¾»º³åbuffµÄÊý¾Ý                                    
+ 905          //  Input:                                                                            
+ 906          //  Output:         no                              
+ 907          //  Return:         no                              
+ 908          //  Others:         
+ 909          //***************************************************************/
+ 910          void Link_Get_Dis_Drv_buff(void)
+ 911          {
+ 912   1              gs_dis_pixel_var.dis_buff[0] |= (gs_dis_pixel_var.dis_data_buff[0] &0x7F);
+ 913   1              gs_dis_pixel_var.dis_buff[1] |= (gs_dis_pixel_var.dis_data_buff[1] &0x7F);
+ 914   1              gs_dis_pixel_var.dis_buff[2] |= (gs_dis_pixel_var.dis_data_buff[2] &0x7F);
+ 915   1              gs_dis_pixel_var.dis_buff[3] |= (gs_dis_pixel_var.dis_data_buff[3] &0x7F);
+ 916   1              gs_dis_pixel_var.dis_buff[4] |= (gs_dis_pixel_var.dis_data_buff[4] &0x7F);
+ 917   1              gs_dis_pixel_var.dis_buff[5] |= (gs_dis_pixel_var.dis_data_buff[5] &0x7F);
+ 918   1      
+ 919   1              gs_dis_pixel_var.dis_buff[6] |= (gs_dis_pixel_var.dis_obis_buff[0] &0xEF);
+ 920   1              gs_dis_pixel_var.dis_buff[7] |= (gs_dis_pixel_var.dis_obis_buff[1] &0xEF);
+ 921   1      //      gs_dis_pixel_var.dis_buff[8] |= (gs_dis_pixel_var.dis_obis_buff[2] &0xEF);
+ 922   1      
+ 923   1              
+ 924   1               //  dis_var.dis_char_buff[0:2] µÄ×ª»»//
+ 925   1              if(gs_dis_pixel_var.dis_char_buff[0] &CHAR_DATA_P1P2)   {gs_dis_pixel_var.dis_buff[1] |= BIT7;gs_dis_pixel_
              -var.dis_buff[2] |= BIT7;}
- 925   1              if(gs_dis_pixel_var.dis_char_buff[0] &CHAR_DATA_P3)     gs_dis_pixel_var.dis_buff[3] |= BIT7;
- 926   1              if(gs_dis_pixel_var.dis_char_buff[0] &CHAR_DATA_P4P5)   {gs_dis_pixel_var.dis_buff[4] |= BIT7;gs_dis_pixe
+ 926   1              if(gs_dis_pixel_var.dis_char_buff[0] &CHAR_DATA_P3)     gs_dis_pixel_var.dis_buff[3] |= BIT7;
+ 927   1              if(gs_dis_pixel_var.dis_char_buff[0] &CHAR_DATA_P4P5)   {gs_dis_pixel_var.dis_buff[4] |= BIT7;gs_dis_pixe
              -l_var.dis_buff[8] |= BIT7;}
- 927   1              if(gs_dis_pixel_var.dis_char_buff[0] &CHAR_DATA_P6)     gs_dis_pixel_var.dis_buff[5] |= BIT7;
- 928   1              if(gs_dis_pixel_var.dis_char_buff[0] &CHAR_DATA_P7)     gs_dis_pixel_var.dis_buff[6] |= BIT4;
- 929   1              if(gs_dis_pixel_var.dis_char_buff[0] &CHAR_DATA_P8)     gs_dis_pixel_var.dis_buff[7] |= BIT4;
- 930   1              if(gs_dis_pixel_var.dis_char_buff[0] &CHAR_DATA_EOI)     gs_dis_pixel_var.dis_buff[9] |= BIT0;
- 931   1              if(gs_dis_pixel_var.dis_char_buff[0] &CHAR_DATA_TEST)     gs_dis_pixel_var.dis_buff[10] |= BIT0;
- 932   1      
- 933   1              
- 934   1              if(gs_dis_pixel_var.dis_char_buff[1] &CHAR_DATA_kWh)    {gs_dis_pixel_var.dis_buff[9] |= BIT6;gs_dis_pixe
+ 928   1              if(gs_dis_pixel_var.dis_char_buff[0] &CHAR_DATA_P6)     gs_dis_pixel_var.dis_buff[5] |= BIT7;
+ 929   1              if(gs_dis_pixel_var.dis_char_buff[0] &CHAR_DATA_P7)     gs_dis_pixel_var.dis_buff[6] |= BIT4;
+ 930   1              if(gs_dis_pixel_var.dis_char_buff[0] &CHAR_DATA_P8)     gs_dis_pixel_var.dis_buff[7] |= BIT4;
+ 931   1              if(gs_dis_pixel_var.dis_char_buff[0] &CHAR_DATA_EOI)     gs_dis_pixel_var.dis_buff[9] |= BIT0;
+ 932   1              if(gs_dis_pixel_var.dis_char_buff[0] &CHAR_DATA_TEST)     gs_dis_pixel_var.dis_buff[10] |= BIT0;
+ 933   1      
+ 934   1              
+ 935   1              if(gs_dis_pixel_var.dis_char_buff[1] &CHAR_DATA_kWh)    {gs_dis_pixel_var.dis_buff[9] |= BIT6;gs_dis_pixe
              -l_var.dis_buff[9] |= BIT2;}
- 935   1              if(gs_dis_pixel_var.dis_char_buff[1] &CHAR_DATA_kW)     gs_dis_pixel_var.dis_buff[9] |= BIT6;
- 936   1              if(gs_dis_pixel_var.dis_char_buff[1] &CHAR_DATA_S1)     gs_dis_pixel_var.dis_buff[8] |= BIT6;
- 937   1              if(gs_dis_pixel_var.dis_char_buff[1] &CHAR_DATA_S2)     gs_dis_pixel_var.dis_buff[8] |= BIT7;
- 938   1              if(gs_dis_pixel_var.dis_char_buff[1] &CHAR_DATA_S3)     gs_dis_pixel_var.dis_buff[8] |= BIT4;
- 939   1              if(gs_dis_pixel_var.dis_char_buff[1] &CHAR_DATA_S4)     gs_dis_pixel_var.dis_buff[8] |= BIT5;
- 940   1      
- 941   1              if(gs_dis_pixel_var.dis_char_buff[1] &CHAR_DATA_Received)       gs_dis_pixel_var.dis_buff[11] |= BIT6;
- 942   1              if(gs_dis_pixel_var.dis_char_buff[1] &CHAR_DATA_Delivered)      gs_dis_pixel_var.dis_buff[11] |= BIT5;
- 943   1      
- 944   1              if(gs_dis_pixel_var.dis_char_buff[2] &CHAR_DATA_V)              gs_dis_pixel_var.dis_buff[9] |= BIT4;
- 945   1              if(gs_dis_pixel_var.dis_char_buff[2] &CHAR_DATA_A)              gs_dis_pixel_var.dis_buff[9] |= BIT5;
- 946   1              if(gs_dis_pixel_var.dis_char_buff[2] &CHAR_DATA_Hz)             gs_dis_pixel_var.dis_buff[9] |= BIT1;
- 947   1              if(gs_dis_pixel_var.dis_char_buff[2] &CHAR_DATA_MD)             gs_dis_pixel_var.dis_buff[8] |= BIT0;
- 948   1              if(gs_dis_pixel_var.dis_char_buff[2] &CHAR_DATA_S9)             gs_dis_pixel_var.dis_buff[10] |= BIT1;
- 949   1              if(gs_dis_pixel_var.dis_char_buff[2] &CHAR_DATA_S12)            gs_dis_pixel_var.dis_buff[10] |= BIT7;
-C51 COMPILER V9.01   API_LCD_DISPLAY                                                       04/11/2019 19:11:53 PAGE 17  
+ 936   1              if(gs_dis_pixel_var.dis_char_buff[1] &CHAR_DATA_kW)     gs_dis_pixel_var.dis_buff[9] |= BIT6;
+ 937   1              if(gs_dis_pixel_var.dis_char_buff[1] &CHAR_DATA_S1)     gs_dis_pixel_var.dis_buff[8] |= BIT6;
+ 938   1              if(gs_dis_pixel_var.dis_char_buff[1] &CHAR_DATA_S2)     gs_dis_pixel_var.dis_buff[8] |= BIT7;
+ 939   1              if(gs_dis_pixel_var.dis_char_buff[1] &CHAR_DATA_S3)     gs_dis_pixel_var.dis_buff[8] |= BIT4;
+ 940   1              if(gs_dis_pixel_var.dis_char_buff[1] &CHAR_DATA_S4)     gs_dis_pixel_var.dis_buff[8] |= BIT5;
+ 941   1      
+ 942   1              if(gs_dis_pixel_var.dis_char_buff[1] &CHAR_DATA_Received)       gs_dis_pixel_var.dis_buff[11] |= BIT6;
+ 943   1              if(gs_dis_pixel_var.dis_char_buff[1] &CHAR_DATA_Delivered)      gs_dis_pixel_var.dis_buff[11] |= BIT5;
+ 944   1      
+ 945   1              if(gs_dis_pixel_var.dis_char_buff[2] &CHAR_DATA_V)              gs_dis_pixel_var.dis_buff[9] |= BIT4;
+ 946   1              if(gs_dis_pixel_var.dis_char_buff[2] &CHAR_DATA_A)              gs_dis_pixel_var.dis_buff[9] |= BIT5;
+ 947   1              if(gs_dis_pixel_var.dis_char_buff[2] &CHAR_DATA_Hz)             gs_dis_pixel_var.dis_buff[9] |= BIT1;
+ 948   1              if(gs_dis_pixel_var.dis_char_buff[2] &CHAR_DATA_MD)             gs_dis_pixel_var.dis_buff[8] |= BIT0;
+ 949   1              if(gs_dis_pixel_var.dis_char_buff[2] &CHAR_DATA_S9)             gs_dis_pixel_var.dis_buff[10] |= BIT1;
+C51 COMPILER V9.01   API_LCD_DISPLAY                                                       04/16/2019 21:42:11 PAGE 17  
 
- 950   1              if(gs_dis_pixel_var.dis_char_buff[2] &CHAR_DATA_S13)            gs_dis_pixel_var.dis_buff[10] |= BIT6;
- 951   1              if(gs_dis_pixel_var.dis_char_buff[2] &CHAR_DATA_S14)            gs_dis_pixel_var.dis_buff[10] |= BIT5;
- 952   1              
+ 950   1              if(gs_dis_pixel_var.dis_char_buff[2] &CHAR_DATA_S12)            gs_dis_pixel_var.dis_buff[10] |= BIT7;
+ 951   1              if(gs_dis_pixel_var.dis_char_buff[2] &CHAR_DATA_S13)            gs_dis_pixel_var.dis_buff[10] |= BIT6;
+ 952   1              if(gs_dis_pixel_var.dis_char_buff[2] &CHAR_DATA_S14)            gs_dis_pixel_var.dis_buff[10] |= BIT5;
  953   1              
- 954   1      }
- 955          
+ 954   1              
+ 955   1      }
  956          
- 957          /*****************************************************************************
- 958          ** Function name    :api_clr_current_energy_data
- 959          **
- 960          ** Description         : ÐèÁ¿µçÁ¿Êý¾Ý×ª»»
- 961          **
- 962          ** Parameters         :  type Êý¾ÝÀàÐÍ     0Ä¬ÈÏÈ«ÕûÊý 
- 963          **
- 964          ** Returned value   :NONE
- 965          **
- 966          **----------------------------------------------------------------------------
- 967          ** V01.01  MJ  2016-04-23
- 968          ******************************************************************************/
- 969          void api_get_energy_LCD(uint8*  temp, uint8 type, uint8*  result)
- 970          {
- 971   1       ST_U32_U08   u32_result, BCD_temp;
- 972   1       US_EC_DATA_UNIT ec_tmp;
- 973   1         
- 974   1          // if(type!=0x50)     type= 0x51;
- 975   1          //µçÁ¿¸ñÊ½Êý¾Ý¸³Öµ //
- 976   1          Lib_Copy_Str_TwoArry(&ec_tmp.buf[0], temp, LEN_EC_UNIT);
- 977   1              
- 978   1          u32_result.u32 =0;
- 979   1      
- 980   1              if(type==0x80)
- 981   1          {
- 982   2              if(ec_tmp.val.integ_hex32>=100000000)   ec_tmp.val.integ_hex32 -=100000000;
- 983   2              Lib_long_bcd4(&u32_result.B08[0],ec_tmp.val.integ_hex32);       
- 984   2          }
- 985   1          
- 986   1          if(type==0x62)
- 987   1          {
- 988   2              // ÕûÊý²¿·Ö´¦Àí //
- 989   2              if(ec_tmp.val.integ_hex32>=1000000)   ec_tmp.val.integ_hex32 -=1000000;
- 990   2              Lib_long_bcd4(&BCD_temp.B08[0],ec_tmp.val.integ_hex32);
- 991   2              u32_result.B08[0]= BCD_temp.B08[1];
- 992   2              u32_result.B08[1]= BCD_temp.B08[2];
- 993   2              u32_result.B08[2]= BCD_temp.B08[3];
- 994   2      
- 995   2               // Ð¡Êý²¿·Ö´¦Àí //
- 996   2               ec_tmp.val.decim_hex16  /= METER_CONST_10WH;
- 997   2               u32_result.B08[3] = Lib_byte_bcd((INT8U)ec_tmp.val.decim_hex16);
- 998   2      
- 999   2          }
-1000   1          if(type==0x60)
-1001   1          {
-1002   2              if(ec_tmp.val.integ_hex32>=1000000)   ec_tmp.val.integ_hex32 -=1000000;
-1003   2              Lib_long_bcd4(&u32_result.B08[0],ec_tmp.val.integ_hex32);       
-1004   2          }
-1005   1          
-1006   1          if(type==0x61)
-1007   1          {
-1008   2              // ÕûÊý²¿·Ö´¦Àí //
-1009   2              if(ec_tmp.val.integ_hex32>=1000000)   ec_tmp.val.integ_hex32 -=1000000;
-1010   2              Lib_long_bcd4(&BCD_temp.B08[0],ec_tmp.val.integ_hex32);
-1011   2              u32_result.B08[0]= BCD_temp.B08[1];
-C51 COMPILER V9.01   API_LCD_DISPLAY                                                       04/11/2019 19:11:53 PAGE 18  
+ 957          
+ 958          /*****************************************************************************
+ 959          ** Function name    :api_clr_current_energy_data
+ 960          **
+ 961          ** Description         : ÐèÁ¿µçÁ¿Êý¾Ý×ª»»
+ 962          **
+ 963          ** Parameters         :  type Êý¾ÝÀàÐÍ     0Ä¬ÈÏÈ«ÕûÊý 
+ 964          **
+ 965          ** Returned value   :NONE
+ 966          **
+ 967          **----------------------------------------------------------------------------
+ 968          ** V01.01  MJ  2016-04-23
+ 969          ******************************************************************************/
+ 970          void api_get_energy_LCD(uint8*  temp, uint8 type, uint8*  result)
+ 971          {
+ 972   1       ST_U32_U08   u32_result, BCD_temp;
+ 973   1       US_EC_DATA_UNIT ec_tmp;
+ 974   1         
+ 975   1          // if(type!=0x50)     type= 0x51;
+ 976   1          //µçÁ¿¸ñÊ½Êý¾Ý¸³Öµ //
+ 977   1          Lib_Copy_Str_TwoArry(&ec_tmp.buf[0], temp, LEN_EC_UNIT);
+ 978   1              
+ 979   1          u32_result.u32 =0;
+ 980   1      
+ 981   1              if(type==0x80)
+ 982   1          {
+ 983   2              if(ec_tmp.val.integ_hex32>=100000000)   ec_tmp.val.integ_hex32 -=100000000;
+ 984   2              Lib_long_bcd4(&u32_result.B08[0],ec_tmp.val.integ_hex32);       
+ 985   2          }
+ 986   1          
+ 987   1          if(type==0x62)
+ 988   1          {
+ 989   2              // ÕûÊý²¿·Ö´¦Àí //
+ 990   2              if(ec_tmp.val.integ_hex32>=1000000)   ec_tmp.val.integ_hex32 -=1000000;
+ 991   2              Lib_long_bcd4(&BCD_temp.B08[0],ec_tmp.val.integ_hex32);
+ 992   2              u32_result.B08[0]= BCD_temp.B08[1];
+ 993   2              u32_result.B08[1]= BCD_temp.B08[2];
+ 994   2              u32_result.B08[2]= BCD_temp.B08[3];
+ 995   2      
+ 996   2               // Ð¡Êý²¿·Ö´¦Àí //
+ 997   2               ec_tmp.val.decim_hex16  /= METER_CONST_10WH;
+ 998   2               u32_result.B08[3] = Lib_byte_bcd((INT8U)ec_tmp.val.decim_hex16);
+ 999   2      
+1000   2          }
+1001   1          if(type==0x60)
+1002   1          {
+1003   2              if(ec_tmp.val.integ_hex32>=1000000)   ec_tmp.val.integ_hex32 -=1000000;
+1004   2              Lib_long_bcd4(&u32_result.B08[0],ec_tmp.val.integ_hex32);       
+1005   2          }
+1006   1          
+1007   1          if(type==0x61)
+1008   1          {
+1009   2              // ÕûÊý²¿·Ö´¦Àí //
+1010   2              if(ec_tmp.val.integ_hex32>=1000000)   ec_tmp.val.integ_hex32 -=1000000;
+1011   2              Lib_long_bcd4(&BCD_temp.B08[0],ec_tmp.val.integ_hex32);
+C51 COMPILER V9.01   API_LCD_DISPLAY                                                       04/16/2019 21:42:11 PAGE 18  
 
-1012   2              u32_result.B08[1]= BCD_temp.B08[2];
-1013   2              u32_result.B08[2]= BCD_temp.B08[3];
-1014   2      
-1015   2               // Ð¡Êý²¿·Ö´¦Àí //
-1016   2               ec_tmp.val.decim_hex16  /= METER_CONST_10WH;
-1017   2               u32_result.B08[3] = Lib_byte_bcd((INT8U)ec_tmp.val.decim_hex16);
-1018   2      
-1019   2          }
-1020   1          if(type==0x51)
-1021   1          {
-1022   2                      // ÕûÊý²¿·Ö´¦Àí //
-1023   2                      if(ec_tmp.val.integ_hex32>=100000)   ec_tmp.val.integ_hex32 -=100000;
-1024   2                      Lib_long_bcd4(&BCD_temp.B08[0],ec_tmp.val.integ_hex32);
-1025   2                      u32_result.B08[0]= 0x00;
-1026   2                      u32_result.B08[1]= (((BCD_temp.B08[1]&0x0F)<<4)+((BCD_temp.B08[2]&0xF0)>>4));
-1027   2                      u32_result.B08[2]= (((BCD_temp.B08[2]&0x0F)<<4)+((BCD_temp.B08[3]&0xF0)>>4));
-1028   2                      u32_result.B08[3]|= ((BCD_temp.B08[3]&0x0F)<<4);
-1029   2      
-1030   2                      // Ð¡Êý²¿·Ö´¦Àí //
-1031   2                      ec_tmp.val.decim_hex16  /= METER_CONST_10WH;
-1032   2                      u32_result.B08[3]|=(((Lib_byte_bcd((INT8U)ec_tmp.val.decim_hex16))&0xF0)>>4);
-1033   2          }
-1034   1          if(type==0x50)
-1035   1          {
-1036   2                      // ÕûÊý²¿·Ö´¦Àí //
-1037   2                      if(ec_tmp.val.integ_hex32>=100000)   ec_tmp.val.integ_hex32 -=100000;
-1038   2                      Lib_long_bcd4(&BCD_temp.B08[0],ec_tmp.val.integ_hex32);
-1039   2                      u32_result.B08[0]= 0x00;
-1040   2                      u32_result.B08[1]= (((BCD_temp.B08[1]&0x0F)<<4)+((BCD_temp.B08[2]&0xF0)>>4));
-1041   2                      u32_result.B08[2]= (((BCD_temp.B08[2]&0x0F)<<4)+((BCD_temp.B08[3]&0xF0)>>4));
-1042   2                      u32_result.B08[3]|= ((BCD_temp.B08[3]&0x0F)<<4);
-1043   2          }
-1044   1          //Êý¾ÝÊä³ö //
-1045   1          Lib_Copy_Str_TwoArry(result, &u32_result.B08[0], 4);
-1046   1      
-1047   1      }
-1048          
+1012   2              u32_result.B08[0]= BCD_temp.B08[1];
+1013   2              u32_result.B08[1]= BCD_temp.B08[2];
+1014   2              u32_result.B08[2]= BCD_temp.B08[3];
+1015   2      
+1016   2               // Ð¡Êý²¿·Ö´¦Àí //
+1017   2               ec_tmp.val.decim_hex16  /= METER_CONST_10WH;
+1018   2               u32_result.B08[3] = Lib_byte_bcd((INT8U)ec_tmp.val.decim_hex16);
+1019   2      
+1020   2          }
+1021   1          if(type==0x51)
+1022   1          {
+1023   2                      // ÕûÊý²¿·Ö´¦Àí //
+1024   2                      if(ec_tmp.val.integ_hex32>=100000)   ec_tmp.val.integ_hex32 -=100000;
+1025   2                      Lib_long_bcd4(&BCD_temp.B08[0],ec_tmp.val.integ_hex32);
+1026   2                      u32_result.B08[0]= 0x00;
+1027   2                      u32_result.B08[1]= (((BCD_temp.B08[1]&0x0F)<<4)+((BCD_temp.B08[2]&0xF0)>>4));
+1028   2                      u32_result.B08[2]= (((BCD_temp.B08[2]&0x0F)<<4)+((BCD_temp.B08[3]&0xF0)>>4));
+1029   2                      u32_result.B08[3]|= ((BCD_temp.B08[3]&0x0F)<<4);
+1030   2      
+1031   2                      // Ð¡Êý²¿·Ö´¦Àí //
+1032   2                      ec_tmp.val.decim_hex16  /= METER_CONST_10WH;
+1033   2                      u32_result.B08[3]|=(((Lib_byte_bcd((INT8U)ec_tmp.val.decim_hex16))&0xF0)>>4);
+1034   2          }
+1035   1          if(type==0x50)
+1036   1          {
+1037   2                      // ÕûÊý²¿·Ö´¦Àí //
+1038   2                      if(ec_tmp.val.integ_hex32>=100000)   ec_tmp.val.integ_hex32 -=100000;
+1039   2                      Lib_long_bcd4(&BCD_temp.B08[0],ec_tmp.val.integ_hex32);
+1040   2                      u32_result.B08[0]= 0x00;
+1041   2                      u32_result.B08[1]= (((BCD_temp.B08[1]&0x0F)<<4)+((BCD_temp.B08[2]&0xF0)>>4));
+1042   2                      u32_result.B08[2]= (((BCD_temp.B08[2]&0x0F)<<4)+((BCD_temp.B08[3]&0xF0)>>4));
+1043   2                      u32_result.B08[3]|= ((BCD_temp.B08[3]&0x0F)<<4);
+1044   2          }
+1045   1          //Êý¾ÝÊä³ö //
+1046   1          Lib_Copy_Str_TwoArry(result, &u32_result.B08[0], 4);
+1047   1      
+1048   1      }
 1049          
-1050          /*****************************************************************************
-1051          ** Function name    :api_init_md_data_ram
-1052          **
-1053          ** Description         :Ã¿Ãë¸üÐÂÒº¾§ÏÔÊ¾ÏîÄ¿       
-1054          **
-1055          ** Parameters         :NONE          
-1056          **
-1057          ** Returned value   :NONE
-1058          **
-1059          **----------------------------------------------------------------------------
-1060          ** V01.01  MJ  2016-04-23
-1061          ******************************************************************************/
-1062          void api_chg_LCDDisplay_adj_item(uint8 u8_item)
-1063          {
-1064   1          if((u8_item>=DIS_ADJ_CH1_0) &&(u8_item<=DIS_DATA_BROADCAST))
-1065   1          {
-1066   2              //¸ü¸ÄÐ£×¼ÏÔÊ¾ÏîÄ¿//
-1067   2              gs_dis_ctl_var.mode = DIS_MODE_NOMAL;
-1068   2                      if(u8_item==DIS_DATA_BROADCAST)
-1069   2                      {
-1070   3                      gs_dis_ctl_var.keep_sec[0] = 10;    //Ç¿ÖÆÏÔÊ¾10Ãë //
-1071   3                      }
-1072   2                      else
-1073   2                      {
-C51 COMPILER V9.01   API_LCD_DISPLAY                                                       04/11/2019 19:11:53 PAGE 19  
+1050          
+1051          /*****************************************************************************
+1052          ** Function name    :api_init_md_data_ram
+1053          **
+1054          ** Description         :Ã¿Ãë¸üÐÂÒº¾§ÏÔÊ¾ÏîÄ¿       
+1055          **
+1056          ** Parameters         :NONE          
+1057          **
+1058          ** Returned value   :NONE
+1059          **
+1060          **----------------------------------------------------------------------------
+1061          ** V01.01  MJ  2016-04-23
+1062          ******************************************************************************/
+1063          void api_chg_LCDDisplay_adj_item(uint8 u8_item)
+1064          {
+1065   1          if((u8_item>=DIS_ADJ_CH1_0) &&(u8_item<=DIS_DATA_BROADCAST))
+1066   1          {
+1067   2              //¸ü¸ÄÐ£×¼ÏÔÊ¾ÏîÄ¿//
+1068   2              gs_dis_ctl_var.mode = DIS_MODE_NOMAL;
+1069   2                      if(u8_item==DIS_DATA_BROADCAST)
+1070   2                      {
+1071   3                      gs_dis_ctl_var.keep_sec[0] = 10;    //Ç¿ÖÆÏÔÊ¾10Ãë //
+1072   3                      }
+1073   2                      else
+C51 COMPILER V9.01   API_LCD_DISPLAY                                                       04/16/2019 21:42:11 PAGE 19  
 
-1074   3                      gs_dis_ctl_var.keep_sec[0] = 5;    //Ç¿ÖÆÏÔÊ¾5Ãë //
-1075   3                      }
-1076   2                      //gs_dis_ctl_var.keep_sec[0] = 2;
-1077   2              gs_dis_ctl_var.ptr[0] = 0;
-1078   2              gs_dis_ctl_var.item = u8_item;    
-1079   2          }
-1080   1          else
-1081   1          {
-1082   2              //Òì³£Çé¿öÏÂÏÔÊ¾×Ô¶¯Ñ­ÏÔÏîÄ¿ //
-1083   2              gs_dis_ctl_var.mode = DIS_MODE_NOMAL;
-1084   2              gs_dis_ctl_var.keep_sec[0] = gs_dis_param.auto_sec;
-1085   2              gs_dis_ctl_var.ptr[0] = 0;
-1086   2              gs_dis_ctl_var.item = gs_dis_param.auto_item[gs_dis_ctl_var.ptr[0]+1];  //  0Î»ÖÃÎªÏÔÊ¾ÏîÄ¿¸öÊý£¬1
+1074   2                      {
+1075   3                      gs_dis_ctl_var.keep_sec[0] = 5;    //Ç¿ÖÆÏÔÊ¾5Ãë //
+1076   3                      }
+1077   2                      //gs_dis_ctl_var.keep_sec[0] = 2;
+1078   2              gs_dis_ctl_var.ptr[0] = 0;
+1079   2              gs_dis_ctl_var.item = u8_item;    
+1080   2          }
+1081   1          else
+1082   1          {
+1083   2              //Òì³£Çé¿öÏÂÏÔÊ¾×Ô¶¯Ñ­ÏÔÏîÄ¿ //
+1084   2              gs_dis_ctl_var.mode = DIS_MODE_NOMAL;
+1085   2              gs_dis_ctl_var.keep_sec[0] = gs_dis_param.auto_sec;
+1086   2              gs_dis_ctl_var.ptr[0] = 0;
+1087   2              gs_dis_ctl_var.item = gs_dis_param.auto_item[gs_dis_ctl_var.ptr[0]+1];  //  0Î»ÖÃÎªÏÔÊ¾ÏîÄ¿¸öÊý£¬1
              -Î»ÖÃ¿ªÊ¼ÎªÏîÄ¿ //  
-1087   2          }
-1088   1      
-1089   1          api_updated_LCDDisplayPixel_per_second();
-1090   1      }
-1091          
-1092          /*****************************************************************************
-1093          ** Function name    :api_init_md_data_ram
-1094          **
-1095          ** Description         :Ã¿Ãë¸üÐÂÒº¾§ÏÔÊ¾ÏîÄ¿       
-1096          **
-1097          ** Parameters         :NONE          
-1098          **
-1099          ** Returned value   :NONE
-1100          **
-1101          **----------------------------------------------------------------------------
-1102          ** V01.01  MJ  2016-04-23
-1103          ******************************************************************************/
-1104          void api_LCDDisplay_adj_item(uint8 u8_item)
-1105          {
-1106   1              INT8U adr[6];
-1107   1          if((u8_item<DIS_ADJ_CH1_0) &&(u8_item>DIS_DATA_BROADCAST))
-1108   1          {
-1109   2              return;
-1110   2          }
-1111   1      
-1112   1          Lib_Set_String(&gs_dis_pixel_var.dis_data_buff[0],0,DS_DATANum);    
-1113   1          Lib_Set_String(&gs_dis_pixel_var.dis_obis_buff[0],0,DS_OBISNum);
-1114   1          Lib_Set_String(&gs_dis_pixel_var.dis_char_buff[0] ,0,DS_CHARNum);
-1115   1      
-1116   1          // Êý¾Ý»ñÈ¡´¦Àí  //A F E D B G C MD  //
-1117   1          switch (u8_item)
-1118   1          {
-1119   2              case DIS_ADJ_CH1_0:     //L »ØÂ·Ð£±í²ÎÊý³õÊ¼»¯ //
-1120   2              case DIS_ADJ_CH1_1:     //L »ØÂ·Ð£±í²ÎÊý³õÊ¼»¯ //
-1121   2              case DIS_ADJ_CH1_2:     //L »ØÂ·Ð£±í²ÎÊý³õÊ¼»¯ //
-1122   2              case DIS_ADJ_CH1_3:     //L »ØÂ·Ð£±í²ÎÊý³õÊ¼»¯ //
-1123   2                  gs_dis_pixel_var.dis_data_buff[0] = NumSegD1_D6[0X0C]       ;      //LCD-D1  C  //
-1124   2                  gs_dis_pixel_var.dis_data_buff[1] = 0x76    ;               //LCD-D2  H  //
-1125   2                  gs_dis_pixel_var.dis_data_buff[2] = NumSegD1_D6[0X01]       ;     //LCD-D3  1  //
-1126   2                  gs_dis_pixel_var.dis_data_buff[3] = 0X20    ;                 //LCD-D4  -//
-1127   2                  gs_dis_pixel_var.dis_data_buff[4] = NumSegD1_D6[(u8_item&0X0F)]     ;  //LCD-D5  0~3  //
-1128   2              break;
-1129   2      
-1130   2              case DIS_ADJ_CH2_0:     //L »ØÂ·Ð£±í²ÎÊý³õÊ¼»¯ //
-1131   2              case DIS_ADJ_CH2_1:     //L »ØÂ·Ð£±í²ÎÊý³õÊ¼»¯ //
-1132   2              case DIS_ADJ_CH2_2:     //L »ØÂ·Ð£±í²ÎÊý³õÊ¼»¯ //
-1133   2              case DIS_ADJ_CH2_3:     //L »ØÂ·Ð£±í²ÎÊý³õÊ¼»¯ //
-1134   2                  gs_dis_pixel_var.dis_data_buff[0] = NumSegD1_D6[0X0C]       ;      //LCD-D1  C  //
-C51 COMPILER V9.01   API_LCD_DISPLAY                                                       04/11/2019 19:11:53 PAGE 20  
+1088   2          }
+1089   1      
+1090   1          api_updated_LCDDisplayPixel_per_second();
+1091   1      }
+1092          
+1093          /*****************************************************************************
+1094          ** Function name    :api_init_md_data_ram
+1095          **
+1096          ** Description         :Ã¿Ãë¸üÐÂÒº¾§ÏÔÊ¾ÏîÄ¿       
+1097          **
+1098          ** Parameters         :NONE          
+1099          **
+1100          ** Returned value   :NONE
+1101          **
+1102          **----------------------------------------------------------------------------
+1103          ** V01.01  MJ  2016-04-23
+1104          ******************************************************************************/
+1105          void api_LCDDisplay_adj_item(uint8 u8_item)
+1106          {
+1107   1              INT8U adr[6];
+1108   1          if((u8_item<DIS_ADJ_CH1_0) &&(u8_item>DIS_DATA_BROADCAST))
+1109   1          {
+1110   2              return;
+1111   2          }
+1112   1      
+1113   1          Lib_Set_String(&gs_dis_pixel_var.dis_data_buff[0],0,DS_DATANum);    
+1114   1          Lib_Set_String(&gs_dis_pixel_var.dis_obis_buff[0],0,DS_OBISNum);
+1115   1          Lib_Set_String(&gs_dis_pixel_var.dis_char_buff[0] ,0,DS_CHARNum);
+1116   1      
+1117   1          // Êý¾Ý»ñÈ¡´¦Àí  //A F E D B G C MD  //
+1118   1          switch (u8_item)
+1119   1          {
+1120   2              case DIS_ADJ_CH1_0:     //L »ØÂ·Ð£±í²ÎÊý³õÊ¼»¯ //
+1121   2              case DIS_ADJ_CH1_1:     //L »ØÂ·Ð£±í²ÎÊý³õÊ¼»¯ //
+1122   2              case DIS_ADJ_CH1_2:     //L »ØÂ·Ð£±í²ÎÊý³õÊ¼»¯ //
+1123   2              case DIS_ADJ_CH1_3:     //L »ØÂ·Ð£±í²ÎÊý³õÊ¼»¯ //
+1124   2                  gs_dis_pixel_var.dis_data_buff[0] = NumSegD1_D6[0X0C]       ;      //LCD-D1  C  //
+1125   2                  gs_dis_pixel_var.dis_data_buff[1] = 0x76    ;               //LCD-D2  H  //
+1126   2                  gs_dis_pixel_var.dis_data_buff[2] = NumSegD1_D6[0X01]       ;     //LCD-D3  1  //
+1127   2                  gs_dis_pixel_var.dis_data_buff[3] = 0X20    ;                 //LCD-D4  -//
+1128   2                  gs_dis_pixel_var.dis_data_buff[4] = NumSegD1_D6[(u8_item&0X0F)]     ;  //LCD-D5  0~3  //
+1129   2              break;
+1130   2      
+1131   2              case DIS_ADJ_CH2_0:     //L »ØÂ·Ð£±í²ÎÊý³õÊ¼»¯ //
+1132   2              case DIS_ADJ_CH2_1:     //L »ØÂ·Ð£±í²ÎÊý³õÊ¼»¯ //
+1133   2              case DIS_ADJ_CH2_2:     //L »ØÂ·Ð£±í²ÎÊý³õÊ¼»¯ //
+1134   2              case DIS_ADJ_CH2_3:     //L »ØÂ·Ð£±í²ÎÊý³õÊ¼»¯ //
+C51 COMPILER V9.01   API_LCD_DISPLAY                                                       04/16/2019 21:42:11 PAGE 20  
 
-1135   2                  gs_dis_pixel_var.dis_data_buff[1] = 0x76    ;                                //LCD-D2  H  //
-1136   2                  gs_dis_pixel_var.dis_data_buff[2] = NumSegD1_D6[0X02]       ;     //LCD-D3  2  //
-1137   2                  gs_dis_pixel_var.dis_data_buff[3] = 0X20    ;                                 //LCD-D4  -//
-1138   2                  gs_dis_pixel_var.dis_data_buff[4] = NumSegD1_D6[(u8_item&0X0F)-4]   ;     //LCD-D5  0~3  //
-1139   2              break;
-1140   2      
-1141   2              case DIS_DATA_CLR:      //ÇåÁãÏÔÊ¾ //
-1142   2      //            gs_dis_pixel_var.dis_obis_buff[0] = NumSegD7_D8[0X0C]     ;      //LCD-D1  C  //
-1143   2      //            gs_dis_pixel_var.dis_obis_buff[1] = 0xA1  ;              //LCD-D2  L  //
-1144   2      //            gs_dis_pixel_var.dis_obis_buff[2] = 0x60  ;              //LCD-D3  r  //
-1145   2                              gs_dis_pixel_var.dis_data_buff[0] = NumSegD1_D6[0X0C]   ;      //LCD-D1  C  //
-1146   2                              gs_dis_pixel_var.dis_data_buff[1] = 0x58;                                //LCD-D2  L  //
-1147   2                  gs_dis_pixel_var.dis_data_buff[2] = 0x60;     //LCD-D3  r  //
-1148   2              break;
-1149   2                      
-1150   2      //        case DIS_DATA_BROADCAST:      //¹ã²¥ÃüÁîÏÔÊ¾Í¨Ñ¶µØÖ· //
-1151   2      //                      mem_read(&adr[0], ADR_METER_PARAM1_RF_COMM_ID, 6, MEM_E2P1);//¶ÁÈ¡RFÍ¨Ñ¶µØÖ·
-1152   2      //            gs_dis_pixel_var.dis_data_buff[0] = NumSegD1_D6[(adr[1]&0x0F)];  
-1153   2      //            gs_dis_pixel_var.dis_data_buff[1] = NumSegD1_D6[(adr[2]&0xF0)>>4];
-1154   2      //            gs_dis_pixel_var.dis_data_buff[2] = NumSegD1_D6[(adr[2]&0x0F)];
-1155   2      //            gs_dis_pixel_var.dis_data_buff[3] = NumSegD1_D6[(adr[3]&0xF0)>>4];
-1156   2      //            gs_dis_pixel_var.dis_data_buff[4] = NumSegD1_D6[(adr[3]&0x0F)];
-1157   2      //            gs_dis_pixel_var.dis_data_buff[5] = NumSegD1_D6[(adr[4]&0xF0)>>4];
-1158   2      //            gs_dis_pixel_var.dis_obis_buff[0] = NumSegD7_D8[(adr[4]&0x0F)];
-1159   2      //            gs_dis_pixel_var.dis_obis_buff[1] = NumSegD7_D8[(adr[5]&0xF0)>>4];
-1160   2      //            gs_dis_pixel_var.dis_obis_buff[2] = NumSegD7_D8[(adr[5]&0x0F)];
-1161   2      //        break;
-1162   2              default:        
-1163   2                  sys_err();
-1164   2              break;
-1165   2          }
-1166   1       
-1167   1      }
-*** WARNING C280 IN LINE 1106 OF ..\C_SOURCE\S4_APIUSER\API_LCD_DISPLAY.C: 'adr': unreferenced local variable
-1168          
+1135   2                  gs_dis_pixel_var.dis_data_buff[0] = NumSegD1_D6[0X0C]       ;      //LCD-D1  C  //
+1136   2                  gs_dis_pixel_var.dis_data_buff[1] = 0x76    ;                                //LCD-D2  H  //
+1137   2                  gs_dis_pixel_var.dis_data_buff[2] = NumSegD1_D6[0X02]       ;     //LCD-D3  2  //
+1138   2                  gs_dis_pixel_var.dis_data_buff[3] = 0X20    ;                                 //LCD-D4  -//
+1139   2                  gs_dis_pixel_var.dis_data_buff[4] = NumSegD1_D6[(u8_item&0X0F)-4]   ;     //LCD-D5  0~3  //
+1140   2              break;
+1141   2      
+1142   2              case DIS_DATA_CLR:      //ÇåÁãÏÔÊ¾ //
+1143   2      //            gs_dis_pixel_var.dis_obis_buff[0] = NumSegD7_D8[0X0C]     ;      //LCD-D1  C  //
+1144   2      //            gs_dis_pixel_var.dis_obis_buff[1] = 0xA1  ;              //LCD-D2  L  //
+1145   2      //            gs_dis_pixel_var.dis_obis_buff[2] = 0x60  ;              //LCD-D3  r  //
+1146   2                              gs_dis_pixel_var.dis_data_buff[0] = NumSegD1_D6[0X0C]   ;      //LCD-D1  C  //
+1147   2                              gs_dis_pixel_var.dis_data_buff[1] = 0x58;                                //LCD-D2  L  //
+1148   2                  gs_dis_pixel_var.dis_data_buff[2] = 0x60;     //LCD-D3  r  //
+1149   2              break;
+1150   2                      
+1151   2      //        case DIS_DATA_BROADCAST:      //¹ã²¥ÃüÁîÏÔÊ¾Í¨Ñ¶µØÖ· //
+1152   2      //                      mem_read(&adr[0], ADR_METER_PARAM1_RF_COMM_ID, 6, MEM_E2P1);//¶ÁÈ¡RFÍ¨Ñ¶µØÖ·
+1153   2      //            gs_dis_pixel_var.dis_data_buff[0] = NumSegD1_D6[(adr[1]&0x0F)];  
+1154   2      //            gs_dis_pixel_var.dis_data_buff[1] = NumSegD1_D6[(adr[2]&0xF0)>>4];
+1155   2      //            gs_dis_pixel_var.dis_data_buff[2] = NumSegD1_D6[(adr[2]&0x0F)];
+1156   2      //            gs_dis_pixel_var.dis_data_buff[3] = NumSegD1_D6[(adr[3]&0xF0)>>4];
+1157   2      //            gs_dis_pixel_var.dis_data_buff[4] = NumSegD1_D6[(adr[3]&0x0F)];
+1158   2      //            gs_dis_pixel_var.dis_data_buff[5] = NumSegD1_D6[(adr[4]&0xF0)>>4];
+1159   2      //            gs_dis_pixel_var.dis_obis_buff[0] = NumSegD7_D8[(adr[4]&0x0F)];
+1160   2      //            gs_dis_pixel_var.dis_obis_buff[1] = NumSegD7_D8[(adr[5]&0xF0)>>4];
+1161   2      //            gs_dis_pixel_var.dis_obis_buff[2] = NumSegD7_D8[(adr[5]&0x0F)];
+1162   2      //        break;
+1163   2              default:        
+1164   2                  sys_err();
+1165   2              break;
+1166   2          }
+1167   1       
+1168   1      }
+*** WARNING C280 IN LINE 1107 OF ..\C_SOURCE\S4_APIUSER\API_LCD_DISPLAY.C: 'adr': unreferenced local variable
 1169          
-1170          /***************************************************************
-1171          *    END
-1172          ****************************************************************/
-1173          
+1170          
+1171          /***************************************************************
+1172          *    END
+1173          ****************************************************************/
 1174          
 1175          
 1176          
@@ -1263,6 +1263,7 @@ line level    source
 1178          
 1179          
 1180          
+1181          
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
