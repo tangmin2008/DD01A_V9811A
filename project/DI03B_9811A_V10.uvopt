@@ -244,10 +244,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>19</ColumnNumber>
+      <ColumnNumber>46</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
       <TopLine>66</TopLine>
-      <CurrentLine>85</CurrentLine>
+      <CurrentLine>81</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\C_Source\S0_System\main.c</PathWithFileName>
       <FilenameWithoutPath>main.c</FilenameWithoutPath>
@@ -475,10 +475,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>109</ColumnNumber>
+      <ColumnNumber>96</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>138</TopLine>
-      <CurrentLine>147</CurrentLine>
+      <TopLine>135</TopLine>
+      <CurrentLine>153</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\C_Source\S1_HardDrv\V9811A_MCU\Drv_LCD.c</PathWithFileName>
       <FilenameWithoutPath>Drv_LCD.c</FilenameWithoutPath>
@@ -615,10 +615,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
+      <ColumnNumber>63</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>314</TopLine>
-      <CurrentLine>321</CurrentLine>
+      <TopLine>275</TopLine>
+      <CurrentLine>295</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\C_Source\S3_ApiPlat\Api_Demand.c</PathWithFileName>
       <FilenameWithoutPath>Api_Demand.c</FilenameWithoutPath>
@@ -2736,10 +2736,16 @@
       <ActiveTab>0</ActiveTab>
       <Documents>
         <Doc>
+          <Name>..\C_Source\S3_ApiPlat\Api_Demand.c</Name>
+          <ColumnNumber>63</ColumnNumber>
+          <TopLine>275</TopLine>
+          <CurrentLine>295</CurrentLine>
+        </Doc>
+        <Doc>
           <Name>..\C_Source\S1_HardDrv\V9811A_MCU\Drv_LCD.c</Name>
-          <ColumnNumber>109</ColumnNumber>
-          <TopLine>138</TopLine>
-          <CurrentLine>147</CurrentLine>
+          <ColumnNumber>96</ColumnNumber>
+          <TopLine>135</TopLine>
+          <CurrentLine>153</CurrentLine>
         </Doc>
         <Doc>
           <Name>..\C_Source\S0_System\Proc_System_Initialize.c</Name>
@@ -2767,9 +2773,9 @@
         </Doc>
         <Doc>
           <Name>..\C_Source\S0_System\main.c</Name>
-          <ColumnNumber>19</ColumnNumber>
+          <ColumnNumber>46</ColumnNumber>
           <TopLine>66</TopLine>
-          <CurrentLine>85</CurrentLine>
+          <CurrentLine>81</CurrentLine>
         </Doc>
         <Doc>
           <Name>..\C_Source\S4_ApiUser\Api_Lcd_Display.c</Name>
@@ -2806,12 +2812,6 @@
           <ColumnNumber>0</ColumnNumber>
           <TopLine>92</TopLine>
           <CurrentLine>109</CurrentLine>
-        </Doc>
-        <Doc>
-          <Name>..\C_Source\S3_ApiPlat\Api_Demand.c</Name>
-          <ColumnNumber>0</ColumnNumber>
-          <TopLine>314</TopLine>
-          <CurrentLine>321</CurrentLine>
         </Doc>
         <Doc>
           <Name>..\C_Source\STARTUP.A51</Name>

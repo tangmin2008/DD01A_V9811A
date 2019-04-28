@@ -475,10 +475,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
+      <ColumnNumber>96</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
       <TopLine>138</TopLine>
-      <CurrentLine>141</CurrentLine>
+      <CurrentLine>153</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\C_Source\S1_HardDrv\V9811A_MCU\Drv_LCD.c</PathWithFileName>
       <FilenameWithoutPath>Drv_LCD.c</FilenameWithoutPath>
@@ -720,10 +720,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>2</ColumnNumber>
+      <ColumnNumber>4</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>227</TopLine>
-      <CurrentLine>235</CurrentLine>
+      <TopLine>235</TopLine>
+      <CurrentLine>253</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\C_Source\S4_ApiUser\Api_Lcd_Display.c</PathWithFileName>
       <FilenameWithoutPath>Api_Lcd_Display.c</FilenameWithoutPath>
@@ -2733,8 +2733,14 @@
     <ActiveMDIGroup>0</ActiveMDIGroup>
     <MDIGroup>
       <Size>100</Size>
-      <ActiveTab>5</ActiveTab>
+      <ActiveTab>0</ActiveTab>
       <Documents>
+        <Doc>
+          <Name>..\C_Source\S1_HardDrv\V9811A_MCU\Drv_LCD.c</Name>
+          <ColumnNumber>96</ColumnNumber>
+          <TopLine>138</TopLine>
+          <CurrentLine>153</CurrentLine>
+        </Doc>
         <Doc>
           <Name>..\C_Source\S0_System\Proc_System_Initialize.c</Name>
           <ColumnNumber>31</ColumnNumber>
@@ -3040,12 +3046,6 @@
           <ColumnNumber>0</ColumnNumber>
           <TopLine>43</TopLine>
           <CurrentLine>47</CurrentLine>
-        </Doc>
-        <Doc>
-          <Name>..\C_Source\S1_HardDrv\V9811A_MCU\Drv_LCD.c</Name>
-          <ColumnNumber>0</ColumnNumber>
-          <TopLine>138</TopLine>
-          <CurrentLine>141</CurrentLine>
         </Doc>
         <Doc>
           <Name>..\C_Source\S1_HardDrv\V9811A_MCU\Drv_KEY_IO.c</Name>
